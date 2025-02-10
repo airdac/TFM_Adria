@@ -11,6 +11,7 @@
 *.bbl
 *.blg
 *.log
+*.bbl-SAVE-ERROR
 
 # OS generated files #
 ######################
