@@ -1,2 +1,2 @@
-# TFM_Adria
- .tex, .R i recursos per al TFM.
+# Distance-based dimensionality reduction for big data
+Dimensionality reduction aims to project a data set into a low-dimensional space. Many techniques have been proposed, most of them based on the inter-individual distance matrix. When the number of individuals is really large, the use of distance matrices is prohibitive. There are algorithms that extend MDS (a classical dimensionality reduction method based on distances) to the big data setting. In this TFM, we adapt these algorithms to any generic distance-based dimensionality reduction method.
