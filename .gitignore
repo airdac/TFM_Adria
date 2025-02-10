@@ -1,0 +1,23 @@
+# Tex Live generated files #
+############################
+*.aux
+*.bcf
+*.gz
+*.out
+*.xml
+*.toc
+*.tar
+*.zip
+*.bbl
+*.blg
+*.log
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

@@ -1,0 +1,21 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}
+\usepackage{pdfpages}
+\usepackage[backend=biber]{biblatex}
+\addbibresource{bibliography.bib}
+
+\begin{document}
+
+\includepdf{front_cover.pdf}
+
+\tableofcontents
+\pagebreak
+
+\section{Introduction}
+
+Example citation: \cite{Rdimtools}.
+
+\pagebreak
+\printbibliography
+
+\end{document}
