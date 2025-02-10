@@ -12,6 +12,8 @@
 *.blg
 *.log
 *.bbl-SAVE-ERROR
+*.pygstyle
+*.pygtex
 
 # OS generated files #
 ######################
