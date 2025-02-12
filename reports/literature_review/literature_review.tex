@@ -102,8 +102,8 @@ and Intrinsic Dimension Estimation \texorpdfstring{\cite{Rdimtools}}{}}
     \item \textbf{Introduction of LMDS} by applying it to Isomap (L-Isomap).
     \item \textbf{\textit{Landmark points}} $(n << N)$ reduce the complexity of computing:
     \begin{itemize}
-        \item the distances matrix with Dijkstra's algorithm with Fibonacci heaps ($k$ = neighborhood size) from $O(kN^2\log N)$ to $O(knN\log N)$.
-        \item MDS from $O(n^3)$ to $O(n^2N)$.
+        \item the distances matrix with Dijkstra's algorithm with Fibonacci heaps ($k$ = neighborhood size) from $\mathcal{O}(kN^2\log N)$ to $\mathcal{O}(knN\log N)$.
+        \item MDS from $\mathcal{O}(n^3)$ to $\mathcal{O}(n^2N)$.
     \end{itemize}
     \item If $x$ is a landmark point, then the embedding given by LMDS is consistent with the original MDS embedding.
     \item If the distance matrix $D_{n,N}$ can be represented exactly by a Euclidean configuration in $\mathbb{R}^l$, and if the landmarks are chosen so that their affine span in that the configuration is $l$-dimensional (i.e. general position), then LMDS will recover the configuration exactly, up to rotation and translation.
@@ -196,6 +196,58 @@ using landmark points \texorpdfstring{\cite{LMDS:2004}}{}}
     \item It has links with Isomap (L-Isomap), the Nyström method (which finds approximate solutions to a positive semi-definite symmetric eigenvalue problem using just a few of the columns of the matrix) and FastMap.
 \end{itemize}
 
+
+\pagebreak
+\section{Comparative study for dimensionality reduction techniques for big data \texorpdfstring{\cite{SalahHenouda2020}}{}}
+\label{sec:SalahHenouda2020}
+
+\subsection{Abstract}
+
+\paragraph{Original:} Nowadays, big data represents the solution for different type of users especially enterprises due to its huge amount of information augmented in real time. All these generated data could be described in one of big data characteristics named variety. One of the most challenging issues
+for big data variety is high dimensionality because, it prevents the analysis process, demands heavy computations and adds noise to our data. The solution for this challenging issue is dimensionality reduction which minimize the dimensions and keeps only the essential information that give accurate results during analysis and decrease the computations complexity.
+
+This paper aims to summarise and compare some of the recent methods that are used to solve the problem of high dimensionality in big data, Thereby, facilitating the process of research in this field.
+
+\paragraph{Apple Intelligence summary:} High dimensionality in big data poses challenges, requiring dimensionality reduction to minimize dimensions and retain essential information. This paper compares recent methods for solving this problem, aiding research in the field.
+
+
+\subsection{Key Points}
+
+\begin{itemize}
+    \item \textbf{Techniques Compared:}
+        \begin{itemize}
+            \item Classical/Modified PCA (modified to handle memory limits via row-scanning and MapReduce).
+            \item Simplicial Nonnegative Matrix Tri-Factorization (SNMTF), an improved variant of NMF.
+            \item Stacked Autoencoders, which yield lower reconstruction error than PCA.
+            \item Linguistic Hedges Neuro-Fuzzy Classifiers with Feature Selection (LHNFCSF), a combination of neural networks and fuzzy inference systems (neuro-fuzzy) based on linguistic hedges with feature selection method.
+            \item Deep Belief Networks (DBNs), which consist of multiple hidden layers where each layer is an RBM (Restricted Boltzman Machine), which is also a class of neural networks. Each RBM is connected with two layers, a hidden layer and a visible layer, and so on.
+        \end{itemize}
+\end{itemize}
+
+
+\pagebreak
+\section{Out-of-Core Dimensionality Reduction for Large Data via Out-of-Sample Extensions \texorpdfstring{\cite{reichmann2024outofcoredimensionalityreductionlarge}}{}}
+\label{sec:reichmann2024outofcoredimensionalityreductionlarge}
+
+\subsection{Abstract}
+
+\paragraph{Original:} Dimensionality reduction (DR) is a well-established approach for the visualization of high-dimensional data sets. While DR methods
+are often applied to typical DR benchmark data sets in the literature, they might suffer from high runtime complexity and memory requirements, making them unsuitable for large data visualization especially in environments outside of high-performance computing. To perform DR on large data sets, we propose the use of out-of-sample extensions. Such extensions allow inserting new data into
+existing projections, which we leverage to iteratively project data into a reference projection that consists only of a small manageable subset. This process makes it possible to perform DR out-of-core on large data, which would otherwise not be possible due to memory and runtime limitations. For metric multidimensional scaling (MDS), we contribute an implementation with out-of-sample projection capability since typical software libraries do not support it.
+
+We provide an evaluation of the projection quality of five common DR algorithms (MDS, PCA, t-SNE, UMAP, and autoencoders) using quality metrics from the literature and analyze the trade-off between the size of the reference set and projection quality. The run-time behavior of the algorithms is also quantified with respect to reference set size, out-of-sample batch size, and dimensionality of the data sets. Furthermore, we compare the out-of-sample approach to other recently introduced DR methods, such as PaCMAP and
+TriMAP, which claim to handle larger data sets than traditional approaches. To showcase the usefulness of DR on this large scale, we contribute a use case where we analyze ensembles of streamlines amounting to one billion projected instances.
+
+\paragraph{Apple Intelligence summary:} The study compares out-of-sample DR methods with PaCMAP and TriMAP on large datasets.  A use case demonstrates the usefulness of DR on a dataset of one billion projected streamline instances.
+
+\subsection{Key Points}
+
+\begin{itemize}
+    \item A framework for extensions of DR methods similar to Interpolation MDS.
+    \item Applied to PCA, MDS, t-SNE, UMAP and autoencoders.
+\end{itemize}
+
+
 \pagebreak
 \section{Title \texorpdfstring{TEXstring}{}}
 \label{sec:}
@@ -212,6 +264,7 @@ using landmark points \texorpdfstring{\cite{LMDS:2004}}{}}
 \begin{itemize}
     \item 
 \end{itemize}
+
 
 \pagebreak
 \printbibliography
