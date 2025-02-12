@@ -1,5 +1,6 @@
 \documentclass[a4paper,12pt]{article}
 \usepackage[left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}
+\usepackage{amssymb}
 \usepackage[backend=biber]{biblatex}
 \addbibresource{../bibliography.bib}
 \usepackage{minted}
@@ -13,8 +14,13 @@
     urlcolor=black,
     citecolor=black
 }
+% Allow more flexible breaking of long URLs:
+\setlength\emergencystretch{3em}
+\setcounter{biburllcpenalty}{7000}
+\setcounter{biburlucpenalty}{7000}
+\Urlmuskip=0mu plus 1mu
 
-\title{Literature summaries}
+\title{Distance-based dimensionality reduction for big data literature review}
 \author{Adrià Casanova Lloveras}
 
 \begin{document}
@@ -24,24 +30,24 @@
 \tableofcontents
 \pagebreak
 
-\section{Rdimtools: An R Package for Dimension Reduction
+\section{\texttt{Rdimtools}: An R Package for Dimension Reduction
 and Intrinsic Dimension Estimation \texorpdfstring{\cite{Rdimtools}}{}}
 \label{sec:rdimtools}
 
 
 \subsection{Abstract}
 
-Discovering patterns of the complex high-dimensional data is one of the fundamental pillars of modern data science. Dimension reduction and intrinsic dimension estimation are two thematic programs that facilitate geometric characterization of the data. We present Rdimtools, an R package that supports 143 dimension reduction and manifold learning methods and 17 dimension estimation algorithms whose unprecedented extent makes multifaceted scrutiny of the data in one place easier. Rdimtools is distributed under the MIT license and is accessible from CRAN, GitHub, and its package website, all of which deliver instruction for installation, self-contained examples, and API documentation.
+\paragraph{Original:} Discovering patterns of the complex high-dimensional data is one of the fundamental pillars of modern data science. Dimension reduction and intrinsic dimension estimation are two thematic programs that facilitate geometric characterization of the data. We present \texttt{Rdimtools}, an R package that supports 143 dimension reduction and manifold learning methods and 17 dimension estimation algorithms whose unprecedented extent makes multifaceted scrutiny of the data in one place easier. \texttt{Rdimtools} is distributed under the MIT license and is accessible from CRAN, GitHub, and its package website, all of which deliver instruction for installation, self-contained examples, and API documentation.
+
+\paragraph{Apple Intelligence summary:} \texttt{Rdimtools}, an R package, supports 160 dimension reduction and manifold learning methods, making data analysis easier. It is available on CRAN, GitHub, and its package website.
 
 \subsection{Key Points}
 
 \begin{itemize}
     \item \textbf{R package}: that supports 143 dimension reduction and manifold learning methods and 17 dimension estimation algorithms.
-    \item \textbf{Other libraries}: drtoolbox in MATLAB, scikit-learn in Python, a C++ template library tapkee with a known basis of popularity. In R, packages
-    dimRed, dyndimred, intrinsicDimension.
-    \item \textbf{Implementation}: mixture of R and C++ that are integrated by Rcpp. For numerical operations, RcppArmadillo is heavily used to take advantage of Armadillo C++ linear algebra library.
-    \item  \textbf{3 families of functions}: do.\{algorithm\}, est.\{algorithm\},
-    and aux.\{algorithm\} for DR, IDE, and auxiliary functions.
+    \item \textbf{Other libraries}: \texttt{drtoolbox} in MATLAB, \texttt{scikit-learn} in Python, a C++ template library \texttt{tapkee} with a known basis of popularity. In R, packages \texttt{dimRed}, \texttt{dyndimred}, \texttt{intrinsicDimension}.
+    \item \textbf{Implementation}: mixture of R and C++ that are integrated by \texttt{Rcpp}. For numerical operations, \texttt{RcppArmadillo} is heavily used to take advantage of \texttt{Armadillo} C++ linear algebra library.
+    \item  \textbf{3 function families}: \verb|do.{algorithm}|, \verb|est.{algorithm}| and \verb|aux.{algorithm}| for DR, IDE, and auxiliary functions.
     \item Downloaded 1013 times per month on average from CRAN.
     \item \textbf{Future plan}: support for out-of-memory execution in response to the increased needs for big data analysis.
 \end{itemize}
@@ -73,13 +79,139 @@ Discovering patterns of the complex high-dimensional data is one of the fundamen
     par(opar)
 \end{minted}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
-    \includegraphics[width=0.8\textwidth]{../../code/Rdimtools_test.png}
+    \includegraphics[width=0.8\textwidth]{figures/Rdimtools_test.png}
     \caption{Rdimtools test output.}
     \label{fig:rdimtools_test}
 \end{figure}
 
+\pagebreak
+\section{Global versus local methods in nonlinear dimensionality reduction \texorpdfstring{\cite{deSilvaTenenbaum2002}}{}}
+\label{sec:deSilvaTenenbaum2002}
+
+\subsection{Abstract}
+
+\paragraph{Original:} Recently proposed algorithms for nonlinear dimensionality reduction fall broadly into two categories which have different advantages and disadvantages: global (Isomap), and local (Locally Linear Embedding, Laplacian Eigenmaps). We present two variants of Isomap which combine the advantages of the global approach with what have previously been exclusive advantages of local methods: computational sparsity and the ability to invert conformal maps.
+
+\paragraph{Apple Intelligence summary:} Two new Isomap variants are presented, combining global advantages with local computational sparsity and conformal map inversion.
+
+\subsection{Key Points}
+
+\begin{itemize}
+    \item \textbf{Introduction of LMDS} by applying it to Isomap (L-Isomap).
+    \item \textbf{\textit{Landmark points}} $(n << N)$ reduce the complexity of computing:
+    \begin{itemize}
+        \item the distances matrix with Dijkstra's algorithm with Fibonacci heaps ($k$ = neighborhood size) from $O(kN^2\log N)$ to $O(knN\log N)$.
+        \item MDS from $O(n^3)$ to $O(n^2N)$.
+    \end{itemize}
+    \item If $x$ is a landmark point, then the embedding given by LMDS is consistent with the original MDS embedding.
+    \item If the distance matrix $D_{n,N}$ can be represented exactly by a Euclidean configuration in $\mathbb{R}^l$, and if the landmarks are chosen so that their affine span in that the configuration is $l$-dimensional (i.e. general position), then LMDS will recover the configuration exactly, up to rotation and translation.
+\end{itemize}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/LMDS_3.png}
+    \caption{L-Isomap is stable over a wide range of values for the sparseness parameter (the number of landmarks). Results from LLE are shown for comparision\cite{deSilvaTenenbaum2002}.}
+    \label{fig:LMDS}
+\end{figure}
+
+
+\pagebreak
+\section{\texttt{dimRed} and \texttt{coRanking} - Unifying Dimensionality Reduction in R \texorpdfstring{\cite{Kraemer2018dimRedAC}}{}}
+\label{sec:Kraemer2018dimRedAC}
+
+\subsection{Abstract}
+
+\paragraph{Original:} “Dimensionality reduction” (DR) is a widely used approach to find low dimensional and interpretable representations of data that are natively embedded in high-dimensional spaces. DR can be realized by a plethora of methods with different properties, objectives, and, hence, (dis)advantages. The resulting low-dimensional data embeddings are often difficult to compare with objective criteria. Here, we introduce the \texttt{dimRed} and \texttt{coRanking} packages for the R language. These open source software packages enable users to easily access multiple classical and advanced DR methods using a common interface. The packages also provide quality indicators for the embeddings and easy visualization of high dimensional data. The \texttt{coRanking} package provides the functionality for assessing DR methods in the co-ranking matrix framework. In tandem, these packages allow for uncovering complex structures high dimensional data. Currently 15 DR methods are available in the package, some of which were not previously available to R users. Here, we outline the \texttt{dimRed} and \texttt{coRanking} packages and make the implemented methods understandable to the interested reader.
+
+\paragraph{Apple Intelligence summary:} Dimensionality reduction (DR) methods create low dimensional data representations, but comparison is challenging. The \texttt{dimRed} (figure \ref{fig:dimRed_methods}) and \texttt{coRanking} R packages are introduced to address this.
+
+\subsection{Key Points}
+
+\begin{itemize}
+    \item The difficulty in applying DR is that each DR method is designed to maintain certain aspects of the original data and therefore may be appropriate for one task and inappropriate for another. Most methods also have parameters to tune and follow different assumptions.
+    \item \textbf{Software packages for other languages}:
+        \begin{itemize}
+            \item Python: \texttt{scikit-learn}, which contains a module for DR.
+            \item Julia: \texttt{ManifoldLearning.jl} for nonlinear and \texttt{MultivariateStats.jl} for linear DR.
+            \item Matlab: several toolboxes.
+            \item C++: \texttt{Shogun} toolbox, which offers bindings for many high level languages (including R).
+        \end{itemize}
+    \item At the time (2018), no comprehensive package for R.
+    \item None of the former provides means to consistently compare the quality of different methods.
+    \item MDS can be seen as kPCA with kernel $x^T y$, since a distance matrix can be transformed to a matrix of inner products.
+    \item \texttt{dimRed} wraps \texttt{cmdscale}.
+    \item In contrast to a supervised problem, there is no natural way to directly measure the quality of any output or to compare two methods. Every
+    method optimizes a different error function.
+    \item \textbf{Quality criteria implemented in \texttt{coRanking}}:
+        \begin{itemize}
+            \item \textbf{Co-ranking matrix based measures}: the co-ranking matrix $Q$ is the 2d-histogram of the distance ranks. $q_{ij}$ is an integer which counts how many points of distance rank $j$ became rank $i$. In a perfect DR, this matrix will only have non-zero entries in the
+            diagonal. In R, the co-ranking matrix can be calculated using the the \texttt{coRanking::coranking} function. The \texttt{dimRed} package contains the functions \texttt{Q\_local, Q\_global, Q\_NX, LCMC}, and \texttt{R\_NX} to calculate the above quality measures in addition to \texttt{AUC\_lnK\_R\_NX}. If $R_{NX}$ is high for low values of $K$, then local neighborhoods are maintained well; if $R_{NX}$ is high for large values of $K$, then global gradients are maintained well (see fig. \ref{fig:dimRed_R_NX}).
+            \item Cophenetic correlation.
+            \item \textbf{Reconstruction error}: the fairest one when the method provides an inverse mapping. $\mathrm{RMSE}=\sqrt{\frac{1}{n} \sum_{i=1}^n d\left(x_i^{\prime}, x_i\right)^2}$, with $x_i' = f^{-1}(y_i) = f^{-1}(f(x_i))$.
+        \end{itemize}
+    \item \textbf{Test datasets}: Common ones being the 3d S-curve and the Swiss roll. Real world examples usually have more dimensions and often are much noisier and we cannot be sure if we can observe all the relevant variables. Can be retrieved with \texttt{dimRed::loadDataSet}
+    \item \textbf{Main functions:} \texttt{embed, quality, plot, plot\_R\_NX}.
+\end{itemize}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/dimRed_methods.png}
+    \caption{DR methods implemented in \texttt{dimRed} \cite{Kraemer2018dimRedAC}.}
+    \label{fig:dimRed_methods}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/dimRed_R_NX.png}
+    \caption{$R_{NX}$ measures the quality of the embedding. \cite{Kraemer2018dimRedAC}.}
+    \label{fig:dimRed_R_NX}
+\end{figure}
+
+
+\pagebreak
+\section{Sparse multidimensional scaling
+using landmark points \texorpdfstring{\cite{LMDS:2004}}{}}
+\label{sec:LMDS:2004}
+
+\subsection{Abstract}
+
+\paragraph{Original:} In this paper, we discuss a computationally eﬃcient approximation to the classical multidimensional scaling (MDS) algorithm, called Landmark MDS (LMDS), for use when the number of data points is very large. The first step of the algorithm is to run classical MDS to embed a chosen subset of the data, referred to as the 'landmark points', in a low-dimensional space. Each remaining data point can be located within this space given knowledge of its distances to the landmark points. We give an elementary and explicit theoretical analysis of this procedure, and demonstrate with examples that LMDS is eﬀective in practical use.
+
+\paragraph{Apple Intelligence summary:} Landmark MDS approximates classical multidimensional scaling for large datasets. It embeds a subset of data points, called “landmark points”, in a low-dimensional space, then locates remaining points based on their distances to these landmarks.
+
+
+\subsection{Key Points}
+
+\begin{itemize}
+    \item \textbf{LMDS}: Landmark MDS.
+    \item \textbf{Method}:
+        \begin{enumerate}
+            \item Select $n$ landmark points from $N$ data points.
+            \item Apply MDS to the $n \times n$ distance matrix to obrain $L$.
+            \item Embed remaining points via distance-based triangulation.
+        \end{enumerate}
+    \item \textbf{Complexity}: Classical MDS: $\mathcal{O}(N^2)$ storage, $\mathcal{O}(N^3)$ time. LMDS: $\mathcal{O}(nN)$ storage, lower time complexity.
+    \item It has links with Isomap (L-Isomap), the Nyström method (which finds approximate solutions to a positive semi-definite symmetric eigenvalue problem using just a few of the columns of the matrix) and FastMap.
+\end{itemize}
+
+\pagebreak
+\section{Title \texorpdfstring{TEXstring}{}}
+\label{sec:}
+
+\subsection{Abstract}
+
+\paragraph{Original:}
+
+\paragraph{Apple Intelligence summary:}
+
+
+\subsection{Key Points}
+
+\begin{itemize}
+    \item 
+\end{itemize}
 
 \pagebreak
 \printbibliography
