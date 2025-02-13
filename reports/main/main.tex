@@ -1,8 +1,28 @@
 \documentclass[a4paper,12pt]{article}
 \usepackage[left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}
 \usepackage{pdfpages}
+\usepackage{amssymb}
 \usepackage[backend=biber]{biblatex}
 \addbibresource{../bibliography.bib}
+\usepackage{minted}
+\setminted{frame=lines, fontsize=\small}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=black,
+    urlcolor=black,
+    citecolor=black
+}
+% Allow more flexible breaking of long URLs:
+\setlength\emergencystretch{3em}
+\setcounter{biburllcpenalty}{7000}
+\setcounter{biburlucpenalty}{7000}
+\Urlmuskip=0mu plus 1mu
+
+\title{Distance-based dimensionality reduction for big data}
+\author{Adrià Casanova Lloveras}
 
 \begin{document}
 
@@ -10,8 +30,6 @@
 
 \begin{abstract}
     Example citation: \cite{Rdimtools}.
-
-    Test
 \end{abstract}
 \pagebreak
 
