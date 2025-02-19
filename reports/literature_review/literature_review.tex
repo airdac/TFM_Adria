@@ -206,7 +206,7 @@ using landmark points \texorpdfstring{\cite{LMDS:2004}}{}}
 \paragraph{Original:} Nowadays, big data represents the solution for different type of users especially enterprises due to its huge amount of information augmented in real time. All these generated data could be described in one of big data characteristics named variety. One of the most challenging issues
 for big data variety is high dimensionality because, it prevents the analysis process, demands heavy computations and adds noise to our data. The solution for this challenging issue is dimensionality reduction which minimize the dimensions and keeps only the essential information that give accurate results during analysis and decrease the computations complexity.
 
-This paper aims to summarise and compare some of the recent methods that are used to solve the problem of high dimensionality in big data, Thereby, facilitating the process of research in this field.
+This paper aims to summarize and compare some of the recent methods that are used to solve the problem of high dimensionality in big data, Thereby, facilitating the process of research in this field.
 
 \paragraph{Apple Intelligence summary:} High dimensionality in big data poses challenges, requiring dimensionality reduction to minimize dimensions and retain essential information. This paper compares recent methods for solving this problem, aiding research in the field.
 
@@ -220,7 +220,7 @@ This paper aims to summarise and compare some of the recent methods that are use
             \item Simplicial Nonnegative Matrix Tri-Factorization (SNMTF), an improved variant of NMF.
             \item Stacked Autoencoders, which yield lower reconstruction error than PCA.
             \item Linguistic Hedges Neuro-Fuzzy Classifiers with Feature Selection (LHNFCSF), a combination of neural networks and fuzzy inference systems (neuro-fuzzy) based on linguistic hedges with feature selection method.
-            \item Deep Belief Networks (DBNs), which consist of multiple hidden layers where each layer is an RBM (Restricted Boltzman Machine), which is also a class of neural networks. Each RBM is connected with two layers, a hidden layer and a visible layer, and so on.
+            \item Deep Belief Networks (DBNs), which consist of multiple hidden layers where each layer is an RBM (Restricted Boltzmann Machine), which is also a class of neural networks. Each RBM is connected with two layers, a hidden layer and a visible layer, and so on.
         \end{itemize}
 \end{itemize}
 
@@ -262,6 +262,33 @@ TriMAP, which claim to handle larger data sets than traditional approaches. To s
     \label{fig:OOS_methods}
 \end{figure}
 
+
+\pagebreak
+\section{DR Python packages}
+
+\subsection{Key Points}
+
+\begin{itemize}
+    \item To our knowledge, there is no comprehensive Python package that implements many DR techniques akin the R library \texttt{Rdimtools} (see section \ref{sec:rdimtools}).
+    \item To show the consequences of this in an example, classical MDS is only implemented in \texttt{pyseer} (through \texttt{pyseer.cmdscale}), a package for microbial pangenome-wide association studies \cite{pyseer}.
+    \item The package that contains the most DR methods is \texttt{scikit-learn}, specifically in its \texttt{manifold} module \cite{pedregosa2011scikit}. It implements: Isomap, LLE, Laplacian Eigenmaps, t-SNE and non-classical MDS (both \texttt{sklearn.manifold.MDS} and \texttt{sklearn.manifold.smacof} can perform metric and non-metric MDS). Moreover, \texttt{sklearn.manifold.trustworthiness} measures to what extent the local structure is retained when dimensionality is reduced. Hence, the total amount of methods present in \texttt{sklearn.manifold} cannot be compared to the 143 of \texttt{Rdimtools}.
+    \item Another remarkable, although differently oriented, library is \texttt{direpack}, which implements a set of modern statistical dimension reduction techniques including projection pursuit, sufficient dimension reduction, and robust M estimators. It also includes regularized regression estimators, pre-processing utilities, plotting functionality, and cross-validation utilities, all consistent with the scikit-learn API \cite{direpack}. Nonetheless, these methods are outside the scope of our thesis.
+    \item Other, more specific, libraries that implement DR methods in Python are:
+    \begin{itemize}
+        \item \texttt{umap-learn}: the library that introduced UMAP \cite{2018arXivUMAP}.
+        \item \texttt{MulticoreTSNE}: a multicore modification of Barnes-Hut t-SNE with Python CFFI-based wrappers \cite{Ulyanov2016}. Barnes-Hut is a tree-based algorithm that can be used to accelerate t-SNE up to $\mathcal{O}(N\log N)$ \cite{JMLR:v15:vandermaaten14a}.
+        \item \texttt{fitsne}: Fast Fourier Transform-accelerated Interpolation-based t-SNE \cite{fitsne}.
+        \item \texttt{OpenTSNE}: incorporates the latest improvements to the t-SNE algorithm, including the ability to add new data points to existing embeddings, massive speed improvements, enabling t-SNE to scale to millions of data points and various tricks to improve global alignment of the resulting visualizations \cite{Policar2024}. The team behind \texttt{OpenTSNE} benchmarked the here described t-SNE Python implementations and showed that the fastest one in general is \texttt{fitsne}, although \texttt{OpenTSNE} is equally efficient on multicore systems (see fig. \ref{fig:python_tsne_benchmarks}) \cite{Policar2024}.
+    \end{itemize}
+    \item Moreover, other libraries focused on certain fields like genomics (\texttt{phate}) or NLP (\texttt{gensim}) implement DR methods for specific tasks and scenarios in their topics \cite{phate, rehurek_lrec}.
+\end{itemize}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/python_tsne_benchmarks.png}
+    \caption{Benchmark of t-SNE Python implementations \cite{Policar2024}.}
+    \label{fig:python_tsne_benchmarks}
+\end{figure}
 
 \pagebreak
 \section{Title \texorpdfstring{TEXstring}{}}

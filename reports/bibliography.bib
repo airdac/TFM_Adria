@@ -519,3 +519,142 @@ title = {Comparative study for dimensionality reduction techniques for big data}
       primaryClass={cs.LG},
       url={https://arxiv.org/abs/2408.04129}, 
 }
+
+@article{pyseer,
+    author = {Lees, John A and Galardini, Marco and Bentley, Stephen D and Weiser, Jeffrey N and Corander, Jukka},
+    title = {pyseer: a comprehensive tool for microbial pangenome-wide association studies},
+    journal = {Bioinformatics},
+    volume = {34},
+    number = {24},
+    pages = {4310-4312},
+    year = {2018},
+    month = {07},
+    abstract = {Genome-wide association studies (GWAS) in microbes have different challenges to GWAS in eukaryotes. These have been addressed by a number of different methods. pyseer brings these techniques together in one package tailored to microbial GWAS, allows greater flexibility of the input data used, and adds new methods to interpret the association results.pyseer is written in python and is freely available at https://github.com/mgalardini/pyseer, or can be installed through pip. Documentation and a tutorial are available at http://pyseer.readthedocs.io.Supplementary data are available at Bioinformatics online.},
+    issn = {1367-4803},
+    doi = {10.1093/bioinformatics/bty539},
+    url = {https://doi.org/10.1093/bioinformatics/bty539},
+    eprint = {https://academic.oup.com/bioinformatics/article-pdf/34/24/4310/48919461/bioinformatics\_34\_24\_4310.pdf},
+}
+
+@article{pedregosa2011scikit,
+  title={Scikit-learn: Machine learning in Python},
+  author={Pedregosa, Fabian and Varoquaux, Ga{\"e}l and Gramfort, Alexandre and Michel, Vincent and Thirion, Bertrand and Grisel, Olivier and Blondel, Mathieu and Prettenhofer, Peter and Weiss, Ron and Dubourg, Vincent and others},
+  journal={Journal of machine learning research},
+  volume={12},
+  number={Oct},
+  pages={2825--2830},
+  year={2011}
+}
+
+@article{2018arXivUMAP,
+     author = {{McInnes}, L. and {Healy}, J. and {Melville}, J.},
+     title = "{UMAP: Uniform Manifold Approximation
+     and Projection for Dimension Reduction}",
+     journal = {ArXiv e-prints},
+     archivePrefix = "arXiv",
+     eprint = {1802.03426},
+     primaryClass = "stat.ML",
+     keywords = {Statistics - Machine Learning,
+                 Computer Science - Computational Geometry,
+                 Computer Science - Learning},
+     year = 2018,
+     month = feb,
+}
+
+@misc{Ulyanov2016,
+  author = {Ulyanov, Dmitry},
+  title = {Multicore-TSNE},
+  year = {2016},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/DmitryUlyanov/Multicore-TSNE}},
+}
+
+@article{Policar2024,
+    title={openTSNE: A Modular Python Library for t-SNE Dimensionality Reduction and Embedding},
+    author={Poli{\v c}ar, Pavlin G. and Stra{\v z}ar, Martin and Zupan, Bla{\v z}},
+    journal={Journal of Statistical Software},
+    year={2024},
+    volume={109},
+    number={3},
+    pages={1–30},
+    doi={10.18637/jss.v109.i03},
+    url={https://www.jstatsoft.org/index.php/jss/article/view/v109i03}
+}
+
+@article{JMLR:v15:vandermaaten14a,
+  author  = {Laurens van der Maaten},
+  title   = {Accelerating t-SNE using Tree-Based Algorithms},
+  journal = {Journal of Machine Learning Research},
+  year    = {2014},
+  volume  = {15},
+  number  = {93},
+  pages   = {3221--3245},
+  url     = {http://jmlr.org/papers/v15/vandermaaten14a.html}
+}
+
+
+@article{fitsne,
+	abstract = {t-distributed stochastic neighbor embedding (t-SNE) is widely used for visualizing single-cell RNA-sequencing (scRNA-seq) data, but it scales poorly to large datasets. We dramatically accelerate t-SNE, obviating the need for data downsampling, and hence allowing visualization of rare cell populations. Furthermore, we implement a heatmap-style visualization for scRNA-seq based on one-dimensional t-SNE for simultaneously visualizing the expression patterns of thousands of genes. Software is available at https://github.com/KlugerLab/FIt-SNEand https://github.com/KlugerLab/t-SNE-Heatmaps.},
+	author = {Linderman, George C. and Rachh, Manas and Hoskins, Jeremy G. and Steinerberger, Stefan and Kluger, Yuval},
+	date = {2019-03-01},
+	date-added = {2025-02-17 18:04:41 +0100},
+	date-modified = {2025-02-17 18:04:41 +0100},
+	doi = {10.1038/s41592-018-0308-4},
+	id = {Linderman2019},
+	isbn = {1548-7105},
+	journal = {Nature Methods},
+	number = {3},
+	pages = {243--245},
+	title = {Fast interpolation-based t-SNE for improved visualization of single-cell RNA-seq data},
+	url = {https://doi.org/10.1038/s41592-018-0308-4},
+	volume = {16},
+	year = {2019},
+	bdsk-url-1 = {https://doi.org/10.1038/s41592-018-0308-4}}
+
+@article{direpack,
+title = {direpack: A Python 3 package for state-of-the-art statistical dimensionality reduction methods},
+journal = {SoftwareX},
+volume = {21},
+pages = {101282},
+year = {2023},
+issn = {2352-7110},
+doi = {https://doi.org/10.1016/j.softx.2022.101282},
+url = {https://www.sciencedirect.com/science/article/pii/S235271102200200X},
+author = {Emmanuel Jordy Menvouta and Sven Serneels and Tim Verdonck},
+keywords = {Dimensionality reduction, Projection pursuit, Sufficient dimension reduction, Robust statistics, Energy statistics, Statistical learning},
+abstract = {The direpack package establishes a set of modern statistical dimensionality reduction techniques into the Python universe as a single, consistent package. Several of the methods included are only available as open source through direpack, whereas the package also offers competitive Python implementations of methods previously only available in other programming languages. In its present version, the package is structured in three subpackages for different approaches to dimensionality reduction: projection pursuit, sufficient dimension reduction and robust M estimators. As a corollary, the package also provides access to regularized regression estimators based on these reduced dimension spaces, as well as a set of classical and robust preprocessing utilities, including very recent developments such as generalized spatial signs. Finally, direpack has been written to be consistent with the scikit-learn API, such that the estimators can flawlessly be included into (statistical and/or machine) learning pipelines in that framework.}
+}
+
+
+@article{phate,
+	abstract = {The high-dimensional data created by high-throughput technologies require visualization tools that reveal data structure and patterns in an intuitive form. We present PHATE, a visualization method that captures both local and global nonlinear structure using an information-geometric distance between data points. We compare PHATE to other tools on a variety of artificial and biological datasets, and find that it consistently preserves a range of patterns in data, including continual progressions, branches and clusters, better than other tools. We define a manifold preservation metric, which we call denoised embedding manifold preservation (DEMaP), and show that PHATE produces lower-dimensional embeddings that are quantitatively better denoised as compared to existing visualization methods. An analysis of a newly generated single-cell RNA sequencing dataset on human germ-layer differentiation demonstrates how PHATE reveals unique biological insight into the main developmental branches, including identification of three previously undescribed subpopulations. We also show that PHATE is applicable to a wide variety of data types, including mass cytometry, single-cell RNA sequencing, Hi-C and gut microbiome data.},
+	author = {Moon, Kevin R. and van Dijk, David and Wang, Zheng and Gigante, Scott and Burkhardt, Daniel B. and Chen, William S. and Yim, Kristina and Elzen, Antonia van den and Hirn, Matthew J. and Coifman, Ronald R. and Ivanova, Natalia B. and Wolf, Guy and Krishnaswamy, Smita},
+	date = {2019-12-01},
+	date-added = {2025-02-17 18:43:27 +0100},
+	date-modified = {2025-02-17 18:43:27 +0100},
+	doi = {10.1038/s41587-019-0336-3},
+	id = {Moon2019},
+	isbn = {1546-1696},
+	journal = {Nature Biotechnology},
+	number = {12},
+	pages = {1482--1492},
+	title = {Visualizing structure and transitions in high-dimensional biological data},
+	url = {https://doi.org/10.1038/s41587-019-0336-3},
+	volume = {37},
+	year = {2019},
+	bdsk-url-1 = {https://doi.org/10.1038/s41587-019-0336-3}}
+
+@inproceedings{rehurek_lrec,
+      title = {{Software Framework for Topic Modelling with Large Corpora}},
+      author = {Radim {\v R}eh{\r u}{\v r}ek and Petr Sojka},
+      booktitle = {{Proceedings of the LREC 2010 Workshop on New
+           Challenges for NLP Frameworks}},
+      pages = {45--50},
+      year = 2010,
+      month = May,
+      day = 22,
+      publisher = {ELRA},
+      address = {Valletta, Malta},
+      language={English}
+}
