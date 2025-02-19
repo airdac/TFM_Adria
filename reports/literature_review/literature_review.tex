@@ -1,6 +1,8 @@
 \documentclass[a4paper,12pt]{article}
 \usepackage[left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}
 \usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{mathtools}
 \usepackage[backend=biber]{biblatex}
 \addbibresource{../bibliography.bib}
 \usepackage{minted}
@@ -147,7 +149,7 @@ and Intrinsic Dimension Estimation \texorpdfstring{\cite{Rdimtools}}{}}
     \item \textbf{Quality criteria implemented in \texttt{coRanking}}:
         \begin{itemize}
             \item \textbf{Co-ranking matrix based measures}: the co-ranking matrix $Q$ is the 2d-histogram of the distance ranks. $q_{ij}$ is an integer which counts how many points of distance rank $j$ became rank $i$. In a perfect DR, this matrix will only have non-zero entries in the
-            diagonal. In R, the co-ranking matrix can be calculated using the the \texttt{coRanking::coranking} function. The \texttt{dimRed} package contains the functions \texttt{Q\_local, Q\_global, Q\_NX, LCMC}, and \texttt{R\_NX} to calculate the above quality measures in addition to \texttt{AUC\_lnK\_R\_NX}. If $R_{NX}$ is high for low values of $K$, then local neighborhoods are maintained well; if $R_{NX}$ is high for large values of $K$, then global gradients are maintained well (see fig. \ref{fig:dimRed_R_NX}).
+            diagonal. In R, the co-ranking matrix can be calculated using the the \texttt{coRanking::coranking} function. The \texttt{dimRed} package contains the functions \texttt{Q\_local, Q\_global, Q\_NX, LCMC}, and \texttt{R\_NX} to calculate the above quality measures in addition to \texttt{AUC\_lnK\_R\_NX}. If $R_{NX}$ is high for low values of $K$, then local neighborhoods are maintained well; if $R_{NX}$ is high for large values of $K$, then global gradients are maintained well (see figure \ref{fig:dimRed_R_NX}).
             \item Cophenetic correlation.
             \item \textbf{Reconstruction error}: the fairest one when the method provides an inverse mapping. $\mathrm{RMSE}=\sqrt{\frac{1}{n} \sum_{i=1}^n d\left(x_i^{\prime}, x_i\right)^2}$, with $x_i' = f^{-1}(y_i) = f^{-1}(f(x_i))$.
         \end{itemize}
@@ -246,22 +248,113 @@ TriMAP, which claim to handle larger data sets than traditional approaches. To s
     \item A framework for OOS extensions of DR methods similar to Interpolation MDS.
     \item Applied to PCA, MDS, t-SNE, UMAP and autoencoders.
     \item Compared to TriMap and PaCMAC, which are efficient DR methods suitable for big data.
+    \item \textbf{Related work}:
+    \begin{itemize}
+        \item \textbf{Efficient DR algorithms}: PaCMAP (up to 4 million data points), TriMAP (up to 11 million data points), LargeVis (also millions of data points, aimed to reduce computational cost of t-SNE). Note that t-SNE and UMAP fail at 1 million data points.
+        \item \textbf{Parametric DR methods}: learn explicit maps between the high- and low-dimensional space.  Hinterreiter et al. \cite{ParaDime} introduced a framework making parametric extensions generally available for DR techniques.
+        \item \textbf{GPU porting}: of t-SNE, UMAP and metrics computations such as trustworthiness. Reichmann et al. also parallelize metric MDS.
+        \item \textbf{OOS extensions}: Bengio et. al. \cite{Bengio2003OOS} introduced an OOS framework by learning the corresponding eigenfunctions. Gisbrecht et. al. \cite{Gisbrecht2012OutofsampleKE} proposed three kernel-based methods and \cite{Zhang2021OOS} improved them.
+    \end{itemize}
+    \item \textbf{Computational framework}: see figure \ref{fig:OOS_algorithm}. Details and sematics of the $\beta$ parameters depends on the DR method. As an example, see figure \ref{fig:OOS_methods}.
+    
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[width=0.8\textwidth]{figures/OOS_algorithm.png}
+        \caption{OOS projection framework proposed in \cite{reichmann2024outofcoredimensionalityreductionlarge}.}
+        \label{fig:OOS_algorithm}
+    \end{figure}
+
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[width=0.8\textwidth]{figures/OOS_methods.png}
+        \caption{DR methods used in the evaluation of the OOS framework proposed in \cite{reichmann2024outofcoredimensionalityreductionlarge}.}
+        \label{fig:OOS_methods}
+    \end{figure}
+
+    \item \textbf{OOS extensions} used:
+    \begin{itemize}
+        \item \textbf{PCA} and the \textbf{autoencoder} learn a parametric mapping and give an explicit function to map the data.
+        \item For \textbf{metric MDS}, they minimize stress for a single point while keeping all others fixed (\textit{single scaling}) to perform the OOS projection of a single point. The gradient for an OOS point $x^{\prime}$ with respect to the points $x_i$ of the reference set $X_a$ and corresponding low-dimensional points $y_i$ is given as $\delta=\sum_i\left(1-d\left(x^{\prime}, x_i\right) /\left\|y^{\prime}-y_i\right\|\right) \cdot\left(y^{\prime}-y_i\right)$, with dissimilarity function $d(\cdot, \cdot)$.
+        \item A similar mechanism can be used in \textbf{t-SNE} and \textbf{UMAP}.
+    \end{itemize}
+    \item \textbf{Datasets} of up to 50,000,000 data points were used to evaluate the OOS framework, as can be seen in figure \ref{fig:OOS_datasets}. That being said, a non-consumer very powerful system was used; it consisted of an AMD Ryzen Threadripper PRO 3995WX with 64 CPU cores, an NVIDIA RTX A6000 GPU with 48 GiB of VRAM, and 251 GiB of RAM.
+    
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[width=0.8\textwidth]{figures/OOS_datasets.png}
+        \caption{Datasets used in the evaluation of the OOS framework proposed in \cite{reichmann2024outofcoredimensionalityreductionlarge}.}
+        \label{fig:OOS_datasets}
+    \end{figure}
+    
+    \item \textbf{Metrics} used:
+    \begin{itemize}
+        \item \textbf{Global}: \textit{stress} (calculation in batches in the GPU), \textit{Pearson correlation coefficient} between the flattened low- and high-dimensional distance vectors.
+        \item \textbf{Local}: \textit{KNN precision}, \textit{trustworthiness} (calculation in batches in the GPU).
+    \end{itemize}
+    
+    \item \textbf{Computational complexities}:
+    \begin{itemize}
+        \item Runtime (RT) complexity:
+        $\mathcal{O}\Bigl(\Phi^{\mathrm{RT}}\bigl(n_{\mathrm{ref}}\bigr)\Bigr)
+        +\mathcal{O}\Bigl(\Phi_\beta^{\mathrm{RT}}\bigl(n_{\mathrm{batch}}\bigr)
+        \cdot \text{batch\_count}\Bigr)$
+        \item Memory (M) complexity of a batch projection:
+        $\mathcal{O}\Bigl(\Phi^{\mathrm{M}}\bigl(n_{\mathrm{ref}}\bigr)\Bigr)
+        +\mathcal{O}\Bigl(\Phi_\beta^{\mathrm{M}}\bigl(n_{\mathrm{batch}}\bigr)\Bigr)$
+        \item Metric MDS: $\Phi\bigl(n_{\mathrm{ref}}\bigr)$ is $\mathcal{O}(n_{\mathrm{ref}}^2)$ in RT and M. $\Phi_{\beta}\bigl(n_{\mathrm{batch}}\bigr)$ has $\mathcal{O}(n_{\mathrm{ref}} \cdot n_{\mathrm{batch}})$ time complexity (and I'd argue it is $\mathcal{O}(n_{\mathrm{batch}}^2)$ in memory).
+        \item t-SNE: same as metric MDS, except for M of $\Phi_{\beta}$.
+        \item UMAP: $\Phi\bigl(n_{\mathrm{ref}}\bigr)$ is $\mathcal{O}(n_{\mathrm{ref}}^{1.14})$ in T and $\Phi_{\beta}\bigl(n_{\mathrm{batch}}\bigr)$ is like in MDS.
+        \item Autoencoders: $\Phi$ has linear TR and its M depends on the architecture. $\Phi_{\beta}$ is approximately linear.
+        \item PCA: $\Phi$ is linear with respect to $n_{\mathrm{ref}}$ and dimensionality. $\Phi_{\beta}$ is approximately linear.
+    \end{itemize}
+
+    \item \textbf{Implementation}: in Python with Numba compiled functions for performance-critical sections. They used the UMAP implementation of the umap-learn library, the openTSNE library for t-SNE, scikit-learn for PCA, and keras for the autoencoder. For MDS, they provided their own implementation.
+    \item \textbf{Experiments results}:
+    \begin{itemize}
+        \item \textbf{Quality}: PCA and MDS are consistent very early on (starting with a ref. set size of 128). t-SNE and UMAP overfit and generate clusters on small ref. sets, although they perform well on local metrics. Autoencoders is the most inconsistent method, but in general when the ref. set size increases, global metrics worsen and local ones improve.
+        \item \textbf{Runtime}: PCA and MDS are consistent with theory. t-SNE shows a below quadratic time complexity of $\Phi$, why? Moreover, time complexity of $\Phi_{\beta}$ seems constant with respect to $n_{\mathrm{ref}}$, why? UMAP is significantly slower in high-dimensional datasets. The dependance on batch size is inconsistent in most methods, even though the general trend is to be sub-linear.
+    \end{itemize}
+    \item \textbf{Comparison to large-scale DR methods}: when comparing UMAP with the proposed OOS framework against classical UMAP, PaCMAP and TriMap, PaCMAP is consistently better in terms of quality metrics, although the OOS framework is capable of reducing runtime significantly at the expense of quality. In previous work, UMAP failed to transform datasets of 1 million rows; how did the authors manage to run it on datasets of 2, 5 and 11 million data points (Tornado, KDD Cup '99 and Higgs, respectively)?
+
+    \item They finally show a use case with 1 billion streamlines generated on the \textit{fluid simulation ensemble for machine learning}.
+    
+    \item \textbf{Final discussion}:
+    \begin{itemize}
+        \item Even though results depend on the DR technique, runtime can always be substantially reduced by using smaller reference set sizes.
+        \item The authors recommend testing the reference projection before applying the OOS projection to the whole data set.
+        \item Tuning the hyperparameters of the DR methods should improve results.
+        \item An informed selection of the reference set instead of a random one could improve results as well.
+        \item Another limitation of the proposed framework is that relationships between OOS points are ignored and that $\Phi_{\beta}$ is not updated with OOS points.
+    \end{itemize}
 \end{itemize}
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=0.8\textwidth]{figures/OOS_algorithm.png}
-    \caption{OOS algorithm \cite{reichmann2024outofcoredimensionalityreductionlarge}.}
-    \label{fig:OOS_algorithm}
-\end{figure}
+
+\pagebreak
+\section{Classical MDS benchmarked in R}
+
+In this section we aim to test the limits of \texttt{Rdimtools::do.mds}. Specifically, we will run Rdimtools's implementation of Classical MDS on datasets of increasing number of observations and dimensionality in order to test its limitations as well as its complexity. We will also compare it with \texttt{dimRed::embed(.method="MDS", ...)}.
+
+Code, data and figures of the experiment can be found in \verb$code/MDS_benchmark_R_lib$. As for the system used, tests were performed on a Macbook Pro (14-inc, Nov 2023) with 16 GB of RAM and the Apple M3 chip.
+
+In our first experiment (see figure \ref{fig:MDS_Rdimtools}), we run \texttt{Rdimtools::do.mds} on datasets consisiting of four isotropic gaussian blobs with random covariance matrices randomly centered in a $d$-dimensional space with sizes ranging from 100 to 100000. We let $d$ be 8, 32 and 64. However, for all dimensionalities tested, R crashed when the dataset had at least 56234 rows. This result shows the memory limitation of classical MDS, which is reached in datasets with sizes of the order of $10^5$ for modern consumer-grade systems.
+
+Regarding time complexity, classical MDS shows quadratic growth with respect to number of individuals and linear growth in dimensionality, although we cannot be absolutely sure of the latter because only three dimensionalities were tested.
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.8\textwidth]{figures/OOS_methods.png}
-    \caption{OOS methods \cite{reichmann2024outofcoredimensionalityreductionlarge}.}
-    \label{fig:OOS_methods}
+    \includegraphics[width=0.8\textwidth]{figures/MDS_Rdimtools.pdf}
+    \caption{Runtime (s) of \texttt{Rdimtools::do.mds} averaged over 20 experiments. The tests were performed on datasets consisiting of four isotropic gaussian blobs with random covariance matrix and randomly centered in a $d$-dimensional space with sizes ranging from 100 to 31623. We let $d$ be 8, 32 and 64.}
+    \label{fig:MDS_Rdimtools}
 \end{figure}
 
+Next, we compared the implementations of classical MDS in libraries \texttt{Rdimtools} and \texttt{dimRed}, since \texttt{Rdimtools} is said to be very efficient while \texttt{dimRed} just wraps the \texttt{cmdscale} method \cite{Kraemer2018dimRedAC}. As can be seen in figure \ref{fig:MDS_dimRed_vs_Rdimtools}, our tests corroborate the results shown in \cite{Rdimtools}, since \texttt{Rdimtools::do.mds} has a lower time complexity than \texttt{dimRed::embed(.method="MDS", ...)}, resulting in runtime improvements of 10x for datasets with 100 rows and up to 1000x for samples with 10000 observations. Indeed, we did not test \texttt{dimRed::embed(.method="MDS", ...)} on larger datasets because, when size equaled 1000 rows, each experiment took around 15 minutes to run on our system.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/MDS_dimRed_vs_Rdimtools.pdf}
+    \caption{Runtime (s) of \texttt{Rdimtools::do.mds} and \texttt{dimRed::embed(.method="MDS", ...)} averaged over 20 experiments. Both methods were tested on the same datasets, consisiting of four isotropic gaussian blobs with random covariance matrix and randomly centered in an 8-dimensional space with sizes ranging from 100 to 10000 for \texttt{dimRed::embed(.method="MDS", ...)} and from 100 to 31623 for \texttt{Rdimtools::do.mds}.}
+    \label{fig:MDS_dimRed_vs_Rdimtools}
+\end{figure}
 
 \pagebreak
 \section{DR Python packages}
@@ -278,7 +371,7 @@ TriMAP, which claim to handle larger data sets than traditional approaches. To s
         \item \texttt{umap-learn}: the library that introduced UMAP \cite{2018arXivUMAP}.
         \item \texttt{MulticoreTSNE}: a multicore modification of Barnes-Hut t-SNE with Python CFFI-based wrappers \cite{Ulyanov2016}. Barnes-Hut is a tree-based algorithm that can be used to accelerate t-SNE up to $\mathcal{O}(N\log N)$ \cite{JMLR:v15:vandermaaten14a}.
         \item \texttt{fitsne}: Fast Fourier Transform-accelerated Interpolation-based t-SNE \cite{fitsne}.
-        \item \texttt{OpenTSNE}: incorporates the latest improvements to the t-SNE algorithm, including the ability to add new data points to existing embeddings, massive speed improvements, enabling t-SNE to scale to millions of data points and various tricks to improve global alignment of the resulting visualizations \cite{Policar2024}. The team behind \texttt{OpenTSNE} benchmarked the here described t-SNE Python implementations and showed that the fastest one in general is \texttt{fitsne}, although \texttt{OpenTSNE} is equally efficient on multicore systems (see fig. \ref{fig:python_tsne_benchmarks}) \cite{Policar2024}.
+        \item \texttt{OpenTSNE}: incorporates the latest improvements to the t-SNE algorithm, including the ability to add new data points to existing embeddings, massive speed improvements, enabling t-SNE to scale to millions of data points and various tricks to improve global alignment of the resulting visualizations \cite{Policar2024}. The team behind \texttt{OpenTSNE} benchmarked the here described t-SNE Python implementations and showed that the fastest one in general is \texttt{fitsne}, although \texttt{OpenTSNE} is equally efficient on multicore systems (see figure \ref{fig:python_tsne_benchmarks}) \cite{Policar2024}.
     \end{itemize}
     \item Moreover, other libraries focused on certain fields like genomics (\texttt{phate}) or NLP (\texttt{gensim}) implement DR methods for specific tasks and scenarios in their topics \cite{phate, rehurek_lrec}.
 \end{itemize}

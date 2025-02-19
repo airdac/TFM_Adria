@@ -658,3 +658,67 @@ abstract = {The direpack package establishes a set of modern statistical dimensi
       address = {Valletta, Malta},
       language={English}
 }
+
+@article{ParaDime,
+author = {Hinterreiter, Andreas and Humer, Christina and Kainz, Bernhard and Streit, Marc},
+title = {ParaDime: A Framework for Parametric Dimensionality Reduction},
+journal = {Computer Graphics Forum},
+volume = {42},
+number = {3},
+pages = {337-348},
+keywords = {CCS Concepts, • Computing methodologies → Neural networks, Learning latent representations, • Human-centered computing → Visualization systems and tools, Information visualization},
+doi = {https://doi.org/10.1111/cgf.14834},
+url = {https://onlinelibrary.wiley.com/doi/abs/10.1111/cgf.14834},
+eprint = {https://onlinelibrary.wiley.com/doi/pdf/10.1111/cgf.14834},
+abstract = {Abstract ParaDime is a framework for parametric dimensionality reduction (DR). In parametric DR, neural networks are trained to embed high-dimensional data items in a low-dimensional space while minimizing an objective function. ParaDime builds on the idea that the objective functions of several modern DR techniques result from transformed inter-item relationships. It provides a common interface for specifying these relations and transformations and for defining how they are used within the losses that govern the training process. Through this interface, ParaDime unifies parametric versions of DR techniques such as metric MDS, t-SNE, and UMAP. It allows users to fully customize all aspects of the DR process. We show how this ease of customization makes ParaDime suitable for experimenting with interesting techniques such as hybrid classification/embedding models and supervised DR. This way, ParaDime opens up new possibilities for visualizing high-dimensional data.},
+year = {2023}
+}
+
+@inproceedings{Bengio2003OOS,
+ author = {Bengio, Yoshua and Paiement, Jean-fran\c{c}cois and Vincent, Pascal and Delalleau, Olivier and Roux, Nicolas and Ouimet, Marie},
+ booktitle = {Advances in Neural Information Processing Systems},
+ editor = {S. Thrun and L. Saul and B. Sch\"{o}lkopf},
+ pages = {},
+ publisher = {MIT Press},
+ title = {Out-of-Sample Extensions for LLE, Isomap, MDS, Eigenmaps, and Spectral Clustering},
+ url = {https://proceedings.neurips.cc/paper_files/paper/2003/file/cf05968255451bdefe3c5bc64d550517-Paper.pdf},
+ volume = {16},
+ year = {2003}
+}
+
+@inproceedings{Gisbrecht2012OutofsampleKE,
+  title={Out-of-sample kernel extensions for nonparametric dimensionality reduction},
+  author={Andrej Gisbrecht and Wouter Lueks and Bassam Mokbel and Barbara Hammer},
+  booktitle={The European Symposium on Artificial Neural Networks},
+  year={2012},
+  url={https://api.semanticscholar.org/CorpusID:15613611}
+}
+
+@article{Zhang2021OOS,
+author = {Haili Zhang and Pu Wang and Xuejin Gao and Yongsheng Qi and Huihui Gao},
+title ={Out-of-sample data visualization using bi-kernel t-SNE},
+
+journal = {Information Visualization},
+volume = {20},
+number = {1},
+pages = {20-34},
+year = {2021},
+doi = {10.1177/1473871620978209},
+
+URL = { 
+    
+        https://doi.org/10.1177/1473871620978209
+    
+    
+
+},
+eprint = { 
+    
+        https://doi.org/10.1177/1473871620978209
+    
+    
+
+}
+,
+    abstract = { T-distributed stochastic neighbor embedding (t-SNE) is an effective visualization method. However, it is non-parametric and cannot be applied to steaming data or online scenarios. Although kernel t-SNE provides an explicit projection from a high-dimensional data space to a low-dimensional feature space, some outliers are not well projected. In this paper, bi-kernel t-SNE is proposed for out-of-sample data visualization. Gaussian kernel matrices of the input and feature spaces are used to approximate the explicit projection. Then principal component analysis is applied to reduce the dimensionality of the feature kernel matrix. Thus, the difference between inliers and outliers is revealed. And any new sample can be well mapped. The performance of the proposed method for out-of-sample projection is tested on several benchmark datasets by comparing it with other state-of-the-art algorithms. }
+}

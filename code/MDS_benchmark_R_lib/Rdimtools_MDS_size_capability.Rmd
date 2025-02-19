@@ -42,7 +42,7 @@ save_benchmark <- function(time, library, dataset, n_obs, d) {
 }
 ```
 
-The goal of this analysis is to test the limits of $\texttt{Rdimtools::do.mds}$. Specifically, we will run Rdimtools's implementation of Classical MDS on datasets of increasing number of observations and dimensionality in order to compare its limitations as well as its complexity. We will also compare it with $\texttt{dimRed::embed(.method="MDS", ...)}$.
+The goal of this analysis is to test the limits of $\texttt{Rdimtools::do.mds}$. Specifically, we will run Rdimtools's implementation of Classical MDS on datasets of increasing number of observations and dimensionality in order to test its limitations as well as its complexity. We will also compare it with $\texttt{dimRed::embed(.method="MDS", ...)}$.
 
 We will first run the function on the iris dataset to understand it better.
 
@@ -243,4 +243,9 @@ benchmark_gmm <- function(d, n_obs) {
 apply(params_grid, 1, function(params) benchmark_gmm(params["d"], params["n_obs"]))
 ```
 
-R crashes for when d == 8 and n_obs == 56234.
+R crashes for when n_obs == 56234 for all dimensions tested. This is probably caused by the lack of necessary RAM.
+
+We can observe as well quadratic time complexity in Rdimtools' implementation, although dimRed is slower in general and shows a larger complexity.
+
+Regarding dimensionality, it does not have a significant impact in the maximum dataset size MDS can handle. In other words, the same limitation in number of rows was reached in all dimensionalities tested (8, 32 and 64). Moreover, it has linear time complexity , although we cannot be absolutely sure because only three dimensionalities were tested.
+
