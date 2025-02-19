@@ -1,0 +1,123 @@
+---
+title: "Rdimtools MDS size capability"
+author: "Adrià Casanova Lloveras"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r libraries, message=F}
+library(Rdimtools)
+library(dimRed)
+library(microbenchmark)
+library(mixtools)
+
+set.seed(42)
+
+file_name <- "MDS_benchmark_R_lib.csv"
+save_benchmark <- function(time, library, dataset, n_obs, d) {
+  mbm_df <- as.data.frame(time)
+  colnames(mbm_df) <- c("time_ns")
+  mbm_df$dataset <- dataset
+  mbm_df$library <- library
+  mbm_df$n_obs <- n_obs
+  mbm_df$d <- d
+  if (!file.exists(file_name)) {
+    # If it doesn’t exist, write with headers
+    write.csv(mbm_df, file_name, row.names = FALSE)
+  } else {
+    # If it exists, append without writing headers again
+    write.table(mbm_df, file_name, row.names = FALSE, col.names = FALSE, sep = ",", append = TRUE)
+  }
+}
+```
+
+The goal of this analysis is to test the limits of $\texttt{Rdimtools::do.mds}$. Specifically, we will run Rdimtools's implementation of Classical MDS on datasets of increasing number of observations and dimensionality in order to compare its limitations as well as its complexity. We will also compare it with $\texttt{dimRed::embed(.method="MDS", ...)}$.
+
+We will first run the function on the iris dataset to understand it better.
+
+# Performance on the iris dataset
+
+```{r load iris}
+# load iris dataset
+data(iris)
+x <- as.matrix(iris[, 1:4])
+lab <- as.factor(iris[, 5])
+```
+
+```{r iris run do.mds}
+Rdimtools.iris <- do.mds(x, ndim = 2)
+dimRed.iris <- embed(x, "MDS", ndim = 2)
+dimRed.iris <- as.data.frame(dimRed.iris@data@data)
+```
+
+```{r iris visualization}
+plot(Rdimtools.iris$Y, pch = 19, col = lab, main = "Rdimtools on Iris")
+plot(dimRed.iris, pch = 19, col = lab, main = "dimRed on Iris")
+```
+
+```{r iris benchmark}
+mbm <- microbenchmark(
+  Rdimtools.iris = do.mds(x, ndim = 2),
+  times = 100 # Number of iterations
+)
+save_benchmark(mbm$time, "Rdimtools", "iris", n_obs = nrow(iris), d = 4)
+
+mbm <- microbenchmark(
+  dimRed.iris = embed(x, .method = "MDS", ndim = 2),
+  times = 100 # Number of iterations
+)
+save_benchmark(mbm$time, "dimRed", "iris", n_obs = nrow(iris), d = 4)
+```
+
+# Performance on four isotropic Gaussian blobs
+
+```{r gmm test definition}
+# Define dataset sizes
+n_obs_list <- round(10^seq(log10(1e2), log10(1e4), length.out = 10))
+d_list <- c(8, 32, 64) # in ReichmanHagele2024 it is c(64, 512, 2048)
+params_grid <- expand.grid(n_obs = n_obs_list, d = d_list)
+
+benchmark_gmm <- function(d, n_obs) {
+  # Generate four isotropic Gaussian blobs centered uniformly at random in
+  # [-1,1]^d with sd generated uniformly at random in (0,1].
+  # Blobs are close to avoid the curse of dimensionality.
+  means <- matrix(
+    runif(4*d, min = -1, max = 1),
+    nrow = 4, byrow = TRUE
+  )
+  covariances <- matrix(
+    runif(4*d, min = 0, max = 1),
+    nrow = 4, byrow = TRUE
+  )
+  data <- rmvnormmix(n = n_obs, lambda = rep(1, 4) / 4, mu = means, sigma = covariances)
+
+  # Benchmark Rdimtools::do.mds on the generated dataset
+  print(paste0("Benchmarking Rdimtools::do.mds on gmm dataset with d=", d, " and n_obs=", n_obs, "..."))
+  mbm <- microbenchmark(
+    Rdimtools.gmm.random = do.mds(data, ndim = 2),
+    times = 20
+  )
+  save_benchmark(mbm$time, "Rdimtools", "gmm.random", n_obs, d)
+
+  # We will compare Rdimtools and dimRed only for d=8
+  if (d > 8) {
+    return()
+  }
+
+  # Benchmark dimRed::embed(.method="MDS", ...) on the generated dataset
+  print(paste0("Benchmarking dimRed::embed(.method='MDS', ...) on gmm dataset with d=", d, " and n_obs=", n_obs, "..."))
+  mbm <- microbenchmark(
+    dimRed.gmm.random = embed(data, .method = "MDS", ndim = 2),
+    times = 20
+  )
+  save_benchmark(mbm$time, "dimRed", "gmm.random", n_obs, d)
+}
+```
+
+```{r gmm test run}
+apply(params_grid, 1, function(params) benchmark_gmm(params["d"], params["n_obs"]))
+```

@@ -2,7 +2,7 @@
 ############################
 *.aux
 *.bcf
-*.gz
+*.synctex.gz
 *.out
 *.xml
 *.toc
@@ -14,6 +14,7 @@
 *.bbl-SAVE-ERROR
 *.pygstyle
 *.pygtex
+.vscode
 
 # OS generated files #
 ######################
