@@ -14,8 +14,15 @@ library(Rdimtools)
 library(dimRed)
 library(microbenchmark)
 library(mixtools)
+library(dplyr)
+library(ggplot2)
 
 set.seed(42)
+
+figures_dir <- file.path("figures")
+if (!dir.exists(figures_dir)) {
+  dir.create(figures_dir)
+}
 
 file_name <- "MDS_benchmark_R_lib.csv"
 save_benchmark <- function(time, library, dataset, n_obs, d) {
@@ -121,3 +128,119 @@ benchmark_gmm <- function(d, n_obs) {
 ```{r gmm test run}
 apply(params_grid, 1, function(params) benchmark_gmm(params["d"], params["n_obs"]))
 ```
+
+Now we will plot the obtained data.
+
+```{r plot comparison}
+MDS.benchmark.data <- read.csv(file_name, header = TRUE, stringsAsFactors = T)
+MDS.benchmark.data$d <- as.factor(MDS.benchmark.data$d)
+summary(MDS.benchmark.data)
+
+# Summarize data for each library and d combination
+summary_data <- MDS.benchmark.data %>%
+  filter(d==8) %>%
+  group_by(library, n_obs) %>%
+  summarize(
+    avg_time = mean(time_ns/1e9),
+    sd_time = sd(time_ns/1e9),
+    n_samples = n()
+  ) %>%
+  ungroup() %>%
+  mutate(
+    se_time = sd_time / sqrt(n_samples),
+    upper_time = avg_time + se_time,
+    lower_time = avg_time - se_time
+  )
+
+# Plot
+ggplot(summary_data,
+       aes(x = n_obs, y = avg_time, color = library)) +
+  geom_line() +
+  geom_errorbar(aes(ymin = lower_time, ymax = upper_time),
+                  width = 0.02) +
+  scale_x_log10() +
+  scale_y_log10() +
+  labs(title = "MDS in R benchmark",
+       subtitle = "Average Runtime by n_obs (d = 8)",
+       x = "n_obs",
+       y = "Time (s)") +
+  theme_minimal()
+
+# Save the plot as a PDF file
+ggsave(file.path(figures_dir, "MDS_dimRed_vs_Rdimtools.pdf")
+       , width = 8, height = 6, dpi = 300)
+```
+
+```{r plot Rdimtools boxplots}
+# Summarize the data to calculate average and standard error of time for each n_obs and d
+summary_data <- MDS.benchmark.data %>%
+  filter(library == "Rdimtools") %>%
+  group_by(n_obs, d) %>%
+  summarize(
+    avg_time = mean(time_ns/1e9),
+    sd_time = sd(time_ns/1e9),
+    n_samples = n()
+  ) %>%
+  ungroup() %>%
+  mutate(
+    se_time = sd_time / sqrt(n_samples),
+    upper_time = avg_time + se_time,
+    lower_time = avg_time - se_time
+  )
+
+# Plot
+ggplot(summary_data,
+       aes(x = n_obs, y = avg_time, color = d)) +
+  geom_line() +
+  geom_errorbar(aes(ymin = lower_time, ymax = upper_time),
+                width = 0.02) +
+  scale_x_log10() +
+  scale_y_log10() +
+  labs(title = "MDS in R benchmark",
+       subtitle = "Average Runtime by n_obs (library = Rdimtools)",
+       x = "n_obs",
+       y = "Time (s)") +
+  theme_minimal()
+
+# Save plot
+ggsave(file.path(figures_dir, "MDS_Rdimtools.pdf"),
+       width = 8, height = 6, dpi = 300)
+```
+
+According to the previous plot, Rdimtools can handle larger datasets, so we will test it further.
+
+```{r gmm test large n_obs}
+# Define dataset sizes to expand previous test
+n_obs_list <- round(10^seq(log10(1e4), log10(1e5), length.out = 5))
+n_obs_list <- n_obs_list[-1]
+d_list <- c(8, 32, 64) # in ReichmanHagele2024 it is c(64, 512, 2048)
+params_grid <- expand.grid(n_obs = n_obs_list, d = d_list)
+
+benchmark_gmm <- function(d, n_obs) {
+  # Skip already tested scenarios
+  if (d==8 || n_obs > 50000) return()
+  # Generate four isotropic Gaussian blobs centered uniformly at random in
+  # [-1,1]^d with sd generated uniformly at random in (0,1].
+  # Blobs are close to avoid the curse of dimensionality.
+  means <- matrix(
+    runif(4*d, min = -1, max = 1),
+    nrow = 4, byrow = TRUE
+  )
+  covariances <- matrix(
+    runif(4*d, min = 0, max = 1),
+    nrow = 4, byrow = TRUE
+  )
+  data <- rmvnormmix(n = n_obs, lambda = rep(1, 4) / 4, mu = means, sigma = covariances)
+
+  # Benchmark Rdimtools::do.mds on the generated dataset
+  print(paste0("Benchmarking Rdimtools::do.mds on gmm dataset with d=", d, " and n_obs=", n_obs, "..."))
+  mbm <- microbenchmark(
+    Rdimtools.gmm.random = do.mds(data, ndim = 2),
+    times = 20
+  )
+  save_benchmark(mbm$time, "Rdimtools", "gmm.random", n_obs, d)
+}
+apply(params_grid, 1, function(params) benchmark_gmm(params["d"], params["n_obs"]))
+```
+
+R crashes for when d == 8 and n_obs == 56234.
