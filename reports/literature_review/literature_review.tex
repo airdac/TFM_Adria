@@ -308,7 +308,7 @@ TriMAP, which claim to handle larger data sets than traditional approaches. To s
         \item PCA: $\Phi$ is linear with respect to $n_{\mathrm{ref}}$ and dimensionality. $\Phi_{\beta}$ is approximately linear.
     \end{itemize}
 
-    \item \textbf{Implementation}: in Python with Numba compiled functions for performance-critical sections. They used the UMAP implementation of the umap-learn library, the openTSNE library for t-SNE, scikit-learn for PCA, and keras for the autoencoder. For MDS, they provided their own implementation.
+    \item \textbf{Implementation}: in Python with \texttt{Numba}(see section \ref{sec:Numba}) compiled functions for performance-critical sections. They used the UMAP implementation of the umap-learn library, the openTSNE library for t-SNE, scikit-learn for PCA, and keras for the autoencoder. For MDS, they provided their own implementation (see \verb$code/ReichmanHagele2024_MDS/mds_demo.py$).
     \item \textbf{Experiments results}:
     \begin{itemize}
         \item \textbf{Quality}: PCA and MDS are consistent very early on (starting with a ref. set size of 128). t-SNE and UMAP overfit and generate clusters on small ref. sets, although they perform well on local metrics. Autoencoders is the most inconsistent method, but in general when the ref. set size increases, global metrics worsen and local ones improve.
@@ -382,6 +382,18 @@ Next, we compared the implementations of classical MDS in libraries \texttt{Rdim
     \caption{Benchmark of t-SNE Python implementations \cite{Policar2024}.}
     \label{fig:python_tsne_benchmarks}
 \end{figure}
+
+\pagebreak
+\section{The \texttt{Numba} Python package}
+\label{sec:Numba}
+
+\texttt{Numba} \cite{lam2015numba} is an open‐source just-in-time (JIT) compiler that translates a subset of Python and \texttt{Numpy} code into optimized machine code using LLVM.
+
+It accelerates numerical computations on CPUs and GPUs by enabling parallelization and vectorization with minimal code modifications. To gain the most out of it, computations should use loops, \texttt{Numpy} functions and \texttt{Numpy} broadcasting.
+
+\subsection{How does \texttt{Numba} work?}
+
+As described in its documentation \cite{lam2015numba}, \texttt{Numba} reads the Python bytecode for a decorated function and combines this with information about the types of the input arguments to the function. It analyzes and optimizes your code, and finally uses the LLVM compiler library to generate a machine code version of your function, tailored to your CPU capabilities. This compiled version is then used every time your function is called.
 
 \pagebreak
 \section{Title \texorpdfstring{TEXstring}{}}
