@@ -274,7 +274,15 @@ TriMAP, which claim to handle larger data sets than traditional approaches. To s
     \item \textbf{OOS extensions} used:
     \begin{itemize}
         \item \textbf{PCA} and the \textbf{autoencoder} learn a parametric mapping and give an explicit function to map the data.
-        \item For \textbf{metric MDS}, they minimize stress for a single point while keeping all others fixed (\textit{single scaling}) to perform the OOS projection of a single point. The gradient for an OOS point $x^{\prime}$ with respect to the points $x_i$ of the reference set $X_a$ and corresponding low-dimensional points $y_i$ is given as $\delta=\sum_i\left(1-d\left(x^{\prime}, x_i\right) /\left\|y^{\prime}-y_i\right\|\right) \cdot\left(y^{\prime}-y_i\right)$, with dissimilarity function $d(\cdot, \cdot)$.
+        \item For \textbf{metric MDS}, they minimize stress for a single point while keeping all others fixed (\textit{single scaling}) to perform the OOS projection of a single point. The gradient for an OOS point $x^{\prime}$ with respect to the points $x_i$ of the reference set $X_a$ and corresponding low-dimensional points $y_i$ is given as $\delta=\sum_i\left(1-d\left(x^{\prime}, x_i\right) /\left\|y^{\prime}-y_i\right\|\right) \cdot\left(y^{\prime}-y_i\right)$, with dissimilarity function $d(\cdot, \cdot)$. We have run the code provided in the article with a Windows system that has an NVIDIA graphics card and obtained the results shown in figure \ref{fig:CUDA_MDS}. Details can be found on \verb$code/ReichmanHagele2024_MDS/mds_demo.py$.
+
+        \begin{figure}[ht]
+            \centering
+            \includegraphics[width=0.8\textwidth]{figures/CUDA_MDS.png}
+            \caption{Output of the CUDA imeplementation in \cite{reichmann2024outofcoredimensionalityreductionlarge} of metric MDS for a test dataset.}
+            \label{fig:CUDA_MDS}
+        \end{figure}
+        
         \item A similar mechanism can be used in \textbf{t-SNE} and \textbf{UMAP}.
     \end{itemize}
     \item \textbf{Datasets} of up to 50,000,000 data points were used to evaluate the OOS framework, as can be seen in figure \ref{fig:OOS_datasets}. That being said, a non-consumer very powerful system was used; it consisted of an AMD Ryzen Threadripper PRO 3995WX with 64 CPU cores, an NVIDIA RTX A6000 GPU with 48 GiB of VRAM, and 251 GiB of RAM.
@@ -394,6 +402,21 @@ It accelerates numerical computations on CPUs and GPUs by enabling parallelizati
 \subsection{How does \texttt{Numba} work?}
 
 As described in its documentation \cite{lam2015numba}, \texttt{Numba} reads the Python bytecode for a decorated function and combines this with information about the types of the input arguments to the function. It analyzes and optimizes your code, and finally uses the LLVM compiler library to generate a machine code version of your function, tailored to your CPU capabilities. This compiled version is then used every time your function is called.
+
+\pagebreak
+\section{Isomap in Python}
+
+In this section we will explore the current Isomap Python implementations to use them later in our divide-and-conquer and recursive big data algorithms.
+
+\subsection{Package implementations}
+
+\begin{itemize}
+    \item \texttt{sklearn.manifold.Isomap} \cite{pedregosa2011scikit}: as shown in  \nolinkurl{code/ReichmanHagele2024_MDS/mds_demo.py}, the constructor of this class accepts the dimensionality of the projection.  Then, the method \nolinkurl{fit_transform} applies Isomap to the dataset passed in the arguments.
+
+    \item \texttt{pysomap.isodata} \cite{spiwokv2007}: 
+\end{itemize}
+
+
 
 \pagebreak
 \section{Title \texorpdfstring{TEXstring}{}}
