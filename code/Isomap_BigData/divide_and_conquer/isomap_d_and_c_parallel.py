@@ -83,16 +83,12 @@ def get_partitions_for_divide_conquer(n, l, c_points, r):
             p = p - 1
             last_partition_sample_size = n - (l + (p - 2) * (l - c_points))
         first_partition = permutation[:l]
-        if last_partition_sample_size > 0:
-            last_partition = permutation[-last_partition_sample_size:]
-            middle_indices = permutation[l:-last_partition_sample_size]
-        else:
-            last_partition = np.array([], dtype=int)
-            middle_indices = permutation[l:]
+        last_partition = permutation[-last_partition_sample_size:]
+        middle_indices = permutation[l:-last_partition_sample_size]
         partitions = []
         partitions.append(first_partition)
         if p > 2:
-            split_middle = np.array_split(middle_indices, p - 2)
+            split_middle = np.split(middle_indices, p - 2)
             partitions.extend(split_middle[1:])
             partitions.append(split_middle[0])
         partitions.append(last_partition)
@@ -104,7 +100,7 @@ def main_divide_conquer_isomap(x_filtered, x_sample_1, r, original_isomap_sample
     Compute the isomap configuration for a partition.
     """
     x_join_sample_1 = np.vstack((x_sample_1, x_filtered))
-    isomap_all = isomap(x_join_sample_1, r, n_neighbors=n_neighbors)
+    isomap_all = isomap(x_join_sample_1, r, n_neighbors)
     isomap_points = isomap_all['points']
     isomap_eigen = isomap_all['eigen']
     n_sample = x_sample_1.shape[0]
@@ -139,7 +135,7 @@ def divide_conquer_isomap(x, l, c_points, r, n_cores, n_neighbors):
     """
     n_row_x = x.shape[0]
     if n_row_x <= l:
-        result = isomap(x, r)
+        result = isomap(x, r, n_neighbors)
         result['eigen'] = result['eigen'] / n_row_x
     else:
         idx_list = get_partitions_for_divide_conquer(n_row_x, l, c_points, r)
@@ -148,7 +144,7 @@ def divide_conquer_isomap(x, l, c_points, r, n_cores, n_neighbors):
 
         # Perform Isomap on the first partition.
         x_1 = x[idx_list[0],]
-        isomap_1 = isomap(x_1, r, n_neighbors=n_neighbors)
+        isomap_1 = isomap(x_1, r, n_neighbors)
         isomap_1_points = isomap_1['points']
         isomap_1_eigen = isomap_1['eigen'] / length_1
 

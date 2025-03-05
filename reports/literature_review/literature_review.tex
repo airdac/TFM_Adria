@@ -417,10 +417,34 @@ In this section we will explore the current Isomap Python implementations to use
 
     \item Distributed implementation with Apache Spark: \cite{Isomap_ApacheSpark}.
 
-    \item \texttt{megaman} \cite{mcqueen2016megamanmanifoldlearningmillions}: this package is said to implement manifold learning algorithms for big data, but it is not very trustworthy. Indeed, it has not been published in any magazine nor conference and our attemps to install it have failed. We tried to use the conda installation, but it was not active anymore. Moreover, we sourced its GitHub repository and failed again because it the deprecated module \texttt{numpy.distutils.msvccompiler}, which seems very complicated to run on macOS.
+    \item \texttt{megaman} \cite{mcqueen2016megamanmanifoldlearningmillions}: this package is said to implement manifold learning algorithms for big data, but it is not very trustworthy. Indeed, it has not been published in any magazine nor conference and our attemps to install it have failed. We tried to use the conda installation, but it was not active anymore. Moreover, we sourced its GitHub repository and failed again because it depends on the deprecated module \texttt{numpy.distutils.msvccompiler}, which seems to be very complicated to run on macOS.
+    \item Let us test the partitions' projections:
+    \begin{itemize}
+        \item With $n=3000, l=1000$, projections concentrate in filaments, but are uniform along both axes with $n_neighbors \leq 6$. 
+    \end{itemize}
 \end{itemize}
 
+\pagebreak
+\section{Code notes and changelog}
 
+\subsection{March 6}
+
+\begin{itemize}
+    \item Made more clear the calls to \verb|main_divide_conquer_isomap|.
+    \item Replaced \texttt{np.array\_split} by \texttt{np.split} when obtaining the indexes of middle subsets in \nolinkurl{get\_partitions\_for\_divide\_conquer}. \texttt{np.array\_split} works like \texttt{np.split}, except for when the length of the array ($l$) is not a multiple of the number of subarrays ($n$). Then, instead of raising an error, it creates $n\% l$ subarrays of length $n\backslash\backslash l+1$ and $n-n\% l$ subarrays of length $n\backslash\backslash l$. Hence, \texttt{np.split} is more appropiate for our code.
+    \item Replaced $p=\lceil 1 + \frac{n-l}{l-c} \rceil$ by $p=\lceil \frac{n-l}{l-c} \rceil$ and adapted the rest of \nolinkurl{get\_partitions\_for\_divide\_conquer} to the change. In other words, now $p$ is the number of subsets with less than $l$ data points.
+    \item If $l-c \mid n-l$, then
+    
+    \verb|last_partition_sample_size = n - (l + (p - 1) * (l - c_points))|
+
+    makes \verb|last_partition_sample_size| negative!! Moreover, I do not understand why
+    \begin{minted}[frame=lines,fontsize=\small]{python}
+if last_partition_sample_size < min_sample_size:
+    p = p - 1
+    last_partition_sample_size = n - (l + (p - 1) * (l - c_points))
+    \end{minted}
+    ensures that \verb|last_partition_size| $\geq$ \verb|min_sample_size|. Therefore, I propose to get the indexes of all parititons except for the first one with \texttt{np.array\_split}. Moreover, \verb|min_sample_size| is controlled by the initial \verb|ValueError| checks, so by changing the third one to \verb|l-c_points| $<$ \verb|r+2| we do not have to worry about \verb|min_sample_size| anymore.
+\end{itemize}
 
 \pagebreak
 \section{Title \texorpdfstring{TEXstring}{}}
