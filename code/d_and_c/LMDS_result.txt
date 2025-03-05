@@ -1,0 +1,17 @@
+Local MDS Results
+================
+
+Stress: 0.3440422510154033
+Stress (normalized): 0.11836507048374578
+Parameters: k=2, tau=0.5
+
+Runtime: 337.14 seconds.
+Configuration shape: (2000, 2)
+Configuration first 5 points:
+array([[ -531.4357,  -719.2083],
+       [-1141.075 ,  -195.6944],
+       [ 1035.5055,   474.7353],
+       [  917.2015,  -445.0637],
+       [ -121.8659,   302.0415]])
+
+Structure indices:
