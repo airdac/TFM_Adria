@@ -59,7 +59,7 @@ def swiss_roll_example():
     bare_method_arguments_str = [f'{key}_{value}' for key,
                             value in bare_method_arguments.items()]
     ax6.set_title(
-        f"Bare embedding {' '.join(bare_method_arguments_str)}")
+        f"Bare {method} embedding {' '.join(bare_method_arguments_str)}")
 
     # Save results
     method_arguments_str = [f'{key}_{value}' for key,
@@ -72,7 +72,7 @@ def swiss_roll_example():
                                 f'c_{c_points}',
                                 *method_arguments_str
                                 )
-    plt.savefig(results_path)
+    plt.savefig(os.path.join(results_path, "d_and_c-vs-bare"))
     plt.close()
     print(f"Results saved in '{results_path}'")
 
