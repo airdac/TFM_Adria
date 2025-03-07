@@ -1,11 +1,55 @@
-import matplotlib.pyplot as plt
+import time
 import os
 import shutil
+import numpy as np
+import matplotlib.pyplot as plt
+from typing import Any, Callable, Tuple, Optional
 
 
-def plot_3D_to_2D(color, x, projection, method, path=None, empty=False, format="png"):
-    """Plot a 3D dataset and its 2D projection."""
+def benchmark(func: Callable, *args, **kwargs) -> Tuple[Any, float]:
+    """
+    Measure runtime in seconds and return the function result along with the elapsed time.
+
+    Parameters:
+        func (Callable): The function to benchmark.
+        *args (Any): Positional arguments to pass to func.
+        **kwargs (Any): Keyword arguments to pass to func.
+
+    Returns:
+        Tuple[Any, float]: A tuple where the first element is the result of func and the second element is the elapsed time in seconds.
+    """
+    start = time.perf_counter()
+    result = func(*args, **kwargs)
+    elapsed = time.perf_counter() - start
+    return result, elapsed
+
+
+def plot_3D_to_2D(x: np.ndarray,
+                  projection: np.ndarray,
+                  method: Any,
+                  title: str,
+                  color: np.ndarray,
+                  path: Optional[str] = None,
+                  empty: bool = False,
+                  format: str = "png") -> Optional[plt.Figure]:
+    """
+    Plot a 3D dataset along with its 2D projection.
+
+    Parameters:
+        x (np.ndarray): The original 3D data points arranged as a matrix.
+        projection (np.ndarray): The computed 2D projection of the data.
+        method (Any): The dimensionality reduction method used (or its name).
+        title (str): Title of the plot.
+        color (np.ndarray): Array of colors corresponding to each data point.
+        path (Optional[str], optional): File path to save the figure. If None, the figure is returned (default is None).
+        empty (bool, optional): If True, the parent directory specified in path is removed (default False).
+        format (str, optional): File format for saving the figure (default "png").
+
+    Returns:
+        Optional[plt.Figure]: The matplotlib Figure object if no path is provided; otherwise, None.
+    """
     fig = plt.figure(figsize=(14, 8))
+    fig.suptitle(title, fontsize=16)
 
     # Original data 3D plot
     ax1 = fig.add_subplot(234, projection='3d')
@@ -39,9 +83,7 @@ def plot_3D_to_2D(color, x, projection, method, path=None, empty=False, format="
             if os.path.exists(parent_dir):
                 shutil.rmtree(parent_dir)
             os.makedirs(parent_dir)
-        if format == 'svg':
-            path = path + '.svg'
-        plt.savefig(path, format=format)
+        plt.savefig(path + '.' + format, format=format)
         plt.close()
     else:
         return fig

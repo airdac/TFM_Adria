@@ -2,6 +2,7 @@ from enum import Enum
 import numpy as np
 from sklearn.manifold import Isomap
 from scipy.spatial.distance import pdist, squareform
+from typing import Callable, Optional
 
 from .private_local_mds import enorm, cmds, spp, stoploss
 
@@ -15,8 +16,11 @@ class DRMethod(Enum):
         return self.value
 
 
-def get_method_function(method):
-    """Returns the function for the specified DR method."""
+def get_method_function(method: DRMethod) -> Callable:
+    """Returns the function for the specified DR method.
+    
+    Raises:
+        ValueError: If the specified method is not supported."""
     method_map = {
         DRMethod.Isomap: isomap,
     }
@@ -28,52 +32,59 @@ def get_method_function(method):
     return method_map[method]
 
 
-def isomap(x, r=2, **kwargs):
-    """Perform Isomap on data matrix x."""
+def isomap(x: np.ndarray, r: int = 2, **kwargs) -> np.ndarray:
+    """
+    Perform Isomap on data matrix x.
+
+    Parameters:
+        x (np.ndarray): Input data matrix.
+        r (int, optional): Target dimensionality (default 2).
+        kwargs (Any): Additional parameters for Isomap (e.g. n_neighbors).
+
+    Returns:
+        projection (np.ndarray): The low-dimensional embedding of x.
+    """
     n_neighbors = kwargs.get('n_neighbors', 5)
     isomap = Isomap(n_neighbors=n_neighbors, n_components=r)
     return isomap.fit_transform(x)
 
 
-def _lmds(delta, k=2, tau=1, type="ratio", ndim=2, weightmat=None, itmax=5000,
-          init=None, verbose=0, principal=False, normconf=False):
+def _lmds(delta: np.ndarray,
+          k: int = 2,
+          tau: float = 1,
+          type: str = "ratio",
+          ndim: int = 2,
+          weightmat: Optional[np.ndarray] = None,
+          itmax: int = 5000,
+          init: Optional[np.ndarray] = None,
+          verbose: int = 0,
+          principal: bool = False,
+          normconf: bool = False,
+          **kwargs) -> dict:
     """
-    A Python version of the local multidimensional scaling function.
+    Core method of *locals_mds*, a Python version of the local MDS implementation in the *stops* R library.
 
-    Parameters
-    ----------
-    delta : array-like
-        A symmetric distance matrix.
-    k : int, optional
-        The kth neighbor (default 2).
-    tau : float, optional
-        A scaling parameter (default 1).
-    type : str, optional
-        Scaling type (default "ratio").
-    ndim : int, optional
-        Target dimensionality (default 2).
-    weightmat : array-like, optional
-        A weight matrix; default is 1 - identity matrix.
-    itmax : int, optional
-        Maximum iterations (default 5000).
-    init : array-like, optional
-        Initial configuration; if None, it is computed via cmds(delta).
-    verbose : int, optional
-        Verbosity level (default 0).
-    principal : bool, optional
-        If True, project to principal components (default False).
-    normconf : bool, optional
-        If True, normalize final configuration (default False).
-
-    Returns
-    -------
-    result : dict
-        A dictionary containing fields:
-          - 'delta', 'dhat', 'confdist', 'conf'
-          - 'stress', 'stress.m', 'stress.r'
-          - 'spp', 'ndim', 'weightmat', 'resmat', 'rss'
-          - 'init', 'model', 'niter', 'nobj', 'type'
-          - 'parameters', 'pars', 'theta', 'k', 'tau'
+    Parameters:
+        delta (np.ndarray): A symmetric distance matrix.
+        k (int, optional): The kth neighbor (default 2).
+        tau (float, optional): A scaling parameter (default 1).
+        type (str, optional): Scaling type (default "ratio").
+        ndim (int, optional): Target dimensionality (default 2).
+        weightmat (np.ndarray, optional): A weight matrix; default is 1 - identity matrix.
+        itmax (int, optional): Maximum iterations (default 5000).
+        init (np.ndarray, optional): Initial configuration; if None, computed via cmds(delta).
+        verbose (int, optional): Verbosity level (default 0).
+        principal (bool, optional): If True, project to principal components (default False).
+        normconf (bool, optional): If True, normalize final configuration (default False).
+        kwargs (Any): Additional keyword arguments.
+        
+    Returns:
+        output (dict): A dictionary containing fields such as 'delta', 'dhat', 'confdist', 'conf',
+            'stress', 'stress.m', 'stress.r', 'spp', 'ndim', 'weightmat', 'resmat', 'rss',
+            'init', 'model', 'niter', 'nobj', 'type', 'parameters', 'pars', 'theta', 'k', and 'tau'.
+    
+    Raises:
+        ValueError: If the delta matrix is not symmetric or if ndim > n - 1.
     """
     # Ensure delta is a NumPy array.
     delta = np.asarray(delta)
@@ -253,45 +264,26 @@ def local_mds(
     **kwargs
 ):
     """
-    A Python version of an R function for local MDS.
+    A Python version of the local MDS implementation in the *stops* R library.
 
-    Parameters
-    ----------
-    dis : array-like
-        A distance matrix (or an object that can be converted to a matrix).
-    theta : list of two numbers, optional
-        Parameters [k, tau]. Default is [2, 0.5]. If a single value is provided,
-        it will be replicated to length 2.
-    type : str, optional
-        The type of scaling; default is "ratio".
-    weightmat : array-like, optional
-        A weight matrix (default: None).
-    init : array-like, optional
-        Initial configuration (default: None).
-    ndim : int, optional
-        Target dimensionality (default: 2).
-    itmaxi : int, optional
-        Maximum number of iterations (default: 5000).
-    stressweight : numeric, optional
-        Weight for stress in the stopping objective (default: 1).
-    structures : list of str, optional
-        List of structure names; if None a default list is used.
-    strucweight : list of numeric, optional
-        Weights for the structures; if None each is set to 1/len(structures).
-    strucpars : any, optional
-        Additional structure parameters.
-    verbose : int, optional
-        Verbosity level (default: 0).
-    stoptype : str, optional
-        Either "additive" or "multiplicative"; default is "additive".
-    **kwargs :
-        Additional keyword arguments passed to _lmds.
-
-    Returns
-    -------
-    out : dict
-        Dictionary with keys: 'stress', 'stress.m', 'stoploss', 'strucindices',
-        'parameters', 'fit', and 'stopobj'.
+    Parameters:
+        dis (Any): A distance matrix or an object convertible to a matrix.
+        theta (list, optional): Parameters [k, tau]. Default is [10, 0.5]. If a single value is provided, it is replicated.
+        type (str, optional): The type of scaling (default "ratio").
+        weightmat (Any, optional): A weight matrix (default: None).
+        init (Any, optional): Initial configuration (default: None).
+        ndim (int, optional): Target dimensionality (default: 2).
+        itmaxi (int, optional): Maximum number of iterations (default: 5000).
+        stressweight (float, optional): Weight for stress in the stopping objective (default: 1).
+        structures (Any, optional): List of structure names; if None, a default list is used.
+        strucweight (Any, optional): Weights for the structures; if None, defaults are applied.
+        strucpars (Any, optional): Additional structure parameters.
+        verbose (int, optional): Verbosity level (default: 0).
+        stoptype (str, optional): Either "additive" or "multiplicative" (default "additive").
+        kwargs (Any): Additional keyword arguments passed to _lmds.
+        
+    Returns:
+        output (dict): Dictionary with keys: 'stress', 'stress.m', 'stoploss', 'strucindices', 'parameters', 'fit', and 'stopobj'.
     """
     if len(theta) > 3:
         raise ValueError(
