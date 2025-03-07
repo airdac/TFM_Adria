@@ -1,100 +1,45 @@
-# ChatGPT translation of the LMDS implementation in the stops R library
-
+from enum import Enum
 import numpy as np
+from sklearn.manifold import Isomap
 from scipy.spatial.distance import pdist, squareform
 
-import os
-import shutil
-import matplotlib.pyplot as plt
-def plot_3D_to_2D(color, x, projection, method, path=None, new_directory=None):
-    """
-    Plot a 3D dataset and its 2D projection.
-
-    Parameters:
-        color : np.ndarray
-            Colors of data points in x.
-        x: np.ndarray
-            Data matrix.
-        projection: np.ndarray
-            Data matrix of the projection.
-        path: str
-            Plot's path. If empty, return plot instead of saving it.
-        directory: str
-            Directory where plot is stored.
-    """
-    fig = plt.figure(figsize=(14, 8))
-    ax1 = fig.add_subplot(234, projection='3d')
-    ax1.scatter(x[:, 0], x[:, 1], x[:, 2],
-                c=color, cmap=plt.cm.Spectral)
-    ax1.set_title("Original Data")
-
-    ax2 = fig.add_subplot(231)
-    ax2.scatter(x[:, 0], x[:, 1],
-                c=color, cmap=plt.cm.Spectral)
-    ax2.set_title("Original Data (dims 1,2)")
-
-    ax3 = fig.add_subplot(232)
-    ax3.scatter(x[:, 0], x[:, 2],
-                c=color, cmap=plt.cm.Spectral)
-    ax3.set_title("Original Data (dims 1,3)")
-
-    ax4 = fig.add_subplot(233)
-    ax4.scatter(x[:, 1], x[:, 2],
-                c=color, cmap=plt.cm.Spectral)
-    ax4.set_title("Original Data (dims 2,3)")
-
-    ax5 = fig.add_subplot(235)
-    ax5.scatter(projection[:, 0], projection
-                [:, 1], c=color, cmap=plt.cm.Spectral)
-    ax5.set_title(f"D&C {method} Subset Embedding")
-
-    plt.tight_layout()
-
-    if new_directory:
-        # Empty directory
-        if os.path.exists(new_directory):
-            shutil.rmtree(new_directory)
-        os.makedirs(new_directory)
-    if path:
-        plt.savefig(path)
-        plt.close()
-    else:
-        return fig
+from .private_local_mds import enorm, cmds, spp, stoploss
 
 
-# Helper: Frobenius norm
-def enorm(X):
-    return np.linalg.norm(X, 'fro')
+class DRMethod(Enum):
+    """Supported Dimensionality Reduction Methods."""
+    Isomap = "Isomap"
+    # LocalMDS = "Local MDS"
 
-# (Placeholder) Helper: Classical MDS via eigen-decomposition.
-def cmds(delta):
-    # Assume delta is a distance matrix.
-    # Compute double-centered matrix B = -0.5 * C * (delta**2) * C, where C = I - 1/n * ones.
-    n = delta.shape[0]
-    C = np.eye(n) - np.ones((n, n)) / n
-    B = -0.5 * C @ (delta**2) @ C
-    # Compute eigen-decomposition
-    vals, vecs = np.linalg.eigh(B)
-    # Sort in descending order
-    idx = np.argsort(vals)[::-1]
-    vals = vals[idx]
-    vecs = vecs[:, idx]
-    return {"val": vals, "vec": vecs}
-
-# (Placeholder) Helper: spp; assume it returns a dict with keys "resmat" and "spp".
-def spp(delta, confdist, weightmat):
-    # For example purposes, return dummy arrays with correct shape.
-    n = delta.shape[0]
-    resmat = np.zeros((n, n))
-    spp_val = 0
-    return {"resmat": resmat, "spp": spp_val}
+    def __str__(self):
+        return self.value
 
 
-def lmds(delta, k=2, tau=1, type="ratio", ndim=2, weightmat=None, itmax=5000,
-         init=None, verbose=0, principal=False, normconf=False):
+def get_method_function(method):
+    """Returns the function for the specified DR method."""
+    method_map = {
+        DRMethod.Isomap: isomap,
+    }
+
+    if method not in method_map:
+        raise ValueError(
+            f"Unsupported method: {method}. Available methods: {list(method_map.keys())}")
+
+    return method_map[method]
+
+
+def isomap(x, r=2, **kwargs):
+    """Perform Isomap on data matrix x."""
+    n_neighbors = kwargs.get('n_neighbors', 5)
+    isomap = Isomap(n_neighbors=n_neighbors, n_components=r)
+    return isomap.fit_transform(x)
+
+
+def _lmds(delta, k=2, tau=1, type="ratio", ndim=2, weightmat=None, itmax=5000,
+          init=None, verbose=0, principal=False, normconf=False):
     """
     A Python version of the local multidimensional scaling function.
-    
+
     Parameters
     ----------
     delta : array-like
@@ -119,7 +64,7 @@ def lmds(delta, k=2, tau=1, type="ratio", ndim=2, weightmat=None, itmax=5000,
         If True, project to principal components (default False).
     normconf : bool, optional
         If True, normalize final configuration (default False).
-    
+
     Returns
     -------
     result : dict
@@ -291,70 +236,6 @@ def lmds(delta, k=2, tau=1, type="ratio", ndim=2, weightmat=None, itmax=5000,
     return result
 
 
-def stoploss(obj, stressweight=1, structures=None, strucweight=None,
-             strucpars=None, stoptype="additive", verbose=0):
-    """
-    A Python version of the stoploss function.
-    
-    Parameters
-    ----------
-    obj : dict
-        A dictionary output from lmds containing at least 'stress.m' and 'conf' and 'pars'.
-    stressweight : float, optional
-        Weight for the stress term (default 1).
-    structures : list of str
-        List of structure names.
-    strucweight : list of float, optional
-        Weights for each structure. If None, defaults to a list of -1/len(structures).
-    strucpars : list, optional
-        List of parameters (dictionaries) for each structure; if None, defaults to a list of None.
-    stoptype : str, optional
-        Either "additive" or "multiplicative" (default "additive").
-    verbose : int, optional
-        Verbosity level (default 0).
-    
-    Returns
-    -------
-    out : dict
-        A dictionary with keys 'stoploss', 'strucindices', 'parameters', and 'theta'.
-    """
-    if structures is None:
-        raise ValueError("structures must be provided")
-    # Set default strucpars if missing.
-    if strucpars is None:
-        strucpars = [None] * len(structures)
-    # Set default strucweight if missing.
-    if strucweight is None:
-        strucweight = [-1/len(structures)] * len(structures)
-    stressi = obj["stress.m"]
-    pars = obj["pars"]
-    # Compute structure indices by calling each registry entry's index function.
-    # NB: The registry argument has been removed in this Python code.
-    struc = []
-    # Compute the combined index.
-    if stoptype == "additive":
-        ic = stressi * stressweight + \
-            sum(s * w for s, w in zip(struc, strucweight))
-    elif stoptype == "multiplicative":
-        # Use product; note: math.prod is available in Python 3.8+
-        import math
-        prod_val = math.prod(s**w for s, w in zip(struc, strucweight))
-        ic = (stressi**stressweight) * prod_val
-    else:
-        raise ValueError(
-            "stoptype must be either 'additive' or 'multiplicative'")
-    if verbose > 0:
-        print(
-            f"stoploss = {ic}, mdsloss = {stressi}, structuredness = {struc}, parameters = {pars}")
-    out = {
-        "stoploss": ic,
-        "strucindices": struc,
-        "parameters": pars,
-        "theta": pars
-    }
-    return out
-
-
 def local_mds(
     dis,
     theta=[10, 0.5],
@@ -373,7 +254,7 @@ def local_mds(
 ):
     """
     A Python version of an R function for local MDS.
-    
+
     Parameters
     ----------
     dis : array-like
@@ -404,8 +285,8 @@ def local_mds(
     stoptype : str, optional
         Either "additive" or "multiplicative"; default is "additive".
     **kwargs :
-        Additional keyword arguments passed to lmds.
-    
+        Additional keyword arguments passed to _lmds.
+
     Returns
     -------
     out : dict
@@ -430,9 +311,9 @@ def local_mds(
     import numpy as np
     dis = np.asarray(dis)
 
-    # Call the lmds function (which you must implement or import)
-    fit = lmds(delta=dis, k=k, tau=tau, init=init, ndim=ndim,
-               verbose=verbose, itmax=itmaxi, **kwargs)
+    # Call the _lmds function (which you must implement or import)
+    fit = _lmds(delta=dis, k=k, tau=tau, init=init, ndim=ndim,
+                verbose=verbose, itmax=itmaxi, **kwargs)
 
     # In R the original call was substituted; in Python you can store the parameters if desired.
     fit["k"] = k
@@ -469,58 +350,3 @@ def local_mds(
     }
 
     return out
-
-
-# Example usage
-if __name__ == "__main__":
-    from sklearn.datasets import make_swiss_roll
-    import json
-    from numpy.core.numeric import array_repr
-    import time
-
-    # Set random seed for reproducibility
-    np.random.seed(42)
-
-    n = 1000
-
-    X, color = make_swiss_roll(n_samples=n, random_state=42)
-
-    start_time = time.time()
-    delta = squareform(pdist(X, metric="euclidean"))
-    result = local_mds(delta)
-    lmds_time = time.time() - start_time
-
-    # Plot result
-    plot_3D_to_2D(color, X, result['fit']['conf'], "LMDS")
-    plot_filename = f'dc_LMDS-n{n}'
-    plt.savefig(os.path.join(
-        'figures', plot_filename))
-    plt.close()
-    print(
-        f"Visualization saved as '{os.path.join("figures", plot_filename)}.png'")
-
-    # Save results to a text file
-    with open('LMDS_result.txt', 'w') as f:
-        # Write key metrics and parameters
-        f.write("Local MDS Results\n")
-        f.write("================\n\n")
-        f.write(f"Stress: {result['stress']}\n")
-        f.write(f"Stress (normalized): {result['stress.m']}\n")
-        f.write(
-            f"Parameters: k={result['parameters'].get('k')}, tau={result['parameters'].get('tau')}\n\n")
-        f.write(f"Runtime: {lmds_time:.2f} seconds.\n")
-
-        # Write configuration summary
-        if 'fit' in result and 'conf' in result['fit']:
-            conf = result['fit']['conf']
-            f.write(f"Configuration shape: {conf.shape}\n")
-            f.write(
-                f"Configuration first 5 points:\n{array_repr(conf[:5], precision=4)}\n\n")
-
-        # Write structure indices if available
-        if 'strucindices' in result:
-            f.write("Structure indices:\n")
-            for i, val in enumerate(result['strucindices']):
-                f.write(f"  Index {i}: {val}\n")
-
-    print(f"Results saved to LMDS_result.txt")
