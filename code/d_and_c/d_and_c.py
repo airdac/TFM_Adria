@@ -1,5 +1,31 @@
+from enum import Enum
 import numpy as np
 from sklearn.manifold import Isomap
+
+# Supported DR methods
+
+
+class DRMethod(Enum):
+    Isomap = "Isomap"
+    # LocalMDS = "Local MDS"
+
+    def __str__(self):
+        return self.value
+
+# Method dispatcher dictionary
+
+
+def _get_method_function(method):
+    method_map = {
+        DRMethod.Isomap: isomap,
+        #    DRMethod.LocalMDS: local_mds
+    }
+
+    if method not in method_map:
+        raise ValueError(
+            f"Unsupported method: {method}. Avaliable methods: {list(method_map.keys())}")
+
+    return method_map[method]
 
 
 def plot_3D_to_2D(color, x, projection, method, path=None, new_directory=None):
@@ -56,7 +82,6 @@ def plot_3D_to_2D(color, x, projection, method, path=None, new_directory=None):
         plt.close()
     else:
         return fig
-    
 
 
 def isomap(x, r=2, n_neighbors=5):
@@ -137,7 +162,7 @@ def get_partitions_for_divide_conquer(n, l, c_points, r):
 def main_divide_conquer(method, x_filtered, x_sample_1, r, original_sample_1, partition_plots_path, color, **kwargs):
     """
     Compute the projection for a partition.
-    
+
     Parameters:
         method : str
             Name of the DR method to use.
@@ -156,11 +181,12 @@ def main_divide_conquer(method, x_filtered, x_sample_1, r, original_sample_1, pa
         **kwargs : 
             Method-specific arguments (e.g., n_neighbors for Isomap).
     """
-    projection_method = globals()[method]
+    projection_method = _get_method_function(method)
     x_join_sample_1 = np.vstack((x_sample_1, x_filtered))
     projection = projection_method(x_join_sample_1, r, **kwargs)
     # Save projection
-    plot_3D_to_2D(color, x_join_sample_1, projection, method, partition_plots_path)
+    plot_3D_to_2D(color, x_join_sample_1, projection,
+                  method, partition_plots_path)
 
     n_sample = x_sample_1.shape[0]
     projection_sample_1 = projection[:n_sample, :]
@@ -174,8 +200,8 @@ def divide_conquer(method, x, l, c_points, r, color, **kwargs):
     Divide-and-conquer.
 
     Parameters:
-        method : str
-            DR method to use.
+        method : DRMethod
+            DR method to use from DRMethod enum.
         x : np.ndarray
             Data matrix with n points (rows) and k variables (columns).
         l : int
@@ -188,7 +214,7 @@ def divide_conquer(method, x, l, c_points, r, color, **kwargs):
     Returns:
         np.ndarray. Low-dimensional data configuration.
     """
-    projection_method = globals()[method]
+    projection_method = _get_method_function(method)
 
     n_row_x = x.shape[0]
     if n_row_x <= l:
@@ -199,6 +225,7 @@ def divide_conquer(method, x, l, c_points, r, color, **kwargs):
         length_1 = len(idx_list[0])
 
         # Perform Isomap on the first partition.
+        print("Projecting partition 1...")
         x_1 = x[idx_list[0],]
         projection_1 = projection_method(x_1, r, n_neighbors)
 
@@ -221,6 +248,7 @@ def divide_conquer(method, x, l, c_points, r, color, **kwargs):
         # Process remaining partitions.
         projections = [None]*(num_partitions-1)
         for iteration, idx in enumerate(idx_list[1:]):
+            print(f"Projecting partition {iteration + 2}...")
             partition_plots_path = os.path.join(
                 'figures',
                 partition_plots_directory,
@@ -267,37 +295,37 @@ if __name__ == "__main__":
     np.random.seed(42)
 
     # Set parameters
-    n = 100000
-    l = 10000
-    c_points = 1000
+    n = 10000
+    l = 1000
+    c_points = 100
 
-    method = "isomap"
-    n_neighbors = 10
+    method = DRMethod.Isomap
+    n_neighbors = 8
     n_neighbors_sklearn = int(np.floor(n_neighbors*np.log(np.e + n//l)))
 
     X, color = make_swiss_roll(n_samples=n, random_state=42)
 
     # Apply divide and conquer isomap and compare to sklearn.manifold.Isomap
     start_time = time.time()
-    d_and_c_result = divide_conquer(method="isomap",
+    d_and_c_result = divide_conquer(method=method,
                                     x=X, l=l, c_points=c_points, r=2, color=color, n_neighbors=n_neighbors)
     d_and_c_runtime = time.time() - start_time
 
-    start_time = time.time()
-    #normal_results = isomap(x=X, r=2, n_neighbors=n_neighbors_sklearn)
-    normal_runtime = time.time() - start_time
+    # start_time = time.time()
+    # normal_results = isomap(x=X, r=2, n_neighbors=n_neighbors_sklearn)
+    # normal_runtime = time.time() - start_time
 
-    print(f"D&C runtime: {d_and_c_runtime:.2f} seconds.")
-    print(f"sklearn.manifold.Isomap runtime: {normal_runtime:.2f} seconds.")
+    print(f"D&C runtime: {d_and_c_runtime:.2f} seconds")
+    # print(f"sklearn.manifold.Isomap runtime: {normal_runtime:.2f} seconds.")
 
     #  Plot dat and projection
-    fig = plot_3D_to_2D(color, X, d_and_c_result)
+    fig = plot_3D_to_2D(color, X, d_and_c_result, method)
 
     # sklearn.manifold.Isomap embedding
-    #ax6 = fig.add_subplot(236)
-    #ax6.scatter(normal_results[:, 0], normal_results
+    # ax6 = fig.add_subplot(236)
+    # ax6.scatter(normal_results[:, 0], normal_results
     #            [:, 1], c=color, cmap=plt.cm.Spectral)
-    #ax6.set_title(
+    # ax6.set_title(
     #    f"sklearn Embedding n_neighbors = {n_neighbors_sklearn}")
 
     plot_filename = f'dc_{method}-n{n}-l{l}-c{c_points}-n_neighbors{n_neighbors}'
@@ -305,4 +333,4 @@ if __name__ == "__main__":
         'figures', plot_filename, plot_filename))
     plt.close()
     print(
-        f"Visualization saved as '{os.path.join(plot_filename, plot_filename)}.png'")
+        f"Visualizations saved in '{plot_filename}.png'")

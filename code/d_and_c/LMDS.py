@@ -357,7 +357,7 @@ def stoploss(obj, stressweight=1, structures=None, strucweight=None,
 
 def local_mds(
     dis,
-    theta=[2, 0.5],
+    theta=[10, 0.5],
     type="ratio",
     weightmat=None,
     init=None,
@@ -481,7 +481,7 @@ if __name__ == "__main__":
     # Set random seed for reproducibility
     np.random.seed(42)
 
-    n = 2000
+    n = 1000
 
     X, color = make_swiss_roll(n_samples=n, random_state=42)
 
