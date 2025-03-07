@@ -44,7 +44,7 @@ def generate_cython():
 
 
 def configuration(parent_package='',top_path=None):
-    from numpy.distutils.misc_util import Configuration
+    from numpy.distutils.misc_util import Configuration # type: ignore
     config = Configuration(None, parent_package, top_path)
     config.set_options(ignore_setup_xxx_py=True,
                        assume_default_configuration=True,
@@ -77,7 +77,7 @@ VERSION = version('megaman/__init__.py')
 
 
 def setup_package():
-    from numpy.distutils.core import setup
+    from numpy.distutils.core import setup # type: ignore
 
     old_path = os.getcwd()
     local_path = os.path.dirname(os.path.abspath(sys.argv[0]))
