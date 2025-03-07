@@ -29,3 +29,6 @@ Thumbs.db
 # Python generated files #
 ##########################
 *.pyc
+
+# Figures and results
+figures/
