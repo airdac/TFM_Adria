@@ -63,22 +63,25 @@ def divide_conquer(method, x, l, c_points, r, color, **kwargs):
     x_1 = x[idx_list[0],]
     projection_1 = projection_method(x_1, r, **kwargs)
 
-    # Create directory for visualizations
-    method_str = str(method)
-    partition_plots_directory = f'dc_{method_str}-n{n_row_x}-l{l}-c{c_points}'
-    if 'n_neighbors' in kwargs:
-        partition_plots_directory += f'-n_neighbors{kwargs["n_neighbors"]}'
+    # Create directory for results
+    kwargs_str = [f'{key}_{value}' for key, value in kwargs.items()]
+    results_path = os.path.join('d_and_c',
+                                'results',
+                                str(method),
+                                f'n_{n_row_x}',
+                                f'l_{l}',
+                                f'c_{c_points}',
+                                *kwargs_str
+                                )
 
     # Save first partition visualization
-    partition_plots_filename = f'{partition_plots_directory}-part1'
     plot_3D_to_2D(
         color=color[idx_list[0]],
         x=x_1,
         projection=projection_1,
-        method=method_str,
-        path=os.path.join('figures', partition_plots_directory,
-                          partition_plots_filename),
-        new_directory=os.path.join('figures', partition_plots_directory)
+        method=str(method),
+        path=os.path.join(results_path, 'part1'),
+        empty=True
     )
 
     # Sample anchor points from first partition
@@ -90,11 +93,6 @@ def divide_conquer(method, x, l, c_points, r, color, **kwargs):
     projections = [None] * (num_partitions - 1)
     for iteration, idx in enumerate(idx_list[1:]):
         print(f"Projecting partition {iteration + 2}...")
-        partition_plots_path = os.path.join(
-            'figures',
-            partition_plots_directory,
-            f'{partition_plots_directory}-part{iteration+2}'
-        )
 
         # Get colors for visualization (anchor points + current partition)
         total_color = color[np.concatenate((idx_list[0][sample_1_idx], idx))]
@@ -106,7 +104,8 @@ def divide_conquer(method, x, l, c_points, r, color, **kwargs):
             x_sample_1=x_sample_1,
             r=r,
             original_sample_1=projection_sample_1,
-            partition_plots_path=partition_plots_path,
+            partition_plots_path=os.path.join(
+                results_path, f'part{iteration+2}'),
             color=total_color,
             **kwargs
         )

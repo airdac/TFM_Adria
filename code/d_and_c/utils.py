@@ -1,10 +1,9 @@
 import matplotlib.pyplot as plt
 import os
 import shutil
-import numpy as np
 
 
-def plot_3D_to_2D(color, x, projection, method, path=None, new_directory=None):
+def plot_3D_to_2D(color, x, projection, method, path=None, empty=False):
     """Plot a 3D dataset and its 2D projection."""
     fig = plt.figure(figsize=(14, 8))
 
@@ -34,12 +33,13 @@ def plot_3D_to_2D(color, x, projection, method, path=None, new_directory=None):
 
     plt.tight_layout()
 
-    if new_directory:
-        if os.path.exists(new_directory):
-            shutil.rmtree(new_directory)
-        os.makedirs(new_directory)
-
     if path:
+        if empty:
+            parent_dir = os.path.dirname(path)
+            if os.path.exists(parent_dir):
+                shutil.rmtree(parent_dir)
+            os.makedirs(parent_dir)
+
         plt.savefig(path)
         plt.close()
     else:
