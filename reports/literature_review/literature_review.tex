@@ -444,6 +444,10 @@ if last_partition_sample_size < min_sample_size:
     last_partition_sample_size = n - (l + (p - 1) * (l - c_points))
     \end{minted}
     ensures that \verb|last_partition_size| $\geq$ \verb|min_sample_size|. Therefore, I propose to get the indexes of all parititons except for the first one with \texttt{np.array\_split}. Moreover, \verb|min_sample_size| is controlled by the initial \verb|ValueError| checks, so by changing the third one to \verb|l-c_points| $<$ \verb|r+2| we do not have to worry about \verb|min_sample_size| anymore.
+    \item Improved visualization of whole and partitions projections. Now it is easier to evaluate them.
+    \item Tested Isomap D&C with new visualizations and stored results. Problems seem to come from partitions being too small, since applying Isomap to the Swiss Roll with the same amount of data points as in a partition in the previous experiment provides the same results as the partitions. In particular, this means that Isomap D&C works better with less \verb|n_neighbors| than Isomap
+    \item Written \verb|d_and_c.py|, a generic function to apply D&C to DR methods.
+    \item Translated stops' implementation of LMDS to 
 \end{itemize}
 
 \pagebreak

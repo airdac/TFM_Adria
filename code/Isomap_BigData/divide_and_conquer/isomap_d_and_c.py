@@ -306,10 +306,10 @@ if __name__ == "__main__":
     np.random.seed(42)
 
     # Set parameters
-    n = 100000
-    l = 5000
-    c_points = 500
-    n_neighbors = 9
+    n = 1000
+    l = 1000
+    c_points = 100
+    n_neighbors = 3
     n_neighbors_sklearn = int(np.floor(n_neighbors*np.log(np.e + n//l)))
 
     X, color = make_swiss_roll(n_samples=n, random_state=42)
