@@ -1,15 +1,33 @@
 # ChatGPT translation of the LMDS implementation in the stops R library
 
 import numpy as np
+from typing import Optional, List
 
-# Helper: Frobenius norm
-def enorm(X):
+def enorm(X: np.ndarray) -> float:
+    """
+    Compute the Frobenius norm of matrix X.
+
+    Parameters:
+        X (np.ndarray): Input matrix.
+
+    Returns:
+        float: The Frobenius norm of X.
+    """
     return np.linalg.norm(X, 'fro')
 
-# (Placeholder) Helper: Classical MDS via eigen-decomposition.
 
+def cmds(delta: np.ndarray) -> dict:
+    """
+    Perform classical MDS on the distance matrix.
 
-def cmds(delta):
+    Parameters:
+        delta (np.ndarray): A distance matrix.
+
+    Returns:
+        output (dict): A dictionary containing:
+        "val" - Eigenvalues sorted in descending order.
+        "vec" - Eigenvectors corresponding to the values.
+    """
     # Assume delta is a distance matrix.
     # Compute double-centered matrix B = -0.5 * C * (delta**2) * C, where C = I - 1/n * ones.
     n = delta.shape[0]
@@ -26,7 +44,20 @@ def cmds(delta):
 # (Placeholder) Helper: spp; assume it returns a dict with keys "resmat" and "spp".
 
 
-def spp(delta, confdist, weightmat):
+def spp(delta: np.ndarray, confdist: np.ndarray, weightmat: np.ndarray) -> dict:
+    """
+    Compute a structure preservation measure. (Placeholder implementation)
+
+    Parameters:
+        delta (np.ndarray): The original distance matrix.
+        confdist (np.ndarray): The distance matrix computed from the configuration.
+        weightmat (np.ndarray): A weight matrix.
+
+    Returns:
+        output (dict): A dictionary with keys:
+        "resmat" - Residual matrix (np.ndarray).
+        "spp" - A structure preservation index (value type depends on implementation; here, dummy value 0).
+    """
     # For example purposes, return dummy arrays with correct shape.
     n = delta.shape[0]
     resmat = np.zeros((n, n))
@@ -34,32 +65,34 @@ def spp(delta, confdist, weightmat):
     return {"resmat": resmat, "spp": spp_val}
 
 
-def stoploss(obj, stressweight=1, structures=None, strucweight=None,
-             strucpars=None, stoptype="additive", verbose=0):
+def stoploss(obj: dict,
+             stressweight: float = 1,
+             structures: Optional[List[str]] = None,
+             strucweight: Optional[List[float]] = None,
+             strucpars: Optional[List] = None,
+             stoptype: str = "additive",
+             verbose: int = 0) -> dict:
     """
-    A Python version of the stoploss function.
+    Compute a stop-loss measure for configuration optimization based on stress and structure preservation.
 
-    Parameters
-    ----------
-    obj : dict
-        A dictionary output from lmds containing at least 'stress.m' and 'conf' and 'pars'.
-    stressweight : float, optional
-        Weight for the stress term (default 1).
-    structures : list of str
-        List of structure names.
-    strucweight : list of float, optional
-        Weights for each structure. If None, defaults to a list of -1/len(structures).
-    strucpars : list, optional
-        List of parameters (dictionaries) for each structure; if None, defaults to a list of None.
-    stoptype : str, optional
-        Either "additive" or "multiplicative" (default "additive").
-    verbose : int, optional
-        Verbosity level (default 0).
+    Parameters:
+        obj (dict): A dictionary output from the local MDS function (such as _lmds) containing at least keys 'stress.m', 'conf', and 'pars'.
+        stressweight (float, optional): Weight for the stress term (default is 1).
+        structures (Optional[List[str]]): A list of structure names. Must be provided.
+        strucweight (Optional[List[float]], optional): Weights for each structure. If None, defaults to -1/len(structures).
+        strucpars (Optional[List], optional): Parameters for each structure; if None, defaults to a list of None.
+        stoptype (str, optional): "additive" or "multiplicative" (default "additive").
+        verbose (int, optional): Verbosity level (default 0).
 
-    Returns
-    -------
-    out : dict
-        A dictionary with keys 'stoploss', 'strucindices', 'parameters', and 'theta'.
+    Returns:
+        output (dict): A dictionary with keys:
+            "stoploss" - The computed overall loss.
+            "strucindices" - The computed structure indices.
+            "parameters" - The parameters used.
+            "theta" - The same as parameters.
+    
+    Raises:
+        ValueError: If structures is not provided or if stoptype is neither 'additive' nor 'multiplicative'.
     """
     if structures is None:
         raise ValueError("structures must be provided")

@@ -455,8 +455,14 @@ if last_partition_sample_size < min_sample_size:
 \begin{itemize}
     \item \verb|d_and_c.divide_conquer| now uses enums to specify the DR method.
     \item Improved code structure of \verb|d_and_c.py|: separated methods in proper modules; specified private methods; created \verb|__init__.py|.
-    \item Reviewed methods descriptions. Imroved type specification in descriptions.
-    \item Stored figures and results in subfolders instead of using very long filenames.
+    \item Reviewed methods descriptions and added type specifications.
+    \item Written \verb|examples.example_3D_to_2D|, a testing function for 2D emebeddings of 3D datasets. With respect to previous tests, it:
+    \begin{itemize}
+        \item Stores relevant results in a text file.
+        \item Stores figures and other results in subfolders instead of using very long filenames.
+        \item Adds titles to plots.
+        \item Allows any picture format for plots.
+    \end{itemize}
 \end{itemize}
 
 \pagebreak

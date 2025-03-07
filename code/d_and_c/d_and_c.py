@@ -1,14 +1,37 @@
 import numpy as np
 import os
 
-from .methods import get_method_function
+from .methods import DRMethod, get_method_function
 from .utils import plot_3D_to_2D
 from .private_d_and_c import perform_procrustes, get_partitions_for_divide_conquer
 
 
-def _main_divide_conquer(method, x_filtered, x_sample_1, r, original_sample_1,
-                         partition_plots_path, color, **kwargs):
-    """Process a single partition in the divide and conquer algorithm."""
+def _main_divide_conquer(method: DRMethod,
+                         x_filtered: np.ndarray,
+                         x_sample_1: np.ndarray, 
+                         r: int, 
+                         original_sample_1: np.ndarray,
+                         partition_plots_path: str,
+                         partition_plots_title: str, 
+                         color: np.ndarray, 
+                         **kwargs) -> np.ndarray:
+    """
+    Process a single partition in the divide and conquer algorithm.
+    
+    Parameters:
+        method (DRMethod): Dimensionality reduction method to use
+        x_filtered (np.ndarray): Data points of the current partition.
+        x_sample_1 (np.ndarray): Anchor points sampled from the first partition.
+        r (int): Target dimensionality.
+        original_sample_1 (np.ndarray): Projection of the anchor points from the first partition.
+        partition_plots_path (str): Path to store the partition's visualization.
+        partition_plots_title (str): Title of the partition's visualization.
+        color (np.ndarray): Color information for visualization.
+        kwargs (Any): Additional method-specific parameters.
+    
+    Returns:
+        projection (np.ndarray): The aligned projection of the current partition.
+        """
     projection_method = get_method_function(method)
 
     # Combine anchor points and partition data
@@ -18,8 +41,8 @@ def _main_divide_conquer(method, x_filtered, x_sample_1, r, original_sample_1,
     projection = projection_method(x_join_sample_1, r, **kwargs)
 
     # Visualize results
-    plot_3D_to_2D(color, x_join_sample_1, projection,
-                  method, partition_plots_path)
+    plot_3D_to_2D(x_join_sample_1, projection,
+                  method, partition_plots_title, color, partition_plots_path)
 
     # Extract results and align using Procrustes
     n_sample = x_sample_1.shape[0]
@@ -30,21 +53,29 @@ def _main_divide_conquer(method, x_filtered, x_sample_1, r, original_sample_1,
         projection_sample_1, original_sample_1, projection_partition, translation=False)
 
 
-def divide_conquer(method, x, l, c_points, r, color, **kwargs):
+def divide_conquer(method: DRMethod,
+                   x: np.ndarray,
+                   l: int,
+                   c_points: int,
+                   r: int,
+                   color: np.ndarray,
+                   dataset_name: str,
+                   **kwargs) -> np.ndarray:
     """
-    Apply divide and conquer dimensionality reduction.
+    Apply divide and conquer to a dimensionality reduction method.
 
     Parameters:
-        method: DRMethod - Dimensionality reduction method to use
-        x: np.ndarray - Input data matrix (n_samples, n_features)
-        l: int - Maximum partition size
-        c_points: int - Number of common/anchor points
-        r: int - Target dimensionality
-        color: np.ndarray - Colors for visualization
-        **kwargs: Additional method-specific parameters
+        method (DRMethod): Dimensionality reduction method to use.
+        x (np.ndarray): Input data matrix.
+        l (int): Partition size.
+        c_points (int): Number of common points.
+        r (int): Target dimensionality.
+        color (np.ndarray): Colors for visualization.
+        dataset_name (str): Name of the dataset (used in results folder naming).
+        kwargs (Any): Additional method-specific parameters.
 
     Returns:
-        np.ndarray - Low-dimensional representation of the data
+        projection (np.ndarray): Low-dimensional representation of the data.
     """
     projection_method = get_method_function(method)
     n_row_x = x.shape[0]
@@ -67,20 +98,23 @@ def divide_conquer(method, x, l, c_points, r, color, **kwargs):
     kwargs_str = [f'{key}_{value}' for key, value in kwargs.items()]
     results_path = os.path.join('d_and_c',
                                 'results',
-                                str(method),
+                                dataset_name,
                                 f'n_{n_row_x}',
                                 f'l_{l}',
                                 f'c_{c_points}',
+                                str(method),
                                 *kwargs_str,
                                 "d_and_c_partition_plots"
                                 )
 
     # Save first partition visualization
+    fig_title = f'D&C {method} on {dataset_name} with n={n_row_x}, l={l}, c_points={c_points}, {", ".join([f'{key}={value}' for key, value in kwargs.items()])}'
     plot_3D_to_2D(
-        color=color[idx_list[0]],
         x=x_1,
         projection=projection_1,
         method=str(method),
+        title=fig_title + '. Part 1',
+        color=color[idx_list[0]],
         path=os.path.join(results_path, 'part1'),
         empty=True
     )
@@ -107,6 +141,7 @@ def divide_conquer(method, x, l, c_points, r, color, **kwargs):
             original_sample_1=projection_sample_1,
             partition_plots_path=os.path.join(
                 results_path, f'part{iteration+2}'),
+            partition_plots_title=fig_title + f'. Part {iteration + 2}',
             color=total_color,
             **kwargs
         )
