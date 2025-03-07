@@ -3,7 +3,7 @@ import os
 import shutil
 
 
-def plot_3D_to_2D(color, x, projection, method, path=None, empty=False):
+def plot_3D_to_2D(color, x, projection, method, path=None, empty=False, format="png"):
     """Plot a 3D dataset and its 2D projection."""
     fig = plt.figure(figsize=(14, 8))
 
@@ -39,8 +39,9 @@ def plot_3D_to_2D(color, x, projection, method, path=None, empty=False):
             if os.path.exists(parent_dir):
                 shutil.rmtree(parent_dir)
             os.makedirs(parent_dir)
-
-        plt.savefig(path)
+        if format == 'svg':
+            path = path + '.svg'
+        plt.savefig(path, format=format)
         plt.close()
     else:
         return fig

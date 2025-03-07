@@ -71,7 +71,8 @@ def divide_conquer(method, x, l, c_points, r, color, **kwargs):
                                 f'n_{n_row_x}',
                                 f'l_{l}',
                                 f'c_{c_points}',
-                                *kwargs_str
+                                *kwargs_str,
+                                "d_and_c_partition_plots"
                                 )
 
     # Save first partition visualization
