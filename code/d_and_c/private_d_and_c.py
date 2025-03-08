@@ -1,5 +1,61 @@
 import numpy as np
 from typing import Tuple, List
+from numba import njit, prange
+
+
+@njit(parallel=True)
+def center_and_rotate(combined_projection: np.ndarray) -> np.ndarray:
+    """
+    Center a matrix and rotate it to align with its principal components.
+
+    Parameters:
+        combined_projection (np.ndarray): A 2D array where each row is a data point and each column is a feature.
+
+    Returns:
+        transformed_matrix (np.ndarray): The transformed data matrix after centering and rotation.
+    """
+    n_samples, n_features = combined_projection.shape
+
+    # Compute column means in parallel.
+    mean = np.empty(n_features)
+    for j in prange(n_features):
+        s = 0.0
+        for i in range(n_samples):
+            s += combined_projection[i, j]
+        mean[j] = s / n_samples
+
+    # Subtract mean from each row in parallel.
+    centered = np.empty_like(combined_projection)
+    for i in prange(n_samples):
+        for j in range(n_features):
+            centered[i, j] = combined_projection[i, j] - mean[j]
+
+    # Compute covariance matrix in parallel over rows.
+    cov = np.empty((n_features, n_features))
+    for i in prange(n_features):
+        for j in range(n_features):
+            s = 0.0
+            for k in range(n_samples):
+                s += centered[k, i] * centered[k, j]
+            cov[i, j] = s / (n_samples - 1)
+
+    # Eigen-decomposition (cannot be parallelized by Numba).
+    eigvals, eigvecs = np.linalg.eigh(cov)
+
+    # Sort eigenvalues in descending order and reorder eigenvectors.
+    idx = np.argsort(eigvals)[::-1]
+    sorted_eigvecs = eigvecs[:, idx]
+
+    # Project the centered data onto the eigenvectors.
+    result = np.empty_like(centered)
+    for i in prange(n_samples):
+        for j in range(n_features):
+            s = 0.0
+            for k in range(n_features):
+                s += centered[i, k] * sorted_eigvecs[k, j]
+            result[i, j] = s
+
+    return result
 
 
 def _get_procrustes_parameters(x: np.ndarray, target: np.ndarray, translation: bool = False) -> Tuple[np.ndarray, np.ndarray]:
