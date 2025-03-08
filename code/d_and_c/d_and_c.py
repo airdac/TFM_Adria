@@ -3,21 +3,21 @@ import os
 
 from .methods import DRMethod, get_method_function
 from .utils import plot_3D_to_2D
-from .private_d_and_c import perform_procrustes, get_partitions_for_divide_conquer
+from .private_d_and_c import perform_procrustes, get_partitions_for_divide_conquer, center_and_rotate
 
 
 def _main_divide_conquer(method: DRMethod,
                          x_filtered: np.ndarray,
-                         x_sample_1: np.ndarray, 
-                         r: int, 
+                         x_sample_1: np.ndarray,
+                         r: int,
                          original_sample_1: np.ndarray,
                          partition_plots_path: str,
-                         partition_plots_title: str, 
-                         color: np.ndarray, 
+                         partition_plots_title: str,
+                         color: np.ndarray,
                          **kwargs) -> np.ndarray:
     """
     Process a single partition in the divide and conquer algorithm.
-    
+
     Parameters:
         method (DRMethod): Dimensionality reduction method to use
         x_filtered (np.ndarray): Data points of the current partition.
@@ -28,7 +28,7 @@ def _main_divide_conquer(method: DRMethod,
         partition_plots_title (str): Title of the partition's visualization.
         color (np.ndarray): Color information for visualization.
         kwargs (Any): Additional method-specific parameters.
-    
+
     Returns:
         projection (np.ndarray): The aligned projection of the current partition.
         """
@@ -108,7 +108,8 @@ def divide_conquer(method: DRMethod,
                                 )
 
     # Save first partition visualization
-    fig_title = f'D&C {method} on {dataset_name} with n={n_row_x}, l={l}, c_points={c_points}, {", ".join([f'{key}={value}' for key, value in kwargs.items()])}'
+    fig_title = f'D&C {method} on {dataset_name} with n={n_row_x}, l={l}, c_points={c_points}, {", ".join([f'{key}={value}' for key, value in kwargs.items(
+    )])}'
     plot_3D_to_2D(
         x=x_1,
         projection=projection_1,
@@ -155,12 +156,16 @@ def divide_conquer(method: DRMethod,
     order = np.argsort(order_idx)
     combined_projection = combined_projection[order, :]
 
-    # Center and rotate for maximum variance
-    combined_projection = combined_projection - \
-        np.mean(combined_projection, axis=0)
-    cov_matrix = np.cov(combined_projection, rowvar=False)
-    eigenvals, eigenvecs = np.linalg.eigh(cov_matrix)
-    idx_sort = np.argsort(eigenvals)[::-1]
-    eigenvecs = eigenvecs[:, idx_sort]
+    # Instead of using NumPy calls for centering, covariance, eigen-decomposition,
+    # we pass the combined projection to our optimized center_and_rotate function.
+    return center_and_rotate(combined_projection)
 
-    return combined_projection @ eigenvecs
+    # Center and rotate for maximum variance
+    # combined_projection = combined_projection - \
+    #     np.mean(combined_projection, axis=0)
+    # cov_matrix = np.cov(combined_projection, rowvar=False)
+    # eigenvals, eigenvecs = np.linalg.eigh(cov_matrix)
+    # idx_sort = np.argsort(eigenvals)[::-1]
+    # eigenvecs = eigenvecs[:, idx_sort]
+
+    # return combined_projection @ eigenvecs

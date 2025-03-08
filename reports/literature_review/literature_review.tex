@@ -463,6 +463,10 @@ if last_partition_sample_size < min_sample_size:
         \item Adds titles to plots.
         \item Allows any picture format for plots.
     \end{itemize}
+    \item Applied \texttt{Numba}'s \verb|@jit| decorator to some functions to try to accelerate them by parallelizing numeric computations on the CPU:
+    \begin{itemize}
+        \item On \verb|divida_conquer|: tried to optimized the final centering and alignment with principal components, but performance decreased.
+    \end{itemize}
 \end{itemize}
 
 \pagebreak
