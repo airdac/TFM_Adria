@@ -158,14 +158,14 @@ def divide_conquer(method: DRMethod,
 
     # Instead of using NumPy calls for centering, covariance, eigen-decomposition,
     # we pass the combined projection to our optimized center_and_rotate function.
-    return center_and_rotate(combined_projection)
+    #return center_and_rotate(combined_projection)
 
     # Center and rotate for maximum variance
-    # combined_projection = combined_projection - \
-    #     np.mean(combined_projection, axis=0)
-    # cov_matrix = np.cov(combined_projection, rowvar=False)
-    # eigenvals, eigenvecs = np.linalg.eigh(cov_matrix)
-    # idx_sort = np.argsort(eigenvals)[::-1]
-    # eigenvecs = eigenvecs[:, idx_sort]
+    combined_projection = combined_projection - \
+        np.mean(combined_projection, axis=0)
+    cov_matrix = np.cov(combined_projection, rowvar=False)
+    eigenvals, eigenvecs = np.linalg.eigh(cov_matrix)
+    idx_sort = np.argsort(eigenvals)[::-1]
+    eigenvecs = eigenvecs[:, idx_sort]
 
-    # return combined_projection @ eigenvecs
+    return combined_projection @ eigenvecs
