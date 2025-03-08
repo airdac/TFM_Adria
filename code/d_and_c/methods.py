@@ -18,7 +18,7 @@ class DRMethod(Enum):
 
 def get_method_function(method: DRMethod) -> Callable:
     """Returns the function for the specified DR method.
-    
+
     Raises:
         ValueError: If the specified method is not supported."""
     method_map = {
@@ -77,12 +77,12 @@ def _lmds(delta: np.ndarray,
         principal (bool, optional): If True, project to principal components (default False).
         normconf (bool, optional): If True, normalize final configuration (default False).
         kwargs (Any): Additional keyword arguments.
-        
+
     Returns:
         output (dict): A dictionary containing fields such as 'delta', 'dhat', 'confdist', 'conf',
             'stress', 'stress.m', 'stress.r', 'spp', 'ndim', 'weightmat', 'resmat', 'rss',
             'init', 'model', 'niter', 'nobj', 'type', 'parameters', 'pars', 'theta', 'k', and 'tau'.
-    
+
     Raises:
         ValueError: If the delta matrix is not symmetric or if ndim > n - 1.
     """
@@ -281,7 +281,7 @@ def local_mds(
         verbose (int, optional): Verbosity level (default: 0).
         stoptype (str, optional): Either "additive" or "multiplicative" (default "additive").
         kwargs (Any): Additional keyword arguments passed to _lmds.
-        
+
     Returns:
         output (dict): Dictionary with keys: 'stress', 'stress.m', 'stoploss', 'strucindices', 'parameters', 'fit', and 'stopobj'.
     """
