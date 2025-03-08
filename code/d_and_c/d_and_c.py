@@ -3,7 +3,7 @@ import os
 
 from .methods import DRMethod, get_method_function
 from .utils import plot_3D_to_2D
-from .private_d_and_c import perform_procrustes, get_partitions_for_divide_conquer, center_and_rotate
+from .private_d_and_c import perform_procrustes, get_partitions_for_divide_conquer
 
 
 def _main_divide_conquer(method: DRMethod,
@@ -155,10 +155,6 @@ def divide_conquer(method: DRMethod,
     order_idx = np.concatenate(idx_list)
     order = np.argsort(order_idx)
     combined_projection = combined_projection[order, :]
-
-    # Instead of using NumPy calls for centering, covariance, eigen-decomposition,
-    # we pass the combined projection to our optimized center_and_rotate function.
-    #return center_and_rotate(combined_projection)
 
     # Center and rotate for maximum variance
     combined_projection = combined_projection - \
