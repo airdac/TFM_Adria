@@ -20,22 +20,22 @@ def center_and_rotate(combined_projection: np.ndarray) -> np.ndarray:
     mean = np.empty(n_features)
     for j in prange(n_features):
         s = 0.0
-        for i in range(n_samples):
+        for i in prange(n_samples):
             s += combined_projection[i, j]
         mean[j] = s / n_samples
 
     # Subtract mean from each row in parallel.
     centered = np.empty_like(combined_projection)
     for i in prange(n_samples):
-        for j in range(n_features):
+        for j in prange(n_features):
             centered[i, j] = combined_projection[i, j] - mean[j]
 
     # Compute covariance matrix in parallel over rows.
     cov = np.empty((n_features, n_features))
     for i in prange(n_features):
-        for j in range(n_features):
+        for j in prange(n_features):
             s = 0.0
-            for k in range(n_samples):
+            for k in prange(n_samples):
                 s += centered[k, i] * centered[k, j]
             cov[i, j] = s / (n_samples - 1)
 
@@ -49,15 +49,15 @@ def center_and_rotate(combined_projection: np.ndarray) -> np.ndarray:
     # Project the centered data onto the eigenvectors.
     result = np.empty_like(centered)
     for i in prange(n_samples):
-        for j in range(n_features):
+        for j in prange(n_features):
             s = 0.0
-            for k in range(n_features):
+            for k in prange(n_features):
                 s += centered[i, k] * sorted_eigvecs[k, j]
             result[i, j] = s
 
     return result
 
-
+@njit
 def _get_procrustes_parameters(x: np.ndarray, target: np.ndarray, translation: bool = False) -> Tuple[np.ndarray, np.ndarray]:
     """
     Compute Procrustes transformation to align x to target.
@@ -70,19 +70,26 @@ def _get_procrustes_parameters(x: np.ndarray, target: np.ndarray, translation: b
     Returns:
         output (Tuple[np.ndarray, np.ndarray]): A tuple containing the rotation matrix and the translation vector.
     """
+    # Convert inputs to contiguous arrays for faster matrix multiplications.
+    x_contig = np.ascontiguousarray(x)
+    target_contig = np.ascontiguousarray(target)
+
     if translation:
-        m_target = np.mean(target, axis=0)
-        m_x = np.mean(x, axis=0)
-        c_target = target - m_target
-        M = c_target.T @ x
+        # Manual mean computations.
+        m_target = target_contig.sum(0) / target_contig.shape[0]
+        m_x = x_contig.sum(0) / x_contig.shape[0]
+        c_target = target_contig - m_target
+        # Ensure the transposed array is contiguous.
+        M = np.ascontiguousarray(c_target.T) @ x_contig
         U, _, Vt = np.linalg.svd(M)
         rotation_matrix = Vt.T @ U.T
         translation_vector = m_target - rotation_matrix.T @ m_x
     else:
-        M = target.T @ x
+        # Ensure the transposed array is contiguous.
+        M = np.ascontiguousarray(target_contig.T) @ x_contig
         U, _, Vt = np.linalg.svd(M)
         rotation_matrix = Vt.T @ U.T
-        translation_vector = np.zeros(x.shape[1])
+        translation_vector = np.zeros(x_contig.shape[1])
     return rotation_matrix, translation_vector
 
 
