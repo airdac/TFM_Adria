@@ -47,7 +47,8 @@ def example_3D_to_2D(x: np.ndarray,
                                                 )
     print(f"D&C runtime: {d_and_c_runtime:.2f} seconds")
 
-    fig_title = f'D&C vs bare {method} on {dataset_name} with n={n}, l={l}, c_points={c_points}. In D&C {method}, {", ".join([f'{key}={value}' for key, value in method_arguments.items()])}'
+    fig_title = f'D&C vs bare {method} on {dataset_name} with n={n}, l={l}, c_points={c_points}. In D&C {method}, {", ".join([f'{key}={value}' for key, value in method_arguments.items(
+    )])}'
     fig = plot_3D_to_2D(X, d_and_c_result, str(method), fig_title, color)
 
     # Run bare method
@@ -87,11 +88,11 @@ def example_3D_to_2D(x: np.ndarray,
     l={l}
     c_points={c_points}
 In D&C {method}:
-    {"\t\n".join([f'{key}={value}' for key,
+    {"\n\t".join([f'{key}={value}' for key,
                   value in method_arguments.items()])}
 In bare {method}:
-    {"\t\n".join([f'{key}={value}' for key,
-                                    value in bare_method_arguments.items()])}
+    {"\n\t".join([f'{key}={value}' for key,
+                      value in bare_method_arguments.items()])}
 
 """
 
@@ -109,12 +110,15 @@ if __name__ == "__main__":
     n = 3000
     l = 1000
     c_points = 100
-    method = DRMethod.Isomap
+    method = DRMethod.LocalMDS
     method_arguments = {
-        "n_neighbors": 7
+        "k": 10,
+        "tau": 1.
     }
+
     bare_method_arguments = {
-        "n_neighbors": int(np.floor(method_arguments["n_neighbors"]*np.log(np.e + n//l)))
+        "k": 10,
+        "tau": 1.
     }
 
     # Generate data
@@ -122,4 +126,4 @@ if __name__ == "__main__":
     X, color = make_swiss_roll(n_samples=n, random_state=42)
 
     example_3D_to_2D(X, l, c_points, method,
-                       method_arguments, bare_method_arguments, 'swiss_roll', color)
+                     method_arguments, bare_method_arguments, 'swiss_roll', color)

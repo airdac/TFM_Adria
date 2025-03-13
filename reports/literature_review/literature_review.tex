@@ -338,6 +338,63 @@ TriMAP, which claim to handle larger data sets than traditional approaches. To s
 
 
 \pagebreak
+\section{Local Multidimensional Scaling for Nonlinear Dimension Reduction, Graph Drawing, and Proximity Analysis \texorpdfstring{\cite{Chen01032009}}{}}
+\label{sec:LocalMDS}
+
+\subsection{Abstract}
+
+\paragraph{Original:} In the past decade there has been a resurgence of interest in nonlinear dimension reduction. Among new proposals are "Local Linear Embedding", "Isomap", and Kernel Principal Components Analysis which all construct global low-dimensional embeddings from local affine or metric information. We introduce a competing method called "Local Multidimensional Scaling" (LMDS). Like LLE, Isomap, and KPCA, LMDS constructs its global embedding from local information, but it uses instead a combination of MDS and "force-directed" graph drawing. We apply the force paradigm to create localized versions of MDS stress functions with a tuning parameter to adjust the strength of nonlocal repulsive forces. We solve the problem of tuning parameter selection with a meta-criterion that measures how well the sets of K-nearest neighbors agree between the data and the embedding. Tuned LMDS seems to be able to outperform MDS, PCA, LLE, Isomap, and KPCA, as illustrated with two well-known image datasets. The meta-criterion can also be used in a pointwise version as a diagnostic tool for measuring the local adequacy of embeddings and thereby detect local problems in dimension reductions.
+
+\paragraph{Apple Intelligence summary:} Tuned LMDS outperforms other dimension reduction methods on image datasets.  LC meta-criteria measure agreement between data and embedding, aiding tuning and detecting local problems.
+
+\subsection{Key Points}
+
+\begin{itemize}
+    \item The stability of optimal MDS configurations stems from the large dissimilarities, and localized MDS did not appear to be a viable approach. \item In view of MDS' reliance on large distances, Isomap may be driven mostly by the large but noisy shortest-path imputations, whereas the local distances play only a minor role.
+    \item Isomap suffers from more variance, LLE and LMDS from more bias.
+    \item LC meta-criteria are proposed and used to tune parameters and to produce diagnostic plots. However, they are not smooth and statistically unstable.
+    \item \textbf{LMDS}: given a distance matrix $D_{i,j}$, let $\mathcal{N}$ be a symmetrized k-NN graph: $(i,j)\in\mathcal{N}$ if $j$ is among the $K$ nearest neighbors of $i$ or viceversa. LMDS looks for a low-dimensional configuration $\mathbf{x}_1, \dots, \mathbf{x}_N \in \mathbb{R}^d$ that minimizes
+    $$
+    \operatorname{LMDS}_{\mathcal{N}}^D\left(\mathbf{x}_1, \ldots, \mathbf{x}_N\right)= \sum_{(i, j) \in N}\left(D_{i, j}-\left\|\mathbf{x}_i-\mathbf{x}_j\right\|\right)^2 - t \sum_{(i, j) \notin N}\left\|\mathbf{x}_i-\mathbf{x}_j\right\|,
+    $$
+    with $t=\frac{|\mathcal{N}|}{\left|\mathcal{N}^C\right|} \cdot \operatorname{median}_{\mathcal{N}}\left(D_{i, j}\right) \cdot \tau$.
+
+    The first term is the "local stress" and the segond one is the "repulsion".
+
+    A good strategy for optimization is to start with a large value such as $\tau = 1$ to obtain a stable configuration, and lower $\tau$ successively as low as 0.01, using previous configurations as initializations for smaller values of $\tau$.
+
+    \item \textbf{LCMC (Local Continuity Meta-Criteria)}: For case $i$ we form the index set $\mathcal{N}_{K^{\prime}}^D(i)=\left\{j_1, \ldots, j_{K^{\prime}}\right\}$ of $K^{\prime}$-NNs with regard to $D_{i, j}$, and $\mathcal{N}_{K^{\prime}}^X(i)=\left\{k_1, \ldots, k_{K^{\prime}}\right\}$ of $K^{\prime}-$ NNs with regard to $\left\|\mathbf{x}_i-\mathbf{x}_k\right\|$ (excluding $i$ ). The overlap is measured pointwise and globally by
+    $$
+    N_{K^{\prime}}(i)=\left|\mathcal{N}_{K^{\prime}}^D(i) \cap \mathcal{N}_{K^{\prime}}^X(i)\right|, \quad N_{K^{\prime}}=\frac{1}{N} \sum_{i=1}^N N_{K^{\prime}}(i).
+    $$
+
+    Maximum faithfulness is achieved when $N_{K'} = K'$, so we normalize:
+    $$
+    M_{K'} = \frac{N_{K'}}{K'}.
+    $$
+
+    If there is complete absence of association between the data and the configuration, the local overlap $N_{K'}(i)$ is random and can be modeled by a hypergeometric with $\mathbb{E}[N_{K'}] = \frac{K'^2}{N-1}$. Hence, we define the \textit{adjusted LC meta-criteria} as:
+    $$
+    M_{K^{\prime}}^{\mathrm{adj}}=M_{K^{\prime}}-\frac{K^{\prime}}{N-1} .
+    $$
+
+    \item Selection of tuning parameters:
+    \begin{itemize}
+        \item $\mathbf{\tau}$: Given $K$ for LMDS$_{K,\tau}$ and $K'$ for $M_{K'}$, we can optimize the repulsion weight $\tau$ with a grid search. That is, for a set of $\tau$ values, we perform LMDS$_{K,\tau}$ and compute $M_{K'}$ on the obtained embeddings. Then, we choose the value for $\tau$ that maximizes $M_{K'}$.
+        \item $K$: there are two strategies:
+        \begin{itemize}
+            \item $K'=K$: For fixed $K$ minimize $\operatorname{LMDS}_{K, \tau}$ for various values of $\tau$; pick the $\tau$ whose configuration maximizes $M_{K^{\prime}}^{\text {adj }}$; repeat for various values of $K=K^{\prime}$ and pick that $K=K^{\prime}$ which maximizes the trace.
+            \item $K^{\prime}, K$ decoupled: It is desirable that $K$ is not just $M_{K^{\prime}}^{\text {adj }}$-optimal for $K^{\prime}=K$, but for a range of values $K^{\prime}$. To find out, one may plot traces $K^{\prime} \mapsto M_{K^{\prime}}^{\text {adj }}$ one for each value of $K$.
+        \end{itemize}
+    \end{itemize}
+
+    \item The LC meta-criteria are doubly "non-metric" in the sense that they only use rank information of both $\{D_{i,j}\}$ and $\{\lVert x_i-x_j \rVert\}$.
+    \item The Achilles heel of methods considered here is the complete reliance on distance data or dissimilarities, which holds both for the LMDS fitting criterion and the LC meta-criteria. This means that users might have to choose specific distances/dissimilarities for their problems.
+    
+\end{itemize}
+
+
+\pagebreak
 \section{Classical MDS benchmarked in R}
 
 In this section we aim to test the limits of \texttt{Rdimtools::do.mds}. Specifically, we will run Rdimtools's implementation of Classical MDS on datasets of increasing number of observations and dimensionality in order to test its limitations as well as its complexity. We will also compare it with \texttt{dimRed::embed(.method="MDS", ...)}.
@@ -463,7 +520,7 @@ if last_partition_sample_size < min_sample_size:
         \item Adds titles to plots.
         \item Allows any picture format for plots.
     \end{itemize}
-    \item Tried to apply \texttt{Numba}'s \verb|@jit| decorator to some functions to try to accelerate them by parallelizing numeric computations on the CPU. Performance was tested both on a MacBook Pro with the M3 ARM chip and on a Windows system with an NVIDIA GPU, but it decreased in all cases...:
+    \item Tried to apply \texttt{Numba}'s \verb|@jit| decorator to some functions in order to accelerate them by parallelizing numeric computations on the CPU. Performance was tested both on a MacBook Pro with the M3 ARM chip and on a Windows system with an NVIDIA GPU, but it decreased in all cases...:
     \begin{itemize}
         \item On \verb|d_and_c.divide_conquer|: tried to optimized the final centering and alignment with principal components:
         \begin{minted}[frame=lines,fontsize=\small]{python}
@@ -525,7 +582,10 @@ def center_and_rotate(combined_projection: np.ndarray) -> np.ndarray:
         \end{minted}
         \item \verb|private_d_and_c._get_procrustes_parameters|
         \item \verb|private_d_and_c.perform_procrustes|
+        \item \verb|methods.isomap|
     \end{itemize}
+
+    \item Fixed LMDS implementation. Why is $cc=\frac{2 |\mathcal{N}|-N}{N^2}$ instead of $cc=\frac{|\mathcal{N}|}{\frac{N(N-1)}{2}-|\mathcal{N}|}$?
 \end{itemize}
 
 \pagebreak
