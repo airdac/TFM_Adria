@@ -585,7 +585,8 @@ def center_and_rotate(combined_projection: np.ndarray) -> np.ndarray:
         \item \verb|methods.isomap|
     \end{itemize}
 
-    \item Fixed LMDS implementation. Why is $cc=\frac{2 |\mathcal{N}|-N}{N^2}$ instead of $cc=\frac{|\mathcal{N}|}{\frac{N(N-1)}{2}-|\mathcal{N}|}$?
+    \item Simplified \texttt{stops}'s Local MDS implementation. Why is $cc=\frac{2 |\mathcal{N}|-N}{N^2}$ instead of $cc=\frac{|\mathcal{N}|}{\frac{N(N-1)}{2}-|\mathcal{N}|}$? There are other steps I do not comprehend well. Moreover, \texttt{stops} calls \texttt{smacofx:lmds} and adds diagnostic metrics. \texttt{smacofx} also uses its own optimization framework, which is not straightforward.
+    \item Therefore, I am trying to write my own Local MDS implementation on Python with \texttt{cvxpy}. Nonetheless, at the moment it does not work. I am figuring out how to solve an optimization problem with so many variables as stress minimization.
 \end{itemize}
 
 \pagebreak
