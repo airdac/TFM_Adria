@@ -16,7 +16,7 @@ def benchmark(func: Callable, *args, **kwargs) -> Tuple[Any, float]:
         **kwargs (Any): Keyword arguments to pass to func.
 
     Returns:
-        Tuple[Any, float]: A tuple where the first element is the result of func and the second element is the elapsed time in seconds.
+        output (Tuple[Any, float]): A tuple where the first element is the result of func and the second element is the elapsed time in seconds.
     """
     start = time.perf_counter()
     result = func(*args, **kwargs)

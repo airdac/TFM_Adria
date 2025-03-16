@@ -1,5 +1,7 @@
 import numpy as np
 import os
+from typing import Optional
+from concurrent.futures import ProcessPoolExecutor
 
 from .methods import DRMethod, get_method_function
 from .utils import plot_3D_to_2D
@@ -11,9 +13,10 @@ def _main_divide_conquer(method: DRMethod,
                          x_sample_1: np.ndarray,
                          r: int,
                          original_sample_1: np.ndarray,
-                         partition_plots_path: str,
-                         partition_plots_title: str,
-                         color: np.ndarray,
+                         plot: Optional[bool] = True,
+                         partition_plots_path: Optional[str] = None,
+                         partition_plots_title: Optional[str] = None,
+                         color: Optional[np.ndarray] = None,
                          **kwargs) -> np.ndarray:
     """
     Process a single partition in the divide and conquer algorithm.
@@ -41,8 +44,9 @@ def _main_divide_conquer(method: DRMethod,
     projection = projection_method(x_join_sample_1, r, **kwargs)
 
     # Visualize results
-    plot_3D_to_2D(x_join_sample_1, projection,
-                  method, partition_plots_title, color, partition_plots_path)
+    if plot:
+        plot_3D_to_2D(x_join_sample_1, projection,
+                    method, partition_plots_title, color, partition_plots_path)
 
     # Extract results and align using Procrustes
     n_sample = x_sample_1.shape[0]
@@ -58,8 +62,10 @@ def divide_conquer(method: DRMethod,
                    l: int,
                    c_points: int,
                    r: int,
-                   color: np.ndarray,
-                   dataset_name: str,
+                   parallel: Optional[bool] = False,
+                   plot: Optional[bool] = True,
+                   color: Optional[np.ndarray] = None,
+                   dataset_name: Optional[str] = None,
                    **kwargs) -> np.ndarray:
     """
     Apply divide and conquer to a dimensionality reduction method.
@@ -94,31 +100,32 @@ def divide_conquer(method: DRMethod,
     x_1 = x[idx_list[0],]
     projection_1 = projection_method(x_1, r, **kwargs)
 
-    # Create directory for results
-    kwargs_str = [f'{key}_{value}' for key, value in kwargs.items()]
-    results_path = os.path.join('d_and_c',
-                                'results',
-                                dataset_name,
-                                f'n_{n_row_x}',
-                                f'l_{l}',
-                                f'c_{c_points}',
-                                str(method),
-                                *kwargs_str,
-                                "d_and_c_partition_plots"
-                                )
+    if plot:
+        # Create directory for results
+        kwargs_str = [f'{key}_{value}' for key, value in kwargs.items()]
+        results_path = os.path.join('d_and_c',
+                                    'results',
+                                    dataset_name,
+                                    f'n_{n_row_x}',
+                                    f'l_{l}',
+                                    f'c_{c_points}',
+                                    str(method),
+                                    *kwargs_str,
+                                    "d_and_c_partition_plots"
+                                    )
 
-    # Save first partition visualization
-    fig_title = f'D&C {method} on {dataset_name} with n={n_row_x}, l={l}, c_points={c_points}, {", ".join([f'{key}={value}' for key, value in kwargs.items(
-    )])}'
-    plot_3D_to_2D(
-        x=x_1,
-        projection=projection_1,
-        method=str(method),
-        title=fig_title + '. Part 1',
-        color=color[idx_list[0]],
-        path=os.path.join(results_path, 'part1'),
-        empty=True
-    )
+         # Save first partition visualization
+        fig_title = f'D&C {method} on {dataset_name} with n={n_row_x}, l={l}, c_points={c_points}, {", ".join([f'{key}={value}' for key, value in kwargs.items(
+        )])}'
+        plot_3D_to_2D(
+            x=x_1,
+            projection=projection_1,
+            method=str(method),
+            title=fig_title + '. Part 1',
+            color=color[idx_list[0]],
+            path=os.path.join(results_path, 'part1'),
+            empty=True
+        )
 
     # Sample anchor points from first partition
     sample_1_idx = np.random.choice(length_1, size=c_points, replace=False)
@@ -126,26 +133,51 @@ def divide_conquer(method: DRMethod,
     projection_sample_1 = projection_1[sample_1_idx, :]
 
     # Process remaining partitions
-    projections = [None] * (num_partitions - 1)
-    for iteration, idx in enumerate(idx_list[1:]):
-        print(f"Projecting partition {iteration + 2}...")
+    if parallel:
+        # Build list of arguments: enumerate over partitions 2..num_partitions
+        args_list = list(enumerate(idx_list[1:]))
+        with ProcessPoolExecutor() as executor:
+            projections = list(executor.map(
+                lambda tup: _main_divide_conquer(
+                    method=method,
+                    x_filtered=x[tup[1], :],
+                    x_sample_1=x_sample_1,
+                    r=r,
+                    original_sample_1=projection_sample_1,
+                    plot=plot,
+                    partition_plots_path=os.path.join(
+                        results_path, f'part{tup[0] + 2}'),
+                    partition_plots_title=fig_title + f'. Part {tup[0] + 2}',
+                    color=color[np.concatenate(
+                        (idx_list[0][sample_1_idx], tup[1]))],
+                    **kwargs
+                ),
+                args_list
+            ))
 
-        # Get colors for visualization (anchor points + current partition)
-        total_color = color[np.concatenate((idx_list[0][sample_1_idx], idx))]
+    else:
+        projections = [None] * (num_partitions - 1)
+        for iteration, idx in enumerate(idx_list[1:]):
+            print(f"Projecting partition {iteration + 2}...")
 
-        # Process the partition
-        projections[iteration] = _main_divide_conquer(
-            method=method,
-            x_filtered=x[idx, :],
-            x_sample_1=x_sample_1,
-            r=r,
-            original_sample_1=projection_sample_1,
-            partition_plots_path=os.path.join(
-                results_path, f'part{iteration+2}'),
-            partition_plots_title=fig_title + f'. Part {iteration + 2}',
-            color=total_color,
-            **kwargs
-        )
+            if plot:
+                # Get colors for visualization (anchor points + current partition)
+                total_color = color[np.concatenate((idx_list[0][sample_1_idx], idx))]
+
+            # Process the partition
+            projections[iteration] = _main_divide_conquer(
+                method=method,
+                x_filtered=x[idx, :],
+                x_sample_1=x_sample_1,
+                r=r,
+                original_sample_1=projection_sample_1,
+                plot=plot,
+                partition_plots_path=os.path.join(
+                    results_path, f'part{iteration+2}'),
+                partition_plots_title=fig_title + f'. Part {iteration + 2}',
+                color=total_color,
+                **kwargs
+            )
 
     # Combine all projections
     all_projections = [projection_1] + projections

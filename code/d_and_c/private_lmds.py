@@ -67,35 +67,35 @@ def lmds(D: np.ndarray,
     # Define the optimization variable and set its initial value
     X = cp.Variable((n, r), value=init)
 
-    # # Vectorized computation of the pairwise distances
-    # # Compute squared norms of rows (n x 1)
-    # X_norm_sq = X_norm_sq = cp.sum(cp.square(X), axis=1)
-    # # Build pairwise squared distance matrix using broadcasts and matrix multiplication.
-    # X_diff_sq = cp.reshape(X_norm_sq, (n, 1)) + \
-    #     cp.reshape(X_norm_sq, (1, n)) - 2 * cp.matmul(X, X.T)
-    # # Compute pairwise distances (ensure nonnegative values with cp.pos)
-    # X_diff = cp.sqrt(cp.pos(X_diff_sq))
+    # Vectorized computation of the pairwise distances
+    # Compute squared norms of rows (n x 1)
+    X_norm_sq = X_norm_sq = cp.sum(cp.square(X), axis=1)
+    # Build pairwise squared distance matrix using broadcasts and matrix multiplication.
+    X_diff_sq = cp.reshape(X_norm_sq, (n, 1)) + \
+        cp.reshape(X_norm_sq, (1, n)) - 2 * cp.matmul(X, X.T)
+    # Compute pairwise distances (ensure nonnegative values with cp.pos)
+    X_diff = cp.sqrt(cp.pos(X_diff_sq))
 
-    # # Create an upper-triangular mask
-    # mask = np.triu(np.ones((n, n)), k=1)
+    # Create an upper-triangular mask
+    mask = np.triu(np.ones((n, n)), k=1)
 
-    # # Build the vectorized stress objective
-    # local_stress = cp.sum(cp.multiply((D - X_diff)**2, mask * N))
-    # repulsion = cp.sum(cp.multiply(X_diff, mask * (1 - N)))
-    # stress = local_stress - t_val * repulsion
+    # Build the vectorized stress objective
+    local_stress = cp.sum(cp.multiply((D - X_diff)**2, mask * N))
+    repulsion = cp.sum(cp.multiply(X_diff, mask * (1 - N)))
+    stress = local_stress - t_val * repulsion
 
-    # Build the objective from scalar terms over unique pairs (i<j)
-    terms = []
-    for i in range(n):
-        for j in range(i+1, n):
-            # Compute the Euclidean distance between x_i and x_j as a scalar CVXPY expression.
-            dist_ij = cp.norm(X[i, :] - X[j, :])
-            local_stress = cp.multiply((D[i, j] - dist_ij)**2, N[i, j])
-            repulsion = cp.multiply(dist_ij, 1 - N[i, j])
-            terms.append(local_stress - t_val * repulsion)
+    # # Build the objective from scalar terms over unique pairs (i<j)
+    # terms = []
+    # for i in range(n):
+    #     for j in range(i+1, n):
+    #         # Compute the Euclidean distance between x_i and x_j as a scalar CVXPY expression.
+    #         dist_ij = cp.norm(X[i, :] - X[j, :])
+    #         local_stress = cp.multiply((D[i, j] - dist_ij)**2, N[i, j])
+    #         repulsion = cp.multiply(dist_ij, 1 - N[i, j])
+    #         terms.append(local_stress - t_val * repulsion)
 
-    # Sum all terms to form the stress objective.
-    stress = cp.sum(terms)
+    # # Sum all terms to form the stress objective.
+    # stress = cp.sum(terms)
 
     # Optimization problem
     prob = cp.Problem(cp.Minimize(stress))
