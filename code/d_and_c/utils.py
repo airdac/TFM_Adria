@@ -3,7 +3,55 @@ import os
 import shutil
 import numpy as np
 import matplotlib.pyplot as plt
+import sys
+import logging
+import warnings
 from typing import Any, Callable, Tuple, Optional
+
+class StreamToLogger:
+    """
+    File-like object that redirects writes to a logger instance.
+    """
+    def __init__(self, logger, log_level):
+        self.logger = logger
+        self.log_level = log_level
+        self.linebuf = ""
+        
+    def write(self, buf):
+        for line in buf.rstrip().splitlines():
+            self.logger.log(self.log_level, line.rstrip())
+            
+    def flush(self):
+        pass
+
+def log_stdout_and_warnings(log_path):
+        """
+        Logs console messages and warnings.
+
+        Parameters:
+            log_path (str): path where log will be written.
+        """
+        # Configure logging
+        logging.basicConfig(
+            level=logging.INFO,
+            format="%(asctime)s [%(levelname)s] %(message)s",
+            datefmt='%Y-%m-%d %H:%M:%S',
+            filename=log_path,
+            filemode='w'
+        )
+
+        # Redirect stdout and stderr to the logger so all prints/warnings are captured in the log file.
+        sys.stdout = StreamToLogger(logging.getLogger("STDOUT"), logging.INFO)
+        sys.stderr = StreamToLogger(logging.getLogger("STDERR"), logging.ERROR)
+
+        # Capture warnings in the log file as well.
+        warnings.simplefilter("always")
+        logging.captureWarnings(True)
+
+        # Override warnings.showwarning to log warnings via the logging module
+        def custom_showwarning(message, category, filename, lineno, file=None, line=None):
+            logging.getLogger("py.warnings").error(f"{filename}:{lineno}: {category.__name__}: {message}")
+        warnings.showwarning = custom_showwarning
 
 
 def benchmark(func: Callable, *args, **kwargs) -> Tuple[Any, float]:

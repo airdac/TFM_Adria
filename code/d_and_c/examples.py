@@ -7,7 +7,7 @@ from typing import Optional
 
 from .methods import DRMethod, get_method_function
 from .d_and_c import divide_conquer
-from .utils import benchmark, plot_3D_to_2D
+from .utils import benchmark, plot_3D_to_2D, log_stdout_and_warnings
 
 
 def example_3D_to_2D(x: np.ndarray,
@@ -16,8 +16,7 @@ def example_3D_to_2D(x: np.ndarray,
                      method: DRMethod,
                      method_arguments: dict,
                      bare_method_arguments: dict,
-                     dataset_name: str,
-                     color: np.ndarray) -> None:
+                     plot: Optional[dict] = None) -> None:
     """
     Example projecting 3D data to 2D using both a divide-and-conquer method 
     and a bare dimensionality reduction method.
@@ -43,13 +42,12 @@ def example_3D_to_2D(x: np.ndarray,
                                                 l=l,
                                                 c_points=c_points,
                                                 r=2,
-                                                color=color,
-                                                dataset_name=dataset_name,
+                                                plot=plot,
                                                 **method_arguments
                                                 )
     print(f"D&C runtime: {d_and_c_runtime:.2f} seconds")
 
-    fig_title = f'D&C vs bare {method} on {dataset_name} with n={n}, l={l}, c_points={c_points}. In D&C {method}, {", ".join([f'{key}={value}' for key, value in method_arguments.items(
+    fig_title = f'D&C vs bare {method} on {plot["dataset_name"]} with n={n}, l={l}, c_points={c_points}. In D&C {method}, {", ".join([f'{key}={value}' for key, value in method_arguments.items(
     )])}'
     fig = plot_3D_to_2D(x, d_and_c_result, str(method), fig_title, color)
 
@@ -74,7 +72,7 @@ def example_3D_to_2D(x: np.ndarray,
                             value in method_arguments.items()]
     results_path = os.path.join('d_and_c',
                                 'results',
-                                dataset_name,
+                                plot["dataset_name"],
                                 f'n_{n}',
                                 f'l_{l}',
                                 f'c_{c_points}',
@@ -85,7 +83,7 @@ def example_3D_to_2D(x: np.ndarray,
     plt.close()
 
     results_file = os.path.join(results_path, "results.txt")
-    parameters_message = f"""Results of performing D&C and bare {method} on the {dataset_name} dataset with:
+    parameters_message = f"""Results of performing D&C and bare {method} on the {plot["dataset_name"]} dataset with:
     n={n}
     l={l}
     c_points={c_points}
@@ -112,22 +110,24 @@ def benchmark_d_and_c(output_path: str,
                       c_points: int,
                       method: DRMethod,
                       method_arguments: dict,
+                      system: str,
                       parallel: Optional[bool] = False,
                       runs: Optional[int] = 20) -> None:
     output_path = os.path.join(output_path, 'results.csv')
     for run in range(runs):
-        print(f"Benchmark run {run + 1}/{runs}...")
+        print(f"Benchmark run {run + 1}/{runs}")
         _, runtime = benchmark(divide_conquer,
                                method=method,
                                x=x,
                                l=l,
                                c_points=c_points,
                                r=2,
-                               plot=False,
                                parallel=parallel,
                                **method_arguments
                                )
         df = pd.DataFrame([[runtime]], columns=["time_ns"])
+        df["system"] = system
+        df["parallel"] = int(parallel)
         df["dataset"] = dataset_name
         df["n"] = x.shape[0]
         df["l"] = l
@@ -148,30 +148,58 @@ if __name__ == "__main__":
     benchmark_path = os.path.join('d_and_c', 'benchmark')
     os.makedirs(benchmark_path, exist_ok=True)
 
-    # Parameters to test (logarithmic sequences)
-    # n = [1000, 1778, 3162, 5623, 10000,
-    #      17783, 31623, 56234, 100000,
-    #      177828,  316228,  562341, 1000000]
-    # l = [1000, 3162, 10000]
-    # c_points = 100
-    # method = DRMethod.Isomap
-    # method_arguments = {
-    #     "n_neighbors": [7, 10, 15]
-    # }
+    # Start logger
+    log_stdout_and_warnings(os.path.join(benchmark_path, 'results.log'))
 
-    # Set parameters
-    n = 1778
-    l = 1000
+    # Set constant parameters
     c_points = 100
     method = DRMethod.Isomap
+
+    # Parameters to test (logarithmic sequences)
+    # with parallel=True:
+    n_parallel = [1000,     1778,   3162,   5623,
+                  10000,    17783,    31623,  56234,
+                  100000,   177828,   316228, 562341
+                  , 1000000]
+    l_parallel = [1000, 3162, 10000]
+    n_neighbors_parallel = [2, 10, 15]
+
+    # with parallel=False:
+    n_linear = [1000,     1778,   3162,   5623,
+                  10000,    17783,    31623,  56234,
+                  100000]
+    l_linear = 1000
+    n_neighbors_linear = 7
+
+    # Run benchmark with parallel=True
+    for l, n_neighbors in zip(l_parallel, n_neighbors_parallel):
+        method_arguments = {
+            "n_neighbors": n_neighbors
+        }
+        for n in n_parallel:
+            print(f"Benchmarking D&C with parallel=True, n={n}, l={l}, n_neighbors={n_neighbors}...")
+            
+            print("Generating data...")
+            X, color = make_swiss_roll(n_samples=n, random_state=42)
+
+            print("Starting benchmark...")
+            benchmark_d_and_c(benchmark_path, 'swiss_roll', X, l,
+                            c_points, method, method_arguments, system = "Windows", parallel=True)
+            
+            print("Benchmark completed!")
+    
+    # Run benchmark with parallel=False
     method_arguments = {
-        "n_neighbors": 7
-    }
+            "n_neighbors": n_neighbors_linear
+        }
+    for n in n_linear:
+        print(f"Benchmarking D&C with parallel=False, n={n}, l={l_linear}, n_neighbors={n_neighbors_linear}...")
+        
+        print("Generating data...")
+        X, color = make_swiss_roll(n_samples=n, random_state=42)
 
-    # Generate data
-    print("Generating data...")
-    X, color = make_swiss_roll(n_samples=n, random_state=42)
-
-    print("Benchmarking D&C...")
-    benchmark_d_and_c(benchmark_path, 'swiss_roll', X, l,
-                      c_points, method, method_arguments, parallel=True)
+        print("Starting benchmark...")
+        benchmark_d_and_c(benchmark_path, 'swiss_roll', X, l,
+                        c_points, method, method_arguments, system = "Windows", parallel=False)
+        
+        print("Benchmark completed!")
