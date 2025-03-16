@@ -106,6 +106,7 @@ In bare {method}:
 def benchmark_d_and_c(output_path: str,
                       dataset_name: str,
                       x: np.ndarray,
+                      color: np.ndarray,
                       l: int,
                       c_points: int,
                       method: DRMethod,
@@ -113,10 +114,23 @@ def benchmark_d_and_c(output_path: str,
                       system: str,
                       parallel: Optional[bool] = False,
                       runs: Optional[int] = 20) -> None:
-    output_path = os.path.join(output_path, 'results.csv')
+    csv_path = os.path.join(output_path, 'results.csv')
+    plot_path_elements = ['plots',
+                          f'system={system}',
+                          f'parallel={parallel}',
+                          f'dataset={dataset_name}',
+                          f'n={x.shape[0]}',
+                          f'l={l}',
+                          f'c_points={c_points}',
+                          f'method={method}']
+    plot_path_elements += [f'{key}={value}' for key, value
+                                in method_arguments.items()]
+    plots_path = os.path.join(output_path, *plot_path_elements)
+    os.makedirs(plots_path, exist_ok=True)
+
     for run in range(runs):
         print(f"Benchmark run {run + 1}/{runs}")
-        _, runtime = benchmark(divide_conquer,
+        projection, runtime = benchmark(divide_conquer,
                                method=method,
                                x=x,
                                l=l,
@@ -125,6 +139,7 @@ def benchmark_d_and_c(output_path: str,
                                parallel=parallel,
                                **method_arguments
                                )
+        # Write in .csv
         df = pd.DataFrame([[runtime]], columns=["time_ns"])
         df["system"] = system
         df["parallel"] = int(parallel)
@@ -136,16 +151,31 @@ def benchmark_d_and_c(output_path: str,
         for arg, value in method_arguments.items():
             df[arg] = value
 
-        if not os.path.exists(output_path):
-            df.to_csv(output_path, index=False)
+        if not os.path.exists(csv_path):
+            df.to_csv(csv_path, index=False)
         else:
-            df.to_csv(output_path, index=False, mode='a', header=False)
+            df.to_csv(csv_path, index=False, mode='a', header=False)
+
+        # Save projection plot
+        plt.scatter(projection[:,0], projection[:,1],
+                    c=color, cmap=plt.cm.Spectral)
+        title_lines = [', '.join(plot_path_elements[:3]),
+                 ', '.join(plot_path_elements[3:6]),
+                 ', '.join(plot_path_elements[6:]),
+                 f'Run {run + 1}/{runs}']
+        title = '\n'.join(title_lines)
+        plt.suptitle(title, fontsize=12, y=0.98)
+        plt.tight_layout()
+        plt.savefig(os.path.join(plots_path, f'Run_{run+1}.png'))
+        plt.close()
+
 
 
 if __name__ == "__main__":
     np.random.seed(42)
 
     benchmark_path = os.path.join('d_and_c', 'benchmark')
+    plots_path = os.path.join(benchmark_path, 'plots')
     os.makedirs(benchmark_path, exist_ok=True)
 
     # Start logger
@@ -162,7 +192,7 @@ if __name__ == "__main__":
                   100000,   177828,   316228, 562341
                   , 1000000]
     l_parallel = [1000, 3162, 10000]
-    n_neighbors_parallel = [2, 10, 15]
+    n_neighbors_parallel = [7, 10, 15]
 
     # with parallel=False:
     n_linear = [1000,     1778,   3162,   5623,
@@ -183,7 +213,7 @@ if __name__ == "__main__":
             X, color = make_swiss_roll(n_samples=n, random_state=42)
 
             print("Starting benchmark...")
-            benchmark_d_and_c(benchmark_path, 'swiss_roll', X, l,
+            benchmark_d_and_c(benchmark_path, 'swiss_roll', X, color, l,
                             c_points, method, method_arguments, system = "Windows", parallel=True)
             
             print("Benchmark completed!")
@@ -199,7 +229,7 @@ if __name__ == "__main__":
         X, color = make_swiss_roll(n_samples=n, random_state=42)
 
         print("Starting benchmark...")
-        benchmark_d_and_c(benchmark_path, 'swiss_roll', X, l,
+        benchmark_d_and_c(benchmark_path, 'swiss_roll', X, color, l,
                         c_points, method, method_arguments, system = "Windows", parallel=False)
         
         print("Benchmark completed!")
