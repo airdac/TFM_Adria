@@ -114,6 +114,7 @@ def benchmark_d_and_c(output_path: str,
                       method_arguments: dict,
                       parallel: Optional[bool] = False,
                       runs: Optional[int] = 20) -> None:
+    output_path = os.path.join(output_path, 'results.csv')
     for run in range(runs):
         print(f"Benchmark run {run + 1}/{runs}...")
         _, runtime = benchmark(divide_conquer,
@@ -126,16 +127,15 @@ def benchmark_d_and_c(output_path: str,
                                parallel=parallel,
                                **method_arguments
                                )
-        df = pd.DataFrame(runtime, columns=["time_ns"])
+        df = pd.DataFrame([[runtime]], columns=["time_ns"])
         df["dataset"] = dataset_name
-        df["n"] = x.size[0]
+        df["n"] = x.shape[0]
         df["l"] = l
         df["c_points"] = c_points
         df["method"] = str(method)
         for arg, value in method_arguments.items():
             df[arg] = value
 
-        output_path = os.path.join(output_path, 'results.csv')
         if not os.path.exists(output_path):
             df.to_csv(output_path, index=False)
         else:
@@ -160,7 +160,7 @@ if __name__ == "__main__":
     # }
 
     # Set parameters
-    n = 1000
+    n = 1778
     l = 1000
     c_points = 100
     method = DRMethod.Isomap
