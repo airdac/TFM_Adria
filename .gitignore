@@ -42,3 +42,4 @@ code/Isomap_BigData/pysomap
 code/d_and_c/t-SNE/all_data.RData
 code/d_and_c/t-SNE/all_data.RData
 code/d_and_c/benchmark/plots
+!code/d_and_c/benchmark/results.log
