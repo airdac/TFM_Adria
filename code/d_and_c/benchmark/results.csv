@@ -1064,3 +1064,4 @@ time_ns,system,parallel,dataset,n,l,c_points,method,n_neighbors
 104.53466549999939,Windows,0,swiss_roll,100000,3162,100,Isomap,10
 104.22175959999731,Windows,0,swiss_roll,100000,3162,100,Isomap,10
 104.13123439999981,Windows,0,swiss_roll,100000,3162,100,Isomap,10
+13092.5874246,Windows,1,swiss_roll,100000000,3162,100,Isomap,10
