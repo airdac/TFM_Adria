@@ -37,7 +37,7 @@ def log_stdout_and_warnings(log_path):
             format="%(asctime)s [%(levelname)s] %(message)s",
             datefmt='%Y-%m-%d %H:%M:%S',
             filename=log_path,
-            filemode='w'
+            filemode='a'
         )
 
         # Redirect stdout and stderr to the logger so all prints/warnings are captured in the log file.

@@ -49,7 +49,7 @@ def example_3D_to_2D(x: np.ndarray,
 
     fig_title = f'D&C vs bare {method} on {plot["dataset_name"]} with n={n}, l={l}, c_points={c_points}. In D&C {method}, {", ".join([f'{key}={value}' for key, value in method_arguments.items(
     )])}'
-    fig = plot_3D_to_2D(x, d_and_c_result, str(method), fig_title, color)
+    fig = plot_3D_to_2D(x, d_and_c_result, str(method), fig_title, plot["color"])
 
     # Run bare method
     print(f'Running bare {method}...')
@@ -61,7 +61,7 @@ def example_3D_to_2D(x: np.ndarray,
 
     ax6 = fig.add_subplot(236)
     ax6.scatter(bare_results[:, 0], bare_results
-                [:, 1], c=color, cmap=plt.cm.Spectral)
+                [:, 1], c=plot["color"], cmap=plt.cm.Spectral)
     bare_method_arguments_str = [f'{key}_{value}' for key,
                                  value in bare_method_arguments.items()]
     ax6.set_title(
@@ -168,68 +168,3 @@ def benchmark_d_and_c(output_path: str,
         plt.tight_layout()
         plt.savefig(os.path.join(plots_path, f'Run_{run+1}.png'))
         plt.close()
-
-
-
-if __name__ == "__main__":
-    np.random.seed(42)
-
-    benchmark_path = os.path.join('d_and_c', 'benchmark')
-    plots_path = os.path.join(benchmark_path, 'plots')
-    os.makedirs(benchmark_path, exist_ok=True)
-
-    # Start logger
-    log_stdout_and_warnings(os.path.join(benchmark_path, 'results.log'))
-
-    # Set constant parameters
-    c_points = 100
-    method = DRMethod.Isomap
-
-    # Parameters to test (logarithmic sequences)
-    # with parallel=True:
-    n_parallel = [1000,     1778,   3162,   5623,
-                  10000,    17783,    31623,  56234,
-                  100000,   177828,   316228, 562341
-                  , 1000000]
-    l_parallel = [1000, 3162, 10000]
-    n_neighbors_parallel = [7, 10, 15]
-
-    # with parallel=False:
-    n_linear = [1000,     1778,   3162,   5623,
-                  10000,    17783,    31623,  56234,
-                  100000]
-    l_linear = 1000
-    n_neighbors_linear = 7
-
-    # Run benchmark with parallel=True
-    for l, n_neighbors in zip(l_parallel, n_neighbors_parallel):
-        method_arguments = {
-            "n_neighbors": n_neighbors
-        }
-        for n in n_parallel:
-            print(f"Benchmarking D&C with parallel=True, n={n}, l={l}, n_neighbors={n_neighbors}...")
-            
-            print("Generating data...")
-            X, color = make_swiss_roll(n_samples=n, random_state=42)
-
-            print("Starting benchmark...")
-            benchmark_d_and_c(benchmark_path, 'swiss_roll', X, color, l,
-                            c_points, method, method_arguments, system = "Windows", parallel=True)
-            
-            print("Benchmark completed!")
-    
-    # Run benchmark with parallel=False
-    method_arguments = {
-            "n_neighbors": n_neighbors_linear
-        }
-    for n in n_linear:
-        print(f"Benchmarking D&C with parallel=False, n={n}, l={l_linear}, n_neighbors={n_neighbors_linear}...")
-        
-        print("Generating data...")
-        X, color = make_swiss_roll(n_samples=n, random_state=42)
-
-        print("Starting benchmark...")
-        benchmark_d_and_c(benchmark_path, 'swiss_roll', X, color, l,
-                        c_points, method, method_arguments, system = "Windows", parallel=False)
-        
-        print("Benchmark completed!")
