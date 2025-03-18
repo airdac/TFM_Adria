@@ -62,7 +62,7 @@ def local_mds(x: np.ndarray, r: int = 2, **kwargs) -> np.ndarray:
         Returns:
             projection (np.ndarray): The low-dimensional embedding of x.
         """
-    return lmds(D=squareform(pdist(x)), r=r, **kwargs)
+    return lmds_R(delta=squareform(pdist(x)), d=r, **kwargs)
 
 
 def lmds_R(delta: np.ndarray,
