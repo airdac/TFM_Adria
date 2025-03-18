@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.datasets import make_swiss_roll
 import pandas as pd
-from typing import Optional
 
 from .methods import DRMethod, get_method_function
 from .d_and_c import divide_conquer
@@ -16,7 +15,7 @@ def example_3D_to_2D(x: np.ndarray,
                      method: DRMethod,
                      method_arguments: dict,
                      bare_method_arguments: dict,
-                     plot: Optional[dict] = None) -> None:
+                     plot: dict | None = None) -> None:
     """
     Example projecting 3D data to 2D using both a divide-and-conquer method 
     and a bare dimensionality reduction method.
@@ -112,8 +111,8 @@ def benchmark_d_and_c(output_path: str,
                       method: DRMethod,
                       method_arguments: dict,
                       system: str,
-                      parallel: Optional[bool] = False,
-                      runs: Optional[int] = 20) -> None:
+                      parallel: bool | None = False,
+                      runs: int | None = 20) -> None:
     csv_path = os.path.join(output_path, 'results.csv')
     plot_path_elements = ['plots',
                           f'system={system}',

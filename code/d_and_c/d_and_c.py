@@ -1,6 +1,5 @@
 import numpy as np
 import os
-from typing import Optional
 from concurrent.futures import ProcessPoolExecutor
 
 from .methods import DRMethod, get_method_function
@@ -56,8 +55,8 @@ def divide_conquer(method: DRMethod,
                    l: int,
                    c_points: int,
                    r: int,
-                   parallel: Optional[bool] = False,
-                   plot: Optional[dict] = None,
+                   parallel: bool | None = False,
+                   plot: dict | None = None,
                    **kwargs) -> np.ndarray:
     """
     Apply divide and conquer to a dimensionality reduction method.

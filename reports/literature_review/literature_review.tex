@@ -589,6 +589,18 @@ def center_and_rotate(combined_projection: np.ndarray) -> np.ndarray:
     \item Therefore, I am trying to write my own Local MDS implementation on Python with \texttt{cvxpy}. Nonetheless, at the moment it does not work. I am figuring out how to solve an optimization problem with so many variables as stress minimization.
 \end{itemize}
 
+\subsection{March 20th}
+\begin{itemize}
+    \item \texttt{Rdimtools} nor \texttt{dimRed} have an implementation of Local MDS. Therefore, we keep using the one in \texttt{smacofx}.
+    \item Local MDS has been tested on the examples seen in the AMA course. Results in Pyhton and R coincide graphically, although axes' limits may vary slightly.
+    \item \texttt{t-SNE} has been added as a \texttt{DRMethod} through the openTSNE implementation. It has been tested on:
+    \begin{itemize}
+        \item two examples from \cite{wattenberg2016how}: two 2D clusters with equal number of points; random Gaussian walk.
+        \item four 3D clusters with equal number of points centered in the vertices of a tetrahedron. The goal of this experiment was to check if opposite vertices change with different parameters, by chance or modifying the noise in the clusters. We have found out that variations in the noise of each vertex of the tetrahedron may embed a pair of vertices in the high-dimensional space into opposite or adjacent vertices of a square (or even not form a square).
+        \item the MNIST train dataset with numeric digits. We have splitted it into two partitions and then applied t-SNE on each. Results are consistent.
+    \end{itemize}
+\end{itemize}
+
 \pagebreak
 \section{Title \texorpdfstring{TEXstring}{}}
 \label{sec:}
