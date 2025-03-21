@@ -2,6 +2,7 @@ from typing import Optional
 import numpy as np
 from sklearn.neighbors import kneighbors_graph
 from scipy.spatial.distance import pdist, squareform
+from sklearn.datasets import make_swiss_roll
 import cvxpy as cp
 cp.settings.DCP_CHECKS = False  # Disable DCP validation (use with caution)
 
@@ -122,7 +123,14 @@ def lmds_R(delta: np.ndarray,
         if verbose > 1 and ((i+1) % 100 == 0):
             print(f"niter={i+1} stress={round(s1, 5)}")
 
-    return X1
+    X1 = X1 - \
+            np.mean(X1, axis=0)
+    cov_matrix = np.cov(X1, rowvar=False)
+    eigenvals, eigenvecs = np.linalg.eigh(cov_matrix)
+    idx_sort = np.argsort(eigenvals)[::-1]
+    eigenvecs = eigenvecs[:, idx_sort]
+
+    return X1 @ eigenvecs
     # End of loop.
     # Rescale configuration.
     # X1a = X1 * (np.sum(Do * D1) / np.sum(D1**2))
@@ -265,9 +273,9 @@ def lmds(D: np.ndarray,
 # Example usage:
 if __name__ == "__main__":
 
-    n, r = 100, 2
+    n, r = 1000, 2
     np.random.seed(42)
-    X = np.random.rand(n, r)
+    X = make_swiss_roll(n_samples=n)
     D = squareform(pdist(X))
 
-    result = lmds(D, r)
+    result = lmds_R(D, r, verbose=2)
