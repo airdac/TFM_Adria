@@ -7,51 +7,85 @@ import sys
 import logging
 import warnings
 from typing import Any, Callable, Tuple, Optional
+import numpy as np
+
+
+def runif_in_tetrahedron(n, vertices):
+    # Check that vertices is a NumPy array with shape (4, 3)
+    if not isinstance(vertices, np.ndarray):
+        raise TypeError("Vertices must be a NumPy array")
+    if vertices.shape != (4, 3):
+        raise ValueError("Vertices must have shape (4, 3)")
+    
+    # Generate data uniformly at random in the 3-simplex
+    c = np.random.dirichlet(np.ones(4), size=n)
+
+    # Affinely transform data in the simplex to data in the tetrahedron
+    out = c @ vertices
+    return out
+
+
+def apply_principal_components(embedding):
+    '''
+    Apply Principal Components to an embedding
+    '''
+    embedding = embedding - \
+        np.mean(embedding, axis=0)
+    cov_matrix = np.cov(embedding, rowvar=False)
+    eigenvals, eigenvecs = np.linalg.eigh(cov_matrix)
+    idx_sort = np.argsort(eigenvals)[::-1]
+    eigenvecs = eigenvecs[:, idx_sort]
+    principal_components = embedding @ eigenvecs
+    return principal_components
+
 
 class StreamToLogger:
     """
     File-like object that redirects writes to a logger instance.
     """
+
     def __init__(self, logger, log_level):
         self.logger = logger
         self.log_level = log_level
         self.linebuf = ""
-        
+
     def write(self, buf):
         for line in buf.rstrip().splitlines():
             self.logger.log(self.log_level, line.rstrip())
-            
+
     def flush(self):
         pass
 
+
 def log_stdout_and_warnings(log_path):
-        """
-        Logs console messages and warnings.
+    """
+    Logs console messages and warnings.
 
-        Parameters:
-            log_path (str): path where log will be written.
-        """
-        # Configure logging
-        logging.basicConfig(
-            level=logging.INFO,
-            format="%(asctime)s [%(levelname)s] %(message)s",
-            datefmt='%Y-%m-%d %H:%M:%S',
-            filename=log_path,
-            filemode='a'
-        )
+    Parameters:
+        log_path (str): path where log will be written.
+    """
+    # Configure logging
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(message)s",
+        datefmt='%Y-%m-%d %H:%M:%S',
+        filename=log_path,
+        filemode='a'
+    )
 
-        # Redirect stdout and stderr to the logger so all prints/warnings are captured in the log file.
-        sys.stdout = StreamToLogger(logging.getLogger("STDOUT"), logging.INFO)
-        sys.stderr = StreamToLogger(logging.getLogger("STDERR"), logging.ERROR)
+    # Redirect stdout and stderr to the logger so all prints/warnings are captured in the log file.
+    sys.stdout = StreamToLogger(logging.getLogger("STDOUT"), logging.INFO)
+    sys.stderr = StreamToLogger(logging.getLogger("STDERR"), logging.ERROR)
 
-        # Capture warnings in the log file as well.
-        warnings.simplefilter("always")
-        logging.captureWarnings(True)
+    # Capture warnings in the log file as well.
+    warnings.simplefilter("always")
+    logging.captureWarnings(True)
 
-        # Override warnings.showwarning to log warnings via the logging module
-        def custom_showwarning(message, category, filename, lineno, file=None, line=None):
-            logging.getLogger("py.warnings").error(f"{filename}:{lineno}: {category.__name__}: {message}")
-        warnings.showwarning = custom_showwarning
+    # Override warnings.showwarning to log warnings via the logging module
+    def custom_showwarning(message, category, filename, lineno, file=None, line=None):
+        logging.getLogger("py.warnings").error(
+            f"{filename}:{lineno}: {category.__name__}: {message}")
+    warnings.showwarning = custom_showwarning
 
 
 def benchmark(func: Callable, *args, **kwargs) -> Tuple[Any, float]:

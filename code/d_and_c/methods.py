@@ -7,6 +7,7 @@ from scipy.spatial.distance import pdist, squareform
 from typing import Callable
 
 from .private_lmds import lmds_R
+from .utils import apply_principal_components
 
 
 class DRMethod(Enum):
@@ -37,13 +38,16 @@ def get_method_function(method: DRMethod) -> Callable:
     return method_map[method]
 
 
-def isomap(x: np.ndarray, r: int = 2, **kwargs) -> np.ndarray:
+def isomap(x: np.ndarray, r: int = 2,
+           principal_components: bool | None = True,
+           **kwargs) -> np.ndarray:
     """
     Perform Isomap on data matrix x.
 
     Parameters:
         x (np.ndarray): Input data matrix.
         r (int, optional): Target dimensionality (default 2).
+            principal_components (bool, optional): Whether to apply principal compoenents to output embedding.
         kwargs (Any): Additional parameters for Isomap (e.g. n_neighbors).
 
     Returns:
@@ -51,38 +55,54 @@ def isomap(x: np.ndarray, r: int = 2, **kwargs) -> np.ndarray:
     """
     n_neighbors = kwargs.get('n_neighbors', 5)
     isomap = Isomap(n_neighbors=n_neighbors, n_components=r)
-    return isomap.fit_transform(x)
+    embedding = isomap.fit_transform(x)
+    if principal_components:
+        return apply_principal_components(embedding)
+    return embedding
 
 
-def local_mds(x: np.ndarray, r: int = 2, **kwargs) -> np.ndarray:
+def local_mds(x: np.ndarray, r: int = 2,
+              principal_components: bool | None = True,
+              **kwargs) -> np.ndarray:
     """
         Perform Local MDS on data matrix x.
 
         Parameters:
             x (np.ndarray): Input data matrix.
             r (int, optional): Target dimensionality (default 2).
+            principal_components (bool, optional): Whether to apply principal compoenents to output embedding.
             kwargs (Any): Additional parameters for Local MDS (e.g. k, tau).
 
         Returns:
             projection (np.ndarray): The low-dimensional embedding of x.
         """
-    return lmds_R(delta=squareform(pdist(x)), d=r, **kwargs)
+    embedding = lmds_R(delta=squareform(pdist(x)), d=r, **kwargs)
+    if principal_components:
+        return apply_principal_components(embedding)
+    return embedding
 
 
-def tsne(x: np.ndarray, r: int = 2, **kwargs) -> np.ndarray:
+def tsne(x: np.ndarray, r: int = 2,
+         principal_components: bool | None = True,
+         **kwargs) -> np.ndarray:
     """
         Perform t-SNE on data matrix x.
 
         Parameters:
             x (np.ndarray): Input data matrix.
             r (int, optional): Target dimensionality (default 2).
+            principal_components (bool, optional): Whether to apply principal compoenents to output embedding.
             kwargs (Any): Additional parameters for t-SNE.
 
         Returns:
             projection (np.ndarray): The low-dimensional embedding of x.
         """
     tsne = TSNE(n_components=r, n_jobs=os.cpu_count(), **kwargs)
-    return tsne.fit(x)
+    embedding = tsne.fit(x)
+    if principal_components:
+        return apply_principal_components(embedding)
+    return embedding
+
 
 if __name__ == "__main__":
     from sklearn.datasets import make_swiss_roll

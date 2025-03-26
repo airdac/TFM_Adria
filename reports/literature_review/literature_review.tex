@@ -603,6 +603,67 @@ def center_and_rotate(combined_projection: np.ndarray) -> np.ndarray:
     \item Benchmarked D\&C Isomap on the swiss roll datasets for different parameter combinations, number of individuals and parallel vs serial. Scripts, notebooks and results can be found in \verb|code/d_and_c/benchmark|. Embedding's plots have been stored, as well as a benchmark log that includes warnings regarding disconnected kNN graphs. Finally, \verb|code/d_and_c/benchmark/plot_benchmark.ipynb| contains a plot summarizing the results obtained.
 \end{itemize}
 
+\subsection{March 27th}
+\begin{itemize}
+    \item \texttt{openTSNE} parallelization according to Claude 3.7 Sonnet Thinking:
+    it is applied to computationally intensive operations:
+    \begin{itemize}
+        \item Affinity Calculation: When computing nearest neighbors in the\\ \texttt{MultiscaleMixture} constructor:
+        \begin{minted}[frame=lines,fontsize=\small]{python}
+affinities = MultiscaleMixture(X, ..., n_jobs=self.n_jobs)
+        \end{minted}
+        \item Gradient Computation: Used in both positive and negative gradient calculations:
+        \begin{minted}[frame=lines,fontsize=\small]{python}
+# In Barnes-Hut approximation
+sum_Q = _tsne.estimate_negative_gradient_bh(..., num_threads=n_jobs)
+
+# In positive gradient calculation
+sum_P, kl_divergence_ = _tsne.estimate_positive_gradient_nn(...,
+    num_threads=n_jobs)
+        \end{minted}
+    \end{itemize}
+    The actual parallel execution happens in the C++ code (\texttt{\_tsne} module):
+    \begin{itemize}
+        \item The Python parameter \texttt{n\_jobs} is passed as \texttt{num\_threads} to C++ functions
+        \item These C++ functions use native threading libraries (likely \texttt{OpenMP}) to distribute computation
+        \item Parallelization focuses on data-parallel operations like:
+        \begin{itemize}
+            \item Distance calculations
+            \item Nearest neighbor searches
+            \item Gradient computations
+            \item Tree building (for Barnes-Hut)
+            \item FFT calculations (for interpolation method)
+        \end{itemize}
+    Concluding, the key to make parallelization available in Apple Silicon chips seems to be C++ code, which at this moment seems to be out of scope for our project.
+    \end{itemize}
+    \item Added a parameter to all DR methods to apply Principal Components to the obtained embedding.
+    \item Tested Principal Components on Local MDS with the swiss roll dataset. Embedding improves, but it is still bad in the swiss roll dataset.
+    \item Tested t-SNE on a solid tetrahedron. To generate data uniformly on a regular tetrahedron, the \texttt{runif\_in\_tetrahedron} function from the \texttt{uniformly} R library has been translated to Python. Moreover, this Python implentation has been optimized with \texttt{Numba}. As a consequence, generating 1000 points takes about 4 miliseconds. Meanwhile, the same function compiled without the \texttt{@numba.njit} decorator takes about 0.2 seconds to complete the same task. That being said, when generating 1000000 points, the speed up gained with \texttt{Numba} is only of 10x.
+    
+    Actually, we have tested an alternative method, which generates data in the 3-simplex through the flat Dirichlet distribution and then affinely transforms it into points from the specific tetrahedron. This method is more elegant, understandable and equally fast than the \texttt{Numba} optimized implementation.
+
+    Let us see why the flat Dirichlet distribution is uniform in the 3-simplex. The density function of Dir$(\boldsymbol{\alpha})$ is given by
+    $$
+    f\left(x_1, \ldots, x_K ; \alpha_1, \ldots, \alpha_K\right)=\frac{1}{\mathrm{~B}(\boldsymbol{\alpha})} \prod_{i=1}^K x_i^{\alpha_i-1},
+    $$
+    where $\left\{x_k\right\}_{k=1}^{k=K}$ belong to the standard $(K-1)$-simplex, or in other words:
+    $$
+    \sum_{i=1}^K x_i=1 \text { and } x_i \in[0,1] \text { for all } i \in\{1, \ldots, K\}
+    $$
+    The normalizing constant is the multivariate beta function, which can be expressed in terms of the gamma function:
+    $$
+    \mathrm{B}(\boldsymbol{\alpha})=\frac{\prod_{i=1}^K \Gamma\left(\alpha_i\right)}{\Gamma\left(\sum_{i=1}^K \alpha_i\right)}, \quad \boldsymbol{\alpha}=\left(\alpha_1, \ldots, \alpha_K\right)
+    $$
+
+    Now, the flat Dirichlet distribution is obtained when $\alpha_i=1 \, \forall i$ and, in our case, $K=4$. Therefore,
+    $$
+    f_{flat}\left(x_1, \ldots, x_4\right) = \frac{1}{\mathrm{~B}(1,1,1,1)} = \frac{\Gamma \left(4\right)}{\Gamma(1)^4} = \frac{3!}{1} = 6
+    $$
+
+    In other words, the flat Dirichlet distribution of order $K$ is uniform over the $(K-1)$-simplex.
+
+\end{itemize}
+
 \pagebreak
 \section{Title \texorpdfstring{TEXstring}{}}
 \label{sec:}

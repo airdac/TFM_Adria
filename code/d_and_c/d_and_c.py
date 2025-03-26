@@ -33,7 +33,8 @@ def _main_divide_conquer(args: tuple) -> np.ndarray:
     x_join_sample_1 = np.vstack((x_sample_1, x_filtered))
 
     # Apply projection method
-    projection = projection_method(x_join_sample_1, r, **kwargs)
+    projection = projection_method(
+        x_join_sample_1, r, principal_components=False, **kwargs)
 
     # Visualize results
     if plot:
@@ -79,7 +80,7 @@ def divide_conquer(method: DRMethod,
 
     # For small datasets, apply the method directly
     if n_row_x <= l:
-        return projection_method(x, r, **kwargs)
+        return projection_method(x, r, principal_components=False, **kwargs)
 
     # Create partitions
     idx_list = get_partitions_for_divide_conquer(n_row_x, l, c_points, r)
@@ -89,7 +90,8 @@ def divide_conquer(method: DRMethod,
     # Process first partition
     print("Projecting partition 1...")
     x_1 = x[idx_list[0],]
-    projection_1 = projection_method(x_1, r, **kwargs)
+    projection_1 = projection_method(
+        x_1, r, principal_components=False, **kwargs)
 
     if plot:
         # Create directory for results

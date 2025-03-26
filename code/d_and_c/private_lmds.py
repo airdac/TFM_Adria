@@ -1,8 +1,6 @@
-from typing import Optional
 import numpy as np
 from sklearn.neighbors import kneighbors_graph
 from scipy.spatial.distance import pdist, squareform
-from sklearn.datasets import make_swiss_roll
 import cvxpy as cp
 cp.settings.DCP_CHECKS = False  # Disable DCP validation (use with caution)
 
@@ -122,15 +120,9 @@ def lmds_R(delta: np.ndarray,
               t_val * np.sum((D1mu - 1) * (1 - Inb1)))
         if verbose > 1 and ((i+1) % 100 == 0):
             print(f"niter={i+1} stress={round(s1, 5)}")
+    
+    return X1
 
-    X1 = X1 - \
-            np.mean(X1, axis=0)
-    cov_matrix = np.cov(X1, rowvar=False)
-    eigenvals, eigenvecs = np.linalg.eigh(cov_matrix)
-    idx_sort = np.argsort(eigenvals)[::-1]
-    eigenvecs = eigenvecs[:, idx_sort]
-
-    return X1 @ eigenvecs
     # End of loop.
     # Rescale configuration.
     # X1a = X1 * (np.sum(Do * D1) / np.sum(D1**2))
@@ -268,14 +260,3 @@ def lmds(D: np.ndarray,
     print(f"Optimal stress: {prob.value}")
     X_solution = X.value
     return X_solution
-
-
-# Example usage:
-if __name__ == "__main__":
-
-    n, r = 1000, 2
-    np.random.seed(42)
-    X = make_swiss_roll(n_samples=n)
-    D = squareform(pdist(X))
-
-    result = lmds_R(D, r, verbose=2)

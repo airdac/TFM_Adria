@@ -1,0 +1,50 @@
+---
+title: "full_tetrahedron"
+output: html_document
+---
+
+```{r load libraries}
+library(uniformly)
+library(rgl)
+library(geometry)
+```
+
+```{r sample data}
+# Regular tetrahedron with v1=(0,0,0)
+v1 <- c(0, 0, 0)
+v2 <- c(1, 0, 0)
+v3 <- c(0.5, sqrt(3)/2, 0)
+v4 <- c(0.5, sqrt(3)/6, sqrt(6)/3)
+vertices <- rbind(v1, v2, v3, v4)
+
+# Sample uniformly at random
+sims <- runif_in_tetrahedron(1000, v1, v2, v3, v4)
+```
+
+```{r check tetrahedron is regular}
+as.matrix(dist(vertices))
+```
+
+```{r plot data in tetrahedron mesh}
+open3d()
+
+# Define tetrahedron faces (each row contains vertex indices for one face)
+faces <- list(
+  c(1, 2, 3),
+  c(1, 2, 4),
+  c(1, 3, 4),
+  c(2, 3, 4)
+)
+
+# Plot each face
+for (face in faces) {
+  triangles3d(vertices[face, ], color = "red", alpha = 0.3)
+}
+# Plot the points
+points3d(sims, col = "blue", size = 5)
+
+# Add axes to the plot
+axes3d()
+title3d(xlab = "X", ylab = "Y", zlab = "Z")
+```
+
