@@ -4,7 +4,7 @@
 \usepackage{amsmath}
 \usepackage{mathtools}
 \usepackage[backend=biber]{biblatex}
-\addbibresource{../bibliography.bib}
+\addbibresource{bibliography.bib}
 \usepackage{minted}
 \setminted{frame=lines, fontsize=\small}
 \usepackage{graphicx}
@@ -655,7 +655,7 @@ sum_P, kl_divergence_ = _tsne.estimate_positive_gradient_nn(...,
     \mathrm{B}(\boldsymbol{\alpha})=\frac{\prod_{i=1}^K \Gamma\left(\alpha_i\right)}{\Gamma\left(\sum_{i=1}^K \alpha_i\right)}, \quad \boldsymbol{\alpha}=\left(\alpha_1, \ldots, \alpha_K\right)
     $$
 
-    Now, the flat Dirichlet distribution is obtained when $\alpha_i=1 \, \forall i$ and, in our case, $K=4$. Therefore,
+    Now, the flat Dirichlet distribution is obtained when $\alpha_i=1 \, \forall i$ and, in our case, $K=4$. Therefore, when $x_i \neq 0 \, \forall i$ (the volume of this set's complement is null):
     $$
     f_{flat}\left(x_1, \ldots, x_4\right) = \frac{1}{\mathrm{~B}(1,1,1,1)} = \frac{\Gamma \left(4\right)}{\Gamma(1)^4} = \frac{3!}{1} = 6
     $$
@@ -665,7 +665,7 @@ sum_P, kl_divergence_ = _tsne.estimate_positive_gradient_nn(...,
 \end{itemize}
 
 \pagebreak
-\section{Title \texorpdfstring{TEXstring}{}}
+\section{Title \texorpdfstring{TEXstring}{TEXstring}}
 \label{sec:}
 
 \subsection{Abstract}

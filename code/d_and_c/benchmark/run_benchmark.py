@@ -9,27 +9,20 @@ from ..examples import benchmark_d_and_c
 
 # Set constant parameters
 c_points = 100
-method = DRMethod.Isomap
+method = DRMethod.tSNE
 
 # Parameters to test (logarithmic sequences)
-# with parallel=True:
-# DONE
-#n_parallel = [1000,     1778,   3162,   5623,
-#                10000,    17783,    31623,  56234,
-#                100000,   177828,   316228, 562341
-#                , 1000000, 3162278, 10000000]
-#l_parallel = [1000, 3162, 10000]
-#n_neighbors_parallel = [7, 10, 15]
-n_parallel = [1778279, 5623413]
-l_parallel = [3162]
-n_neighbors_parallel = [10]
-
-# with parallel=False:
-n_linear = [3162,   5623,
-            10000,    17783,    31623,  56234,
-            100000]
-l_linear = 3162
-n_neighbors_linear = 10
+# n_list = [1000,     1778,   3162,   5623,
+#      10000,    17783,    31623,  56234,
+#      100000,   177828,   316228, 562341, 1000000, 3162278, 10000000]
+n_list = [1000]
+l = 1000
+method_arguments = {'perplexity': 20,
+                    'learning_rate': 5,
+                    'n_iter': 250,
+                    'verbose': 2,
+                    'principal_components': True,
+                    'random_state': 42}
 
 if __name__ == '__main__':
     np.random.seed(42)
@@ -43,40 +36,16 @@ if __name__ == '__main__':
 
     # Run benchmark with parallel=True
     freeze_support()    # Fix for parallelization on Windows
-    X, color = make_swiss_roll(n_samples=int(1e8), random_state=42)
-    method_arguments = {
-            "n_neighbors": 10
-        }
-    benchmark_d_and_c(benchmark_path, 'swiss_roll', X, color, 3162,
-                            c_points, method, method_arguments, system = "Windows", parallel=True, runs=1)
-    #for l, n_neighbors in zip(l_parallel, n_neighbors_parallel):
-    #    method_arguments = {
-    #        "n_neighbors": n_neighbors
-    #    }
-    #    for n in n_parallel:
-    #        print(f"Benchmarking D&C with parallel=True, n={n}, l={l}, n_neighbors={n_neighbors}...")
-    #        
-    #        print("Generating data...")
-    #        X, color = make_swiss_roll(n_samples=n, random_state=42)
+    for n in n_list:
+        method_arguments_str = [f'{key}={argument}' for key, argument in method_arguments.items()]
+        print(
+            f"Benchmarking D&C with parallel=True, " + ', '.join(method_arguments_str) + "...")
 
-    #        print("Starting benchmark...")
-    #        benchmark_d_and_c(benchmark_path, 'swiss_roll', X, color, l,
-    #                        c_points, method, method_arguments, system = "Windows", parallel=True)
-            
-    #        print("Benchmark completed!")
+        print("Generating data...")
+        X, color = make_swiss_roll(n_samples=n, random_state=42)
 
-    # Run benchmark with parallel=False
-    #method_arguments = {
-    #        "n_neighbors": n_neighbors_linear
-    #    }
-    #for n in n_linear:
-    #    print(f"Benchmarking D&C with parallel=False, n={n}, l={l_linear}, n_neighbors={n_neighbors_linear}...")
-        
-    #    print("Generating data...")
-    #    X, color = make_swiss_roll(n_samples=n, random_state=42)
+        print("Starting benchmark...")
+        benchmark_d_and_c(benchmark_path, 'swiss_roll', X, color, l,
+                          c_points, method, method_arguments, system="Windows", parallel=True)
 
-    #    print("Starting benchmark...")
-    #    benchmark_d_and_c(benchmark_path, 'swiss_roll', X, color, l_linear,
-    #                    c_points, method, method_arguments, system = "Windows", parallel=False)
-        
-    #    print("Benchmark completed!")
+        print("Benchmark completed!")

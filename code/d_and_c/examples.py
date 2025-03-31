@@ -161,7 +161,7 @@ def benchmark_d_and_c(output_path: str,
         title_lines = [', '.join(plot_path_elements[:3]),
                  ', '.join(plot_path_elements[3:6]),
                  ', '.join(plot_path_elements[6:]),
-                 f'Run {run + 1}/{runs}']
+                 f'Run {run + 1}/{runs}, runtime: {runtime}']
         title = '\n'.join(title_lines)
         plt.suptitle(title, fontsize=12, y=0.98)
         plt.tight_layout()
