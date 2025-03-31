@@ -122,8 +122,11 @@ def benchmark_d_and_c(output_path: str,
                           f'l={l}',
                           f'c_points={c_points}',
                           f'method={method}']
-    plot_path_elements += [f'{key}={value}' for key, value
-                                in method_arguments.items()]
+    # We remove verbose because it does not affect the result
+    method_arguments_str = [f'{key}={value}' for key, value
+                            in method_arguments.items()
+                            if key != 'verbose']
+    plot_path_elements += method_arguments_str
     plots_path = os.path.join(output_path, *plot_path_elements)
     os.makedirs(plots_path, exist_ok=True)
 
@@ -147,8 +150,7 @@ def benchmark_d_and_c(output_path: str,
         df["l"] = l
         df["c_points"] = c_points
         df["method"] = str(method)
-        for arg, value in method_arguments.items():
-            df[arg] = value
+        df['method_arguments'] = '|'.join(method_arguments_str)
 
         if not os.path.exists(csv_path):
             df.to_csv(csv_path, index=False)
@@ -161,7 +163,7 @@ def benchmark_d_and_c(output_path: str,
         title_lines = [', '.join(plot_path_elements[:3]),
                  ', '.join(plot_path_elements[3:6]),
                  ', '.join(plot_path_elements[6:]),
-                 f'Run {run + 1}/{runs}, runtime: {runtime}']
+                 f'Run {run + 1}/{runs}, runtime: {runtime:.2f} s']
         title = '\n'.join(title_lines)
         plt.suptitle(title, fontsize=12, y=0.98)
         plt.tight_layout()

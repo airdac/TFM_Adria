@@ -41,20 +41,24 @@ def apply_principal_components(embedding):
 
 class StreamToLogger:
     """
-    File-like object that redirects writes to a logger instance.
+    File-like object that redirects writes to a logger instance and also prints to the terminal.
     """
 
-    def __init__(self, logger, log_level):
+    def __init__(self, logger, log_level, console_stream=sys.__stdout__):
         self.logger = logger
         self.log_level = log_level
+        self.console_stream = console_stream
         self.linebuf = ""
 
     def write(self, buf):
+        # Write to logger line by line.
         for line in buf.rstrip().splitlines():
             self.logger.log(self.log_level, line.rstrip())
+        # Also write to the original console
+        self.console_stream.write(buf)
 
     def flush(self):
-        pass
+        self.console_stream.flush()
 
 
 def log_stdout_and_warnings(log_path):

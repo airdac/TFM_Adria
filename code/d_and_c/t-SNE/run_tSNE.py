@@ -6,16 +6,16 @@ from sklearn.datasets import make_swiss_roll
 from d_and_c.methods import tsne
 from d_and_c.utils import benchmark
 
-n, r = 3162, 2
+n, r = 1000, 2
 np.random.seed(42)
 X, color = make_swiss_roll(n_samples=n, random_state=42)
 
-perplexity = 20
-learning_rate = 5
+perplexity = 30
+learning_rate = "auto"
 n_iter = 250
 principal_components = True
 embedding, runtime = benchmark(tsne,
-    X, r, principal_components=principal_components, perplexity=perplexity, n_iter=n_iter, learning_rate=learning_rate, verbose=2, random_state=42)
+    X, r, principal_components=principal_components, perplexity=perplexity, n_iter=n_iter, learning_rate=learning_rate, verbose=2)
 
 # Plot embedding
 plt.scatter(embedding[:, 0], embedding[:, 1],

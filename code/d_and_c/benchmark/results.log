@@ -6803,3 +6803,1601 @@
 2025-03-18 09:07:15 [INFO] Projecting partition 1...
 2025-03-18 09:07:29 [INFO] Projecting remaining partitions in parallel...
 2025-03-18 13:04:29 [ERROR] sys:1: ResourceWarning: unclosed <socket.socket fd=3292, family=2, type=1, proto=0, laddr=('127.0.0.1', 50110), raddr=('127.0.0.1', 50104)>
+2025-03-31 14:36:10 [INFO] Benchmarking D&C with parallel=False, perplexity=20, learning_rate=5, n_iter=250, verbose=2, principal_components=True, random_state=42...
+2025-03-31 14:36:10 [INFO] Generating data...
+2025-03-31 14:36:10 [INFO] Starting benchmark...
+2025-03-31 14:36:10 [INFO] Benchmark run 1/20
+2025-03-31 14:36:10 [ERROR] Traceback (most recent call last):
+2025-03-31 14:36:10 [ERROR]   File "<frozen runpy>", line 198, in _run_module_as_main
+2025-03-31 14:36:10 [ERROR]   File "<frozen runpy>", line 88, in _run_code
+2025-03-31 14:36:10 [ERROR]   File "/Users/airdac/Documents/Uni/Second/TFM/TFM_Adria/code/d_and_c/benchmark/run_benchmark.py", line 48, in <module>
+2025-03-31 14:36:10 [ERROR] benchmark_d_and_c(benchmark_path, 'swiss_roll', X, color, l,
+2025-03-31 14:36:10 [ERROR]   File "/Users/airdac/Documents/Uni/Second/TFM/TFM_Adria/code/d_and_c/examples.py", line 132, in benchmark_d_and_c
+2025-03-31 14:36:10 [ERROR] projection, runtime = benchmark(divide_conquer,
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR]   File "/Users/airdac/Documents/Uni/Second/TFM/TFM_Adria/code/d_and_c/utils.py", line 104, in benchmark
+2025-03-31 14:36:10 [ERROR] result = func(*args, **kwargs)
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR]   File "/Users/airdac/Documents/Uni/Second/TFM/TFM_Adria/code/d_and_c/d_and_c.py", line 83, in divide_conquer
+2025-03-31 14:36:10 [ERROR] return projection_method(x, r, principal_components=False, **kwargs)
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] ^
+2025-03-31 14:36:10 [ERROR] TypeError
+2025-03-31 14:36:10 [ERROR] :
+2025-03-31 14:36:10 [ERROR] d_and_c.methods.tsne() got multiple values for keyword argument 'principal_components'
+2025-03-31 14:39:18 [INFO] Benchmarking D&C with parallel=False, perplexity=20, learning_rate=5, n_iter=250, verbose=2, random_state=42...
+2025-03-31 14:39:18 [INFO] Generating data...
+2025-03-31 14:39:18 [INFO] Starting benchmark...
+2025-03-31 14:39:18 [INFO] Benchmark run 1/20
+2025-03-31 14:39:18 [INFO] --------------------------------------------------------------------------------
+2025-03-31 14:39:18 [INFO] TSNE(early_exaggeration=12, learning_rate=5, n_iter=250, n_jobs=8,
+2025-03-31 14:39:18 [INFO]      perplexity=20, random_state=42, verbose=2)
+2025-03-31 14:39:18 [INFO] --------------------------------------------------------------------------------
+2025-03-31 14:39:18 [INFO] ===>
+2025-03-31 14:39:18 [INFO] Finding 60 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 14:39:18 [INFO]    --> Time elapsed: 0.08 seconds
+2025-03-31 14:39:18 [INFO] ===>
+2025-03-31 14:39:18 [INFO] Calculating affinity matrix...
+2025-03-31 14:39:18 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 14:39:18 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 14:39:18 [INFO] ===>
+2025-03-31 14:39:18 [INFO] Calculating PCA-based initialization...
+2025-03-31 14:39:18 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 14:39:18 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 14:39:18 [INFO] ===>
+2025-03-31 14:39:18 [INFO] Running optimization with exaggeration=12.00, lr=5.00 for 250 iterations...
+2025-03-31 14:39:26 [INFO] Iteration   50, KL divergence 3.8907, 50 iterations in 8.7082 sec
+2025-03-31 14:39:37 [INFO] Iteration  100, KL divergence 2.7642, 50 iterations in 10.3645 sec
+2025-03-31 14:39:47 [INFO] Iteration  150, KL divergence 2.5308, 50 iterations in 9.7755 sec
+2025-03-31 14:39:56 [INFO] Iteration  200, KL divergence 2.3918, 50 iterations in 9.3535 sec
+2025-03-31 14:40:02 [INFO] Iteration  250, KL divergence 2.3363, 50 iterations in 6.4959 sec
+2025-03-31 14:40:02 [INFO]    --> Time elapsed: 44.70 seconds
+2025-03-31 14:40:02 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 14:40:02 [INFO] ===>
+2025-03-31 14:40:02 [INFO] Running optimization with exaggeration=1.00, lr=5.00 for 250 iterations...
+2025-03-31 14:40:04 [INFO] Iteration   50, KL divergence 1.4343, 50 iterations in 1.8914 sec
+2025-03-31 14:40:06 [INFO] Iteration  100, KL divergence 1.1295, 50 iterations in 1.8592 sec
+2025-03-31 14:40:11 [INFO] Iteration  150, KL divergence 0.9625, 50 iterations in 4.7368 sec
+2025-03-31 14:40:20 [INFO] Iteration  200, KL divergence 0.8561, 50 iterations in 9.2195 sec
+2025-03-31 14:40:30 [INFO] Iteration  250, KL divergence 0.7817, 50 iterations in 9.3854 sec
+2025-03-31 14:40:30 [INFO]    --> Time elapsed: 27.09 seconds
+2025-03-31 14:40:30 [INFO] Benchmark run 2/20
+2025-03-31 14:40:30 [INFO] --------------------------------------------------------------------------------
+2025-03-31 14:40:30 [INFO] TSNE(early_exaggeration=12, learning_rate=5, n_iter=250, n_jobs=8,
+2025-03-31 14:40:30 [INFO]      perplexity=20, random_state=42, verbose=2)
+2025-03-31 14:40:30 [INFO] --------------------------------------------------------------------------------
+2025-03-31 14:40:30 [INFO] ===>
+2025-03-31 14:40:30 [INFO] Finding 60 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 14:40:30 [INFO]    --> Time elapsed: 0.09 seconds
+2025-03-31 14:40:30 [INFO] ===>
+2025-03-31 14:40:30 [INFO] Calculating affinity matrix...
+2025-03-31 14:40:30 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 14:40:30 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 14:40:30 [INFO] ===>
+2025-03-31 14:40:30 [INFO] Calculating PCA-based initialization...
+2025-03-31 14:40:30 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 14:40:30 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 14:40:30 [INFO] ===>
+2025-03-31 14:40:30 [INFO] Running optimization with exaggeration=12.00, lr=5.00 for 250 iterations...
+2025-03-31 14:40:41 [INFO] Iteration   50, KL divergence 3.8907, 50 iterations in 10.9748 sec
+2025-03-31 14:40:52 [INFO] Iteration  100, KL divergence 2.7642, 50 iterations in 11.0004 sec
+2025-03-31 14:41:02 [INFO] Iteration  150, KL divergence 2.5308, 50 iterations in 10.4317 sec
+2025-03-31 14:41:10 [INFO] Iteration  200, KL divergence 2.3918, 50 iterations in 7.9484 sec
+2025-03-31 14:41:20 [INFO] Iteration  250, KL divergence 2.3363, 50 iterations in 10.1059 sec
+2025-03-31 14:41:20 [INFO]    --> Time elapsed: 50.46 seconds
+2025-03-31 14:41:21 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 14:41:21 [INFO] ===>
+2025-03-31 14:41:21 [INFO] Running optimization with exaggeration=1.00, lr=5.00 for 250 iterations...
+2025-03-31 14:41:32 [INFO] Iteration   50, KL divergence 1.4343, 50 iterations in 11.7819 sec
+2025-03-31 14:41:44 [INFO] Iteration  100, KL divergence 1.1295, 50 iterations in 11.2288 sec
+2025-03-31 14:41:55 [INFO] Iteration  150, KL divergence 0.9625, 50 iterations in 10.9847 sec
+2025-03-31 14:42:05 [INFO] Iteration  200, KL divergence 0.8561, 50 iterations in 10.7937 sec
+2025-03-31 14:42:15 [INFO] Iteration  250, KL divergence 0.7817, 50 iterations in 9.0462 sec
+2025-03-31 14:42:15 [INFO]    --> Time elapsed: 53.84 seconds
+2025-03-31 14:42:15 [INFO] Benchmark run 3/20
+2025-03-31 14:42:15 [INFO] --------------------------------------------------------------------------------
+2025-03-31 14:42:15 [INFO] TSNE(early_exaggeration=12, learning_rate=5, n_iter=250, n_jobs=8,
+2025-03-31 14:42:15 [INFO]      perplexity=20, random_state=42, verbose=2)
+2025-03-31 14:42:15 [INFO] --------------------------------------------------------------------------------
+2025-03-31 14:42:15 [INFO] ===>
+2025-03-31 14:42:15 [INFO] Finding 60 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 14:42:15 [INFO]    --> Time elapsed: 0.09 seconds
+2025-03-31 14:42:15 [INFO] ===>
+2025-03-31 14:42:15 [INFO] Calculating affinity matrix...
+2025-03-31 14:42:15 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 14:42:15 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 14:42:15 [INFO] ===>
+2025-03-31 14:42:15 [INFO] Calculating PCA-based initialization...
+2025-03-31 14:42:15 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 14:42:15 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 14:42:15 [INFO] ===>
+2025-03-31 14:42:15 [INFO] Running optimization with exaggeration=12.00, lr=5.00 for 250 iterations...
+2025-03-31 14:51:56 [INFO] Benchmarking D&C with parallel=False, perplexity=20, learning_rate=5, n_iter=250, verbose=2, random_state=42...
+2025-03-31 14:51:56 [INFO] Generating data...
+2025-03-31 14:51:56 [INFO] Starting benchmark...
+2025-03-31 14:51:56 [INFO] Benchmark run 1/20
+2025-03-31 14:51:56 [INFO] --------------------------------------------------------------------------------
+2025-03-31 14:51:56 [INFO] TSNE(early_exaggeration=12, learning_rate=5, n_iter=250, n_jobs=8,
+2025-03-31 14:51:56 [INFO]      perplexity=20, random_state=42, verbose=2)
+2025-03-31 14:51:56 [INFO] --------------------------------------------------------------------------------
+2025-03-31 14:51:56 [INFO] ===>
+2025-03-31 14:51:56 [INFO] Finding 60 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 14:51:56 [INFO]    --> Time elapsed: 0.08 seconds
+2025-03-31 14:51:56 [INFO] ===>
+2025-03-31 14:51:56 [INFO] Calculating affinity matrix...
+2025-03-31 14:51:56 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 14:51:56 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 14:51:56 [INFO] ===>
+2025-03-31 14:51:56 [INFO] Calculating PCA-based initialization...
+2025-03-31 14:51:56 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 14:51:56 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 14:51:56 [INFO] ===>
+2025-03-31 14:51:56 [INFO] Running optimization with exaggeration=12.00, lr=5.00 for 250 iterations...
+2025-03-31 14:52:04 [INFO] Iteration   50, KL divergence 3.8907, 50 iterations in 8.6311 sec
+2025-03-31 14:52:14 [INFO] Iteration  100, KL divergence 2.7642, 50 iterations in 9.6136 sec
+2025-03-31 14:52:24 [INFO] Iteration  150, KL divergence 2.5308, 50 iterations in 9.6988 sec
+2025-03-31 14:52:32 [INFO] Iteration  200, KL divergence 2.3918, 50 iterations in 8.0013 sec
+2025-03-31 14:52:41 [INFO] Iteration  250, KL divergence 2.3363, 50 iterations in 8.9451 sec
+2025-03-31 14:52:41 [INFO]    --> Time elapsed: 44.89 seconds
+2025-03-31 14:52:41 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 14:52:41 [INFO] ===>
+2025-03-31 14:52:41 [INFO] Running optimization with exaggeration=1.00, lr=5.00 for 250 iterations...
+2025-03-31 14:52:51 [INFO] Iteration   50, KL divergence 1.4343, 50 iterations in 10.0102 sec
+2025-03-31 14:53:01 [INFO] Iteration  100, KL divergence 1.1295, 50 iterations in 10.2196 sec
+2025-03-31 14:53:10 [INFO] Iteration  150, KL divergence 0.9625, 50 iterations in 9.4138 sec
+2025-03-31 14:53:19 [INFO] Iteration  200, KL divergence 0.8561, 50 iterations in 8.8770 sec
+2025-03-31 14:53:29 [INFO] Iteration  250, KL divergence 0.7817, 50 iterations in 9.5993 sec
+2025-03-31 14:53:29 [INFO]    --> Time elapsed: 48.12 seconds
+2025-03-31 14:53:29 [INFO] Benchmark run 2/20
+2025-03-31 14:53:29 [INFO] --------------------------------------------------------------------------------
+2025-03-31 14:53:29 [INFO] TSNE(early_exaggeration=12, learning_rate=5, n_iter=250, n_jobs=8,
+2025-03-31 14:53:29 [INFO]      perplexity=20, random_state=42, verbose=2)
+2025-03-31 14:53:29 [INFO] --------------------------------------------------------------------------------
+2025-03-31 14:53:29 [INFO] ===>
+2025-03-31 14:53:29 [INFO] Finding 60 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 14:53:29 [INFO]    --> Time elapsed: 0.13 seconds
+2025-03-31 14:53:29 [INFO] ===>
+2025-03-31 14:53:29 [INFO] Calculating affinity matrix...
+2025-03-31 14:53:29 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 14:53:29 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 14:53:29 [INFO] ===>
+2025-03-31 14:53:29 [INFO] Calculating PCA-based initialization...
+2025-03-31 14:53:29 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 14:53:29 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 14:53:29 [INFO] ===>
+2025-03-31 14:53:29 [INFO] Running optimization with exaggeration=12.00, lr=5.00 for 250 iterations...
+2025-03-31 14:53:39 [INFO] Iteration   50, KL divergence 3.8907, 50 iterations in 10.1460 sec
+2025-03-31 14:53:50 [INFO] Iteration  100, KL divergence 2.7642, 50 iterations in 10.8167 sec
+2025-03-31 14:53:59 [INFO] Iteration  150, KL divergence 2.5308, 50 iterations in 8.4101 sec
+2025-03-31 14:54:09 [INFO] Iteration  200, KL divergence 2.3918, 50 iterations in 10.0167 sec
+2025-03-31 14:54:19 [INFO] Iteration  250, KL divergence 2.3363, 50 iterations in 10.3747 sec
+2025-03-31 14:54:19 [INFO]    --> Time elapsed: 49.76 seconds
+2025-03-31 14:54:19 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 14:54:19 [INFO] ===>
+2025-03-31 14:54:19 [INFO] Running optimization with exaggeration=1.00, lr=5.00 for 250 iterations...
+2025-03-31 14:54:30 [INFO] Iteration   50, KL divergence 1.4343, 50 iterations in 11.0061 sec
+2025-03-31 14:54:42 [INFO] Iteration  100, KL divergence 1.1295, 50 iterations in 11.1656 sec
+2025-03-31 14:54:52 [INFO] Iteration  150, KL divergence 0.9625, 50 iterations in 10.9141 sec
+2025-03-31 14:55:02 [INFO] Iteration  200, KL divergence 0.8561, 50 iterations in 9.4175 sec
+2025-03-31 14:55:12 [INFO] Iteration  250, KL divergence 0.7817, 50 iterations in 9.6793 sec
+2025-03-31 14:55:12 [INFO]    --> Time elapsed: 52.18 seconds
+2025-03-31 14:55:12 [INFO] Benchmark run 3/20
+2025-03-31 14:55:12 [INFO] --------------------------------------------------------------------------------
+2025-03-31 14:55:12 [INFO] TSNE(early_exaggeration=12, learning_rate=5, n_iter=250, n_jobs=8,
+2025-03-31 14:55:12 [INFO]      perplexity=20, random_state=42, verbose=2)
+2025-03-31 14:55:12 [INFO] --------------------------------------------------------------------------------
+2025-03-31 14:55:12 [INFO] ===>
+2025-03-31 14:55:12 [INFO] Finding 60 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 14:55:12 [INFO]    --> Time elapsed: 0.12 seconds
+2025-03-31 14:55:12 [INFO] ===>
+2025-03-31 14:55:12 [INFO] Calculating affinity matrix...
+2025-03-31 14:55:12 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 14:55:12 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 14:55:12 [INFO] ===>
+2025-03-31 14:55:12 [INFO] Calculating PCA-based initialization...
+2025-03-31 14:55:12 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 14:55:12 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 14:55:12 [INFO] ===>
+2025-03-31 14:55:12 [INFO] Running optimization with exaggeration=12.00, lr=5.00 for 250 iterations...
+2025-03-31 14:55:22 [INFO] Iteration   50, KL divergence 3.8907, 50 iterations in 9.6867 sec
+2025-03-31 14:55:33 [INFO] Iteration  100, KL divergence 2.7642, 50 iterations in 11.3296 sec
+2025-03-31 14:55:41 [INFO] Iteration  150, KL divergence 2.5308, 50 iterations in 7.9274 sec
+2025-03-31 14:55:50 [INFO] Iteration  200, KL divergence 2.3918, 50 iterations in 9.2400 sec
+2025-03-31 14:56:01 [INFO] Iteration  250, KL divergence 2.3363, 50 iterations in 10.5156 sec
+2025-03-31 14:56:01 [INFO]    --> Time elapsed: 48.70 seconds
+2025-03-31 14:56:01 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 14:56:01 [INFO] ===>
+2025-03-31 14:56:01 [INFO] Running optimization with exaggeration=1.00, lr=5.00 for 250 iterations...
+2025-03-31 14:56:12 [INFO] Iteration   50, KL divergence 1.4343, 50 iterations in 11.5747 sec
+2025-03-31 14:56:22 [INFO] Iteration  100, KL divergence 1.1295, 50 iterations in 10.0411 sec
+2025-03-31 14:59:18 [INFO] Benchmarking D&C with parallel=False, perplexity=20, learning_rate=5, n_iter=250, verbose=2...
+2025-03-31 14:59:18 [INFO] Generating data...
+2025-03-31 14:59:18 [INFO] Starting benchmark...
+2025-03-31 14:59:18 [INFO] Benchmark run 1/20
+2025-03-31 14:59:18 [INFO] --------------------------------------------------------------------------------
+2025-03-31 14:59:18 [INFO] TSNE(early_exaggeration=12, learning_rate=5, n_iter=250, n_jobs=8,
+2025-03-31 14:59:18 [INFO]      perplexity=20, verbose=2)
+2025-03-31 14:59:18 [INFO] --------------------------------------------------------------------------------
+2025-03-31 14:59:18 [INFO] ===>
+2025-03-31 14:59:18 [INFO] Finding 60 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 14:59:18 [INFO]    --> Time elapsed: 0.09 seconds
+2025-03-31 14:59:18 [INFO] ===>
+2025-03-31 14:59:18 [INFO] Calculating affinity matrix...
+2025-03-31 14:59:18 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 14:59:18 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 14:59:18 [INFO] ===>
+2025-03-31 14:59:18 [INFO] Calculating PCA-based initialization...
+2025-03-31 14:59:18 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 14:59:18 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 14:59:18 [INFO] ===>
+2025-03-31 14:59:18 [INFO] Running optimization with exaggeration=12.00, lr=5.00 for 250 iterations...
+2025-03-31 14:59:26 [INFO] Iteration   50, KL divergence 3.8907, 50 iterations in 8.3019 sec
+2025-03-31 14:59:36 [INFO] Iteration  100, KL divergence 2.7644, 50 iterations in 9.6366 sec
+2025-03-31 14:59:45 [INFO] Iteration  150, KL divergence 2.5307, 50 iterations in 9.5251 sec
+2025-03-31 14:59:54 [INFO] Iteration  200, KL divergence 2.3925, 50 iterations in 8.4459 sec
+2025-03-31 15:00:02 [INFO] Iteration  250, KL divergence 2.3368, 50 iterations in 8.8439 sec
+2025-03-31 15:00:02 [INFO]    --> Time elapsed: 44.75 seconds
+2025-03-31 15:00:02 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 15:00:02 [INFO] ===>
+2025-03-31 15:00:02 [INFO] Running optimization with exaggeration=1.00, lr=5.00 for 250 iterations...
+2025-03-31 15:00:12 [INFO] Iteration   50, KL divergence 1.4315, 50 iterations in 9.9917 sec
+2025-03-31 15:00:23 [INFO] Iteration  100, KL divergence 1.1277, 50 iterations in 10.1571 sec
+2025-03-31 15:00:32 [INFO] Iteration  150, KL divergence 0.9613, 50 iterations in 9.3101 sec
+2025-03-31 15:00:42 [INFO] Iteration  200, KL divergence 0.8551, 50 iterations in 10.0267 sec
+2025-03-31 15:00:51 [INFO] Iteration  250, KL divergence 0.7810, 50 iterations in 9.2963 sec
+2025-03-31 15:00:51 [INFO]    --> Time elapsed: 48.78 seconds
+2025-03-31 15:00:52 [INFO] Benchmark run 2/20
+2025-03-31 15:00:52 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:00:52 [INFO] TSNE(early_exaggeration=12, learning_rate=5, n_iter=250, n_jobs=8,
+2025-03-31 15:00:52 [INFO]      perplexity=20, verbose=2)
+2025-03-31 15:00:52 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:00:52 [INFO] ===>
+2025-03-31 15:00:52 [INFO] Finding 60 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 15:00:52 [INFO]    --> Time elapsed: 0.13 seconds
+2025-03-31 15:00:52 [INFO] ===>
+2025-03-31 15:00:52 [INFO] Calculating affinity matrix...
+2025-03-31 15:00:52 [INFO]    --> Time elapsed: 0.01 seconds
+2025-03-31 15:00:52 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 15:00:52 [INFO] ===>
+2025-03-31 15:00:52 [INFO] Calculating PCA-based initialization...
+2025-03-31 15:00:52 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 15:00:52 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 15:00:52 [INFO] ===>
+2025-03-31 15:00:52 [INFO] Running optimization with exaggeration=12.00, lr=5.00 for 250 iterations...
+2025-03-31 15:01:03 [INFO] Iteration   50, KL divergence 3.8907, 50 iterations in 10.9626 sec
+2025-03-31 15:01:13 [INFO] Iteration  100, KL divergence 2.7646, 50 iterations in 10.2823 sec
+2025-03-31 15:01:30 [INFO] Benchmarking D&C with parallel=False, perplexity=30, learning_rate=5, n_iter=250, verbose=2...
+2025-03-31 15:01:30 [INFO] Generating data...
+2025-03-31 15:01:30 [INFO] Starting benchmark...
+2025-03-31 15:01:30 [INFO] Benchmark run 1/20
+2025-03-31 15:01:30 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:01:30 [INFO] TSNE(early_exaggeration=12, learning_rate=5, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 15:01:30 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:01:30 [INFO] ===>
+2025-03-31 15:01:30 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 15:01:30 [INFO]    --> Time elapsed: 0.10 seconds
+2025-03-31 15:01:30 [INFO] ===>
+2025-03-31 15:01:30 [INFO] Calculating affinity matrix...
+2025-03-31 15:01:30 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 15:01:30 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 15:01:30 [INFO] ===>
+2025-03-31 15:01:30 [INFO] Calculating PCA-based initialization...
+2025-03-31 15:01:30 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 15:01:30 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 15:01:30 [INFO] ===>
+2025-03-31 15:01:30 [INFO] Running optimization with exaggeration=12.00, lr=5.00 for 250 iterations...
+2025-03-31 15:01:39 [INFO] Iteration   50, KL divergence 3.4842, 50 iterations in 8.8402 sec
+2025-03-31 15:01:49 [INFO] Iteration  100, KL divergence 2.6263, 50 iterations in 10.2094 sec
+2025-03-31 15:01:58 [INFO] Iteration  150, KL divergence 2.5838, 50 iterations in 9.5072 sec
+2025-03-31 15:02:07 [INFO] Iteration  200, KL divergence 2.5707, 50 iterations in 8.7970 sec
+2025-03-31 15:02:16 [INFO] Iteration  250, KL divergence 2.5490, 50 iterations in 9.1220 sec
+2025-03-31 15:02:16 [INFO]    --> Time elapsed: 46.48 seconds
+2025-03-31 15:02:17 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 15:02:17 [INFO] ===>
+2025-03-31 15:02:17 [INFO] Running optimization with exaggeration=1.00, lr=5.00 for 250 iterations...
+2025-03-31 15:02:23 [INFO] Iteration   50, KL divergence 1.3916, 50 iterations in 6.1443 sec
+2025-03-31 15:02:25 [INFO] Iteration  100, KL divergence 1.0698, 50 iterations in 2.2216 sec
+2025-03-31 15:02:30 [INFO] Iteration  150, KL divergence 0.9136, 50 iterations in 4.7883 sec
+2025-03-31 15:02:38 [INFO] Iteration  200, KL divergence 0.8201, 50 iterations in 8.7590 sec
+2025-03-31 15:02:48 [INFO] Iteration  250, KL divergence 0.7572, 50 iterations in 9.9267 sec
+2025-03-31 15:02:48 [INFO]    --> Time elapsed: 31.84 seconds
+2025-03-31 15:02:49 [INFO] Benchmark run 2/20
+2025-03-31 15:02:49 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:02:49 [INFO] TSNE(early_exaggeration=12, learning_rate=5, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 15:02:49 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:02:49 [INFO] ===>
+2025-03-31 15:02:49 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 15:02:49 [INFO]    --> Time elapsed: 0.10 seconds
+2025-03-31 15:02:49 [INFO] ===>
+2025-03-31 15:02:49 [INFO] Calculating affinity matrix...
+2025-03-31 15:02:49 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 15:02:49 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 15:02:49 [INFO] ===>
+2025-03-31 15:02:49 [INFO] Calculating PCA-based initialization...
+2025-03-31 15:02:49 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 15:02:49 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 15:02:49 [INFO] ===>
+2025-03-31 15:02:49 [INFO] Running optimization with exaggeration=12.00, lr=5.00 for 250 iterations...
+2025-03-31 15:03:00 [INFO] Iteration   50, KL divergence 3.4842, 50 iterations in 11.4724 sec
+2025-03-31 15:03:12 [INFO] Iteration  100, KL divergence 2.6263, 50 iterations in 11.3171 sec
+2025-03-31 15:03:20 [INFO] Iteration  150, KL divergence 2.5840, 50 iterations in 8.4362 sec
+2025-03-31 15:03:30 [INFO] Iteration  200, KL divergence 2.5709, 50 iterations in 10.0814 sec
+2025-03-31 15:03:40 [INFO] Iteration  250, KL divergence 2.5492, 50 iterations in 9.7934 sec
+2025-03-31 15:03:40 [INFO]    --> Time elapsed: 51.10 seconds
+2025-03-31 15:03:40 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 15:03:40 [INFO] ===>
+2025-03-31 15:03:40 [INFO] Running optimization with exaggeration=1.00, lr=5.00 for 250 iterations...
+2025-03-31 15:03:52 [INFO] Iteration   50, KL divergence 1.3941, 50 iterations in 11.6215 sec
+2025-03-31 15:04:03 [INFO] Iteration  100, KL divergence 1.0708, 50 iterations in 11.3752 sec
+2025-03-31 15:04:14 [INFO] Iteration  150, KL divergence 0.9145, 50 iterations in 11.3346 sec
+2025-03-31 15:04:25 [INFO] Iteration  200, KL divergence 0.8208, 50 iterations in 10.7347 sec
+2025-03-31 15:04:37 [INFO] Iteration  250, KL divergence 0.7569, 50 iterations in 11.7956 sec
+2025-03-31 15:04:37 [INFO]    --> Time elapsed: 56.86 seconds
+2025-03-31 15:04:37 [INFO] Benchmark run 3/20
+2025-03-31 15:04:37 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:04:37 [INFO] TSNE(early_exaggeration=12, learning_rate=5, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 15:04:37 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:04:37 [INFO] ===>
+2025-03-31 15:04:37 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 15:04:37 [INFO]    --> Time elapsed: 0.14 seconds
+2025-03-31 15:04:37 [INFO] ===>
+2025-03-31 15:04:37 [INFO] Calculating affinity matrix...
+2025-03-31 15:04:37 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 15:04:37 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 15:04:37 [INFO] ===>
+2025-03-31 15:04:37 [INFO] Calculating PCA-based initialization...
+2025-03-31 15:04:37 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 15:04:37 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 15:04:37 [INFO] ===>
+2025-03-31 15:04:37 [INFO] Running optimization with exaggeration=12.00, lr=5.00 for 250 iterations...
+2025-03-31 15:04:48 [INFO] Iteration   50, KL divergence 3.4843, 50 iterations in 10.6943 sec
+2025-03-31 15:04:59 [INFO] Iteration  100, KL divergence 2.6261, 50 iterations in 10.5192 sec
+2025-03-31 15:05:09 [INFO] Iteration  150, KL divergence 2.5836, 50 iterations in 10.5428 sec
+2025-03-31 15:05:19 [INFO] Iteration  200, KL divergence 2.5706, 50 iterations in 9.7826 sec
+2025-03-31 15:05:29 [INFO] Iteration  250, KL divergence 2.5489, 50 iterations in 9.8299 sec
+2025-03-31 15:05:29 [INFO]    --> Time elapsed: 51.37 seconds
+2025-03-31 15:05:29 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 15:05:29 [INFO] ===>
+2025-03-31 15:05:29 [INFO] Running optimization with exaggeration=1.00, lr=5.00 for 250 iterations...
+2025-03-31 15:05:40 [INFO] Iteration   50, KL divergence 1.3931, 50 iterations in 11.3069 sec
+2025-03-31 15:05:51 [INFO] Iteration  100, KL divergence 1.0702, 50 iterations in 10.7489 sec
+2025-03-31 15:06:02 [INFO] Iteration  150, KL divergence 0.9141, 50 iterations in 10.8369 sec
+2025-03-31 15:06:13 [INFO] Iteration  200, KL divergence 0.8199, 50 iterations in 11.1769 sec
+2025-03-31 15:06:24 [INFO] Iteration  250, KL divergence 0.7563, 50 iterations in 11.1569 sec
+2025-03-31 15:06:24 [INFO]    --> Time elapsed: 55.23 seconds
+2025-03-31 15:06:25 [INFO] Benchmark run 4/20
+2025-03-31 15:06:25 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:06:25 [INFO] TSNE(early_exaggeration=12, learning_rate=5, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 15:06:25 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:06:25 [INFO] ===>
+2025-03-31 15:06:25 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 15:06:25 [INFO]    --> Time elapsed: 0.12 seconds
+2025-03-31 15:06:25 [INFO] ===>
+2025-03-31 15:06:25 [INFO] Calculating affinity matrix...
+2025-03-31 15:06:25 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 15:06:25 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 15:06:25 [INFO] ===>
+2025-03-31 15:06:25 [INFO] Calculating PCA-based initialization...
+2025-03-31 15:06:25 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 15:06:25 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 15:06:25 [INFO] ===>
+2025-03-31 15:06:25 [INFO] Running optimization with exaggeration=12.00, lr=5.00 for 250 iterations...
+2025-03-31 15:06:36 [INFO] Iteration   50, KL divergence 3.4842, 50 iterations in 11.0170 sec
+2025-03-31 15:06:46 [INFO] Iteration  100, KL divergence 2.6264, 50 iterations in 10.3620 sec
+2025-03-31 15:06:57 [INFO] Iteration  150, KL divergence 2.5838, 50 iterations in 10.4664 sec
+2025-03-31 15:08:22 [INFO] Benchmarking D&C with parallel=False, perplexity=30, learning_rate=5, n_iter=250, verbose=2...
+2025-03-31 15:08:22 [INFO] Generating data...
+2025-03-31 15:08:22 [INFO] Starting benchmark...
+2025-03-31 15:08:22 [INFO] Benchmark run 1/20
+2025-03-31 15:08:22 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:08:22 [INFO] TSNE(early_exaggeration=12, learning_rate=5, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 15:08:22 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:08:22 [INFO] ===>
+2025-03-31 15:08:22 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 15:08:22 [INFO]    --> Time elapsed: 0.09 seconds
+2025-03-31 15:08:22 [INFO] ===>
+2025-03-31 15:08:22 [INFO] Calculating affinity matrix...
+2025-03-31 15:08:22 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 15:08:22 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 15:08:22 [INFO] ===>
+2025-03-31 15:08:22 [INFO] Calculating PCA-based initialization...
+2025-03-31 15:08:22 [INFO]    --> Time elapsed: 0.04 seconds
+2025-03-31 15:08:22 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 15:08:22 [INFO] ===>
+2025-03-31 15:08:22 [INFO] Running optimization with exaggeration=12.00, lr=5.00 for 250 iterations...
+2025-03-31 15:08:30 [INFO] Iteration   50, KL divergence 3.4842, 50 iterations in 8.0827 sec
+2025-03-31 15:08:39 [INFO] Iteration  100, KL divergence 2.6263, 50 iterations in 9.4814 sec
+2025-03-31 15:08:49 [INFO] Iteration  150, KL divergence 2.5838, 50 iterations in 9.7889 sec
+2025-03-31 15:08:59 [INFO] Iteration  200, KL divergence 2.5707, 50 iterations in 9.7345 sec
+2025-03-31 15:09:08 [INFO] Iteration  250, KL divergence 2.5490, 50 iterations in 9.2317 sec
+2025-03-31 15:09:08 [INFO]    --> Time elapsed: 46.32 seconds
+2025-03-31 15:09:08 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 15:09:08 [INFO] ===>
+2025-03-31 15:09:08 [INFO] Running optimization with exaggeration=1.00, lr=5.00 for 250 iterations...
+2025-03-31 15:09:19 [INFO] Iteration   50, KL divergence 1.3916, 50 iterations in 10.1914 sec
+2025-03-31 15:09:29 [INFO] Iteration  100, KL divergence 1.0698, 50 iterations in 10.3850 sec
+2025-03-31 15:09:39 [INFO] Iteration  150, KL divergence 0.9136, 50 iterations in 10.2511 sec
+2025-03-31 15:09:50 [INFO] Iteration  200, KL divergence 0.8201, 50 iterations in 10.2859 sec
+2025-03-31 15:10:00 [INFO] Iteration  250, KL divergence 0.7572, 50 iterations in 10.4179 sec
+2025-03-31 15:10:00 [INFO]    --> Time elapsed: 51.53 seconds
+2025-03-31 15:10:00 [INFO] Benchmark run 2/20
+2025-03-31 15:10:00 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:10:00 [INFO] TSNE(early_exaggeration=12, learning_rate=5, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 15:10:00 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:10:00 [INFO] ===>
+2025-03-31 15:10:00 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 15:10:00 [INFO]    --> Time elapsed: 0.11 seconds
+2025-03-31 15:10:00 [INFO] ===>
+2025-03-31 15:10:00 [INFO] Calculating affinity matrix...
+2025-03-31 15:10:00 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 15:10:00 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 15:10:00 [INFO] ===>
+2025-03-31 15:10:00 [INFO] Calculating PCA-based initialization...
+2025-03-31 15:10:00 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 15:10:00 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 15:10:00 [INFO] ===>
+2025-03-31 15:10:00 [INFO] Running optimization with exaggeration=12.00, lr=5.00 for 250 iterations...
+2025-03-31 15:10:12 [INFO] Iteration   50, KL divergence 3.4842, 50 iterations in 11.2620 sec
+2025-03-31 15:10:23 [INFO] Iteration  100, KL divergence 2.6263, 50 iterations in 11.1880 sec
+2025-03-31 15:10:34 [INFO] Iteration  150, KL divergence 2.5840, 50 iterations in 10.9178 sec
+2025-03-31 15:10:45 [INFO] Iteration  200, KL divergence 2.5709, 50 iterations in 10.8864 sec
+2025-03-31 15:10:55 [INFO] Iteration  250, KL divergence 2.5492, 50 iterations in 10.3515 sec
+2025-03-31 15:10:55 [INFO]    --> Time elapsed: 54.61 seconds
+2025-03-31 15:10:55 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 15:10:55 [INFO] ===>
+2025-03-31 15:10:55 [INFO] Running optimization with exaggeration=1.00, lr=5.00 for 250 iterations...
+2025-03-31 15:11:06 [INFO] Iteration   50, KL divergence 1.3941, 50 iterations in 11.3006 sec
+2025-03-31 15:11:18 [INFO] Iteration  100, KL divergence 1.0708, 50 iterations in 11.5277 sec
+2025-03-31 15:11:29 [INFO] Iteration  150, KL divergence 0.9145, 50 iterations in 11.3730 sec
+2025-03-31 15:11:41 [INFO] Iteration  200, KL divergence 0.8208, 50 iterations in 11.3555 sec
+2025-03-31 15:11:52 [INFO] Iteration  250, KL divergence 0.7569, 50 iterations in 10.9026 sec
+2025-03-31 15:11:52 [INFO]    --> Time elapsed: 56.46 seconds
+2025-03-31 15:11:52 [INFO] Benchmark run 3/20
+2025-03-31 15:11:52 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:11:52 [INFO] TSNE(early_exaggeration=12, learning_rate=5, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 15:11:52 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:11:52 [INFO] ===>
+2025-03-31 15:11:52 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 15:11:52 [INFO]    --> Time elapsed: 0.12 seconds
+2025-03-31 15:11:52 [INFO] ===>
+2025-03-31 15:11:52 [INFO] Calculating affinity matrix...
+2025-03-31 15:11:52 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 15:11:52 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 15:11:52 [INFO] ===>
+2025-03-31 15:11:52 [INFO] Calculating PCA-based initialization...
+2025-03-31 15:11:52 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 15:11:52 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 15:11:52 [INFO] ===>
+2025-03-31 15:11:52 [INFO] Running optimization with exaggeration=12.00, lr=5.00 for 250 iterations...
+2025-03-31 15:27:01 [INFO] Iteration   50, KL divergence 3.4843, 50 iterations in 908.5931 sec
+2025-03-31 15:27:15 [INFO] Iteration  100, KL divergence 2.6261, 50 iterations in 14.6323 sec
+2025-03-31 15:27:26 [INFO] Iteration  150, KL divergence 2.5836, 50 iterations in 10.7842 sec
+2025-03-31 15:27:37 [INFO] Iteration  200, KL divergence 2.5706, 50 iterations in 10.4353 sec
+2025-03-31 15:42:45 [INFO] Iteration  250, KL divergence 2.5489, 50 iterations in 908.8494 sec
+2025-03-31 15:42:45 [INFO]    --> Time elapsed: 1853.30 seconds
+2025-03-31 15:42:46 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 15:42:46 [INFO] ===>
+2025-03-31 15:42:46 [INFO] Running optimization with exaggeration=1.00, lr=5.00 for 250 iterations...
+2025-03-31 15:42:57 [INFO] Iteration   50, KL divergence 1.3931, 50 iterations in 11.3075 sec
+2025-03-31 15:43:09 [INFO] Iteration  100, KL divergence 1.0702, 50 iterations in 12.0257 sec
+2025-03-31 15:43:20 [INFO] Iteration  150, KL divergence 0.9141, 50 iterations in 10.6667 sec
+2025-03-31 15:43:31 [INFO] Iteration  200, KL divergence 0.8199, 50 iterations in 11.6297 sec
+2025-03-31 15:43:43 [INFO] Iteration  250, KL divergence 0.7563, 50 iterations in 11.6436 sec
+2025-03-31 15:43:43 [INFO]    --> Time elapsed: 57.27 seconds
+2025-03-31 15:43:43 [INFO] Benchmark run 4/20
+2025-03-31 15:43:43 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:43:43 [INFO] TSNE(early_exaggeration=12, learning_rate=5, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 15:43:43 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:43:43 [INFO] ===>
+2025-03-31 15:43:43 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 15:43:43 [INFO]    --> Time elapsed: 0.11 seconds
+2025-03-31 15:43:43 [INFO] ===>
+2025-03-31 15:43:43 [INFO] Calculating affinity matrix...
+2025-03-31 15:43:43 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 15:43:43 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 15:43:43 [INFO] ===>
+2025-03-31 15:43:43 [INFO] Calculating PCA-based initialization...
+2025-03-31 15:43:43 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 15:43:43 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 15:43:43 [INFO] ===>
+2025-03-31 15:43:43 [INFO] Running optimization with exaggeration=12.00, lr=5.00 for 250 iterations...
+2025-03-31 15:43:55 [INFO] Iteration   50, KL divergence 3.4842, 50 iterations in 11.6907 sec
+2025-03-31 15:44:06 [INFO] Iteration  100, KL divergence 2.6264, 50 iterations in 11.1408 sec
+2025-03-31 15:44:17 [INFO] Iteration  150, KL divergence 2.5838, 50 iterations in 10.8215 sec
+2025-03-31 15:44:28 [INFO] Iteration  200, KL divergence 2.5708, 50 iterations in 10.7652 sec
+2025-03-31 15:44:36 [INFO] Iteration  250, KL divergence 2.5492, 50 iterations in 8.1743 sec
+2025-03-31 15:44:36 [INFO]    --> Time elapsed: 52.59 seconds
+2025-03-31 15:44:36 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 15:44:36 [INFO] ===>
+2025-03-31 15:44:36 [INFO] Running optimization with exaggeration=1.00, lr=5.00 for 250 iterations...
+2025-03-31 15:44:46 [INFO] Iteration   50, KL divergence 1.3933, 50 iterations in 10.1776 sec
+2025-03-31 15:44:58 [INFO] Iteration  100, KL divergence 1.0703, 50 iterations in 11.4350 sec
+2025-03-31 15:45:09 [INFO] Iteration  150, KL divergence 0.9141, 50 iterations in 11.2645 sec
+2025-03-31 15:45:21 [INFO] Iteration  200, KL divergence 0.8206, 50 iterations in 11.7887 sec
+2025-03-31 15:45:32 [INFO] Iteration  250, KL divergence 0.7579, 50 iterations in 10.8638 sec
+2025-03-31 15:45:32 [INFO]    --> Time elapsed: 55.53 seconds
+2025-03-31 15:45:32 [INFO] Benchmark run 5/20
+2025-03-31 15:45:32 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:45:32 [INFO] TSNE(early_exaggeration=12, learning_rate=5, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 15:45:32 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:45:32 [INFO] ===>
+2025-03-31 15:45:32 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 15:45:32 [INFO]    --> Time elapsed: 0.11 seconds
+2025-03-31 15:45:32 [INFO] ===>
+2025-03-31 15:45:32 [INFO] Calculating affinity matrix...
+2025-03-31 15:45:32 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 15:45:32 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 15:45:32 [INFO] ===>
+2025-03-31 15:45:32 [INFO] Calculating PCA-based initialization...
+2025-03-31 15:45:32 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 15:45:32 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 15:45:32 [INFO] ===>
+2025-03-31 15:45:32 [INFO] Running optimization with exaggeration=12.00, lr=5.00 for 250 iterations...
+2025-03-31 15:45:44 [INFO] Iteration   50, KL divergence 3.4842, 50 iterations in 11.5103 sec
+2025-03-31 15:45:55 [INFO] Iteration  100, KL divergence 2.6262, 50 iterations in 11.2146 sec
+2025-03-31 15:46:06 [INFO] Iteration  150, KL divergence 2.5838, 50 iterations in 11.2462 sec
+2025-03-31 15:46:16 [INFO] Iteration  200, KL divergence 2.5708, 50 iterations in 9.8420 sec
+2025-03-31 15:46:25 [INFO] Iteration  250, KL divergence 2.5490, 50 iterations in 9.6471 sec
+2025-03-31 15:46:25 [INFO]    --> Time elapsed: 53.46 seconds
+2025-03-31 15:46:26 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 15:46:26 [INFO] ===>
+2025-03-31 15:46:26 [INFO] Running optimization with exaggeration=1.00, lr=5.00 for 250 iterations...
+2025-03-31 15:46:36 [INFO] Iteration   50, KL divergence 1.3926, 50 iterations in 10.5401 sec
+2025-03-31 15:46:47 [INFO] Iteration  100, KL divergence 1.0704, 50 iterations in 11.0208 sec
+2025-03-31 15:46:58 [INFO] Iteration  150, KL divergence 0.9143, 50 iterations in 10.7557 sec
+2025-03-31 15:47:09 [INFO] Iteration  200, KL divergence 0.8204, 50 iterations in 11.1020 sec
+2025-03-31 15:47:20 [INFO] Iteration  250, KL divergence 0.7567, 50 iterations in 10.8694 sec
+2025-03-31 15:47:20 [INFO]    --> Time elapsed: 54.29 seconds
+2025-03-31 15:47:20 [INFO] Benchmark run 6/20
+2025-03-31 15:47:20 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:47:20 [INFO] TSNE(early_exaggeration=12, learning_rate=5, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 15:47:20 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:47:20 [INFO] ===>
+2025-03-31 15:47:20 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 15:47:20 [INFO]    --> Time elapsed: 0.11 seconds
+2025-03-31 15:47:20 [INFO] ===>
+2025-03-31 15:47:20 [INFO] Calculating affinity matrix...
+2025-03-31 15:47:20 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 15:47:20 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 15:47:20 [INFO] ===>
+2025-03-31 15:47:20 [INFO] Calculating PCA-based initialization...
+2025-03-31 15:47:20 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 15:47:20 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 15:47:20 [INFO] ===>
+2025-03-31 15:47:20 [INFO] Running optimization with exaggeration=12.00, lr=5.00 for 250 iterations...
+2025-03-31 15:47:31 [INFO] Iteration   50, KL divergence 3.4843, 50 iterations in 11.1676 sec
+2025-03-31 15:47:43 [INFO] Iteration  100, KL divergence 2.6262, 50 iterations in 11.5139 sec
+2025-03-31 15:47:54 [INFO] Iteration  150, KL divergence 2.5836, 50 iterations in 10.9297 sec
+2025-03-31 15:48:04 [INFO] Iteration  200, KL divergence 2.5707, 50 iterations in 10.2935 sec
+2025-03-31 15:48:14 [INFO] Iteration  250, KL divergence 2.5493, 50 iterations in 10.1107 sec
+2025-03-31 15:48:14 [INFO]    --> Time elapsed: 54.02 seconds
+2025-03-31 15:48:15 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 15:48:15 [INFO] ===>
+2025-03-31 15:48:15 [INFO] Running optimization with exaggeration=1.00, lr=5.00 for 250 iterations...
+2025-03-31 15:48:25 [INFO] Iteration   50, KL divergence 1.3927, 50 iterations in 10.0741 sec
+2025-03-31 15:48:36 [INFO] Iteration  100, KL divergence 1.0697, 50 iterations in 11.4168 sec
+2025-03-31 15:48:47 [INFO] Iteration  150, KL divergence 0.9137, 50 iterations in 10.6726 sec
+2025-03-31 15:48:57 [INFO] Iteration  200, KL divergence 0.8203, 50 iterations in 10.0968 sec
+2025-03-31 15:49:09 [INFO] Iteration  250, KL divergence 0.7577, 50 iterations in 11.8131 sec
+2025-03-31 15:49:09 [INFO]    --> Time elapsed: 54.07 seconds
+2025-03-31 15:49:09 [INFO] Benchmark run 7/20
+2025-03-31 15:49:09 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:49:09 [INFO] TSNE(early_exaggeration=12, learning_rate=5, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 15:49:09 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:49:09 [INFO] ===>
+2025-03-31 15:49:09 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 15:49:09 [INFO]    --> Time elapsed: 0.16 seconds
+2025-03-31 15:49:09 [INFO] ===>
+2025-03-31 15:49:09 [INFO] Calculating affinity matrix...
+2025-03-31 15:49:09 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 15:49:09 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 15:49:09 [INFO] ===>
+2025-03-31 15:49:09 [INFO] Calculating PCA-based initialization...
+2025-03-31 15:49:09 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 15:49:09 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 15:49:09 [INFO] ===>
+2025-03-31 15:49:09 [INFO] Running optimization with exaggeration=12.00, lr=5.00 for 250 iterations...
+2025-03-31 15:49:21 [INFO] Iteration   50, KL divergence 3.4843, 50 iterations in 11.5062 sec
+2025-03-31 15:49:31 [INFO] Iteration  100, KL divergence 2.6260, 50 iterations in 10.7789 sec
+2025-03-31 15:49:42 [INFO] Iteration  150, KL divergence 2.5832, 50 iterations in 10.5787 sec
+2025-03-31 15:49:52 [INFO] Iteration  200, KL divergence 2.5705, 50 iterations in 9.7621 sec
+2025-03-31 15:50:00 [INFO] Iteration  250, KL divergence 2.5484, 50 iterations in 8.2624 sec
+2025-03-31 15:50:00 [INFO]    --> Time elapsed: 50.89 seconds
+2025-03-31 15:50:00 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 15:50:00 [INFO] ===>
+2025-03-31 15:50:00 [INFO] Running optimization with exaggeration=1.00, lr=5.00 for 250 iterations...
+2025-03-31 15:50:11 [INFO] Iteration   50, KL divergence 1.3902, 50 iterations in 11.0000 sec
+2025-03-31 15:50:22 [INFO] Iteration  100, KL divergence 1.0683, 50 iterations in 11.1487 sec
+2025-03-31 15:50:34 [INFO] Iteration  150, KL divergence 0.9129, 50 iterations in 11.2913 sec
+2025-03-31 15:50:44 [INFO] Iteration  200, KL divergence 0.8195, 50 iterations in 10.7976 sec
+2025-03-31 15:50:55 [INFO] Iteration  250, KL divergence 0.7560, 50 iterations in 10.9958 sec
+2025-03-31 15:50:55 [INFO]    --> Time elapsed: 55.23 seconds
+2025-03-31 15:50:56 [INFO] Benchmark run 8/20
+2025-03-31 15:50:56 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:50:56 [INFO] TSNE(early_exaggeration=12, learning_rate=5, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 15:50:56 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:50:56 [INFO] ===>
+2025-03-31 15:50:56 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 15:50:56 [INFO]    --> Time elapsed: 0.11 seconds
+2025-03-31 15:50:56 [INFO] ===>
+2025-03-31 15:50:56 [INFO] Calculating affinity matrix...
+2025-03-31 15:50:56 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 15:50:56 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 15:50:56 [INFO] ===>
+2025-03-31 15:50:56 [INFO] Calculating PCA-based initialization...
+2025-03-31 15:50:56 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 15:50:56 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 15:50:56 [INFO] ===>
+2025-03-31 15:50:56 [INFO] Running optimization with exaggeration=12.00, lr=5.00 for 250 iterations...
+2025-03-31 15:51:07 [INFO] Iteration   50, KL divergence 3.4841, 50 iterations in 11.3986 sec
+2025-03-31 15:51:19 [INFO] Iteration  100, KL divergence 2.6262, 50 iterations in 11.8976 sec
+2025-03-31 15:52:38 [INFO] Benchmarking D&C with parallel=False, perplexity=30, learning_rate=5, n_iter=250, verbose=2...
+2025-03-31 15:52:38 [INFO] Generating data...
+2025-03-31 15:52:38 [INFO] Starting benchmark...
+2025-03-31 15:52:38 [INFO] Benchmark run 1/20
+2025-03-31 15:52:38 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:52:38 [INFO] TSNE(early_exaggeration=12, learning_rate=5, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 15:52:38 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:52:38 [INFO] ===>
+2025-03-31 15:52:38 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 15:52:38 [INFO]    --> Time elapsed: 0.13 seconds
+2025-03-31 15:52:38 [INFO] ===>
+2025-03-31 15:52:38 [INFO] Calculating affinity matrix...
+2025-03-31 15:52:38 [INFO]    --> Time elapsed: 0.03 seconds
+2025-03-31 15:52:38 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 15:52:38 [INFO] ===>
+2025-03-31 15:52:38 [INFO] Calculating PCA-based initialization...
+2025-03-31 15:52:38 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 15:52:38 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 15:52:38 [INFO] ===>
+2025-03-31 15:52:38 [INFO] Running optimization with exaggeration=12.00, lr=5.00 for 250 iterations...
+2025-03-31 15:52:53 [INFO] Benchmarking D&C with parallel=False, perplexity=30, learning_rate=5, n_iter=250, verbose=2...
+2025-03-31 15:52:53 [INFO] Generating data...
+2025-03-31 15:52:53 [INFO] Starting benchmark...
+2025-03-31 15:52:53 [INFO] Benchmark run 1/20
+2025-03-31 15:52:53 [INFO] Backend macosx is interactive backend. Turning interactive mode on.
+2025-03-31 15:53:37 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:53:37 [INFO] TSNE(early_exaggeration=12, learning_rate=5, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 15:53:37 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:53:37 [INFO] ===>
+2025-03-31 15:53:37 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 15:53:37 [INFO]    --> Time elapsed: 0.14 seconds
+2025-03-31 15:53:37 [INFO] ===>
+2025-03-31 15:53:37 [INFO] Calculating affinity matrix...
+2025-03-31 15:53:37 [INFO]    --> Time elapsed: 0.01 seconds
+2025-03-31 15:53:37 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 15:53:37 [INFO] ===>
+2025-03-31 15:53:37 [INFO] Calculating PCA-based initialization...
+2025-03-31 15:53:38 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 15:53:38 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 15:53:38 [INFO] ===>
+2025-03-31 15:53:38 [INFO] Running optimization with exaggeration=12.00, lr=5.00 for 250 iterations...
+2025-03-31 15:53:47 [INFO] Iteration   50, KL divergence 3.4842, 50 iterations in 9.6908 sec
+2025-03-31 15:53:57 [INFO] Iteration  100, KL divergence 2.6263, 50 iterations in 9.9800 sec
+2025-03-31 15:54:07 [INFO] Iteration  150, KL divergence 2.5838, 50 iterations in 9.5429 sec
+2025-03-31 15:54:16 [INFO] Iteration  200, KL divergence 2.5707, 50 iterations in 9.3746 sec
+2025-03-31 15:54:25 [INFO] Iteration  250, KL divergence 2.5490, 50 iterations in 8.7995 sec
+2025-03-31 15:54:25 [INFO]    --> Time elapsed: 47.39 seconds
+2025-03-31 15:54:25 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 15:54:25 [INFO] ===>
+2025-03-31 15:54:25 [INFO] Running optimization with exaggeration=1.00, lr=5.00 for 250 iterations...
+2025-03-31 15:54:35 [INFO] Iteration   50, KL divergence 1.3916, 50 iterations in 9.8959 sec
+2025-03-31 15:54:44 [INFO] Iteration  100, KL divergence 1.0698, 50 iterations in 9.4028 sec
+2025-03-31 15:54:54 [INFO] Iteration  150, KL divergence 0.9136, 50 iterations in 9.8070 sec
+2025-03-31 15:55:04 [INFO] Iteration  200, KL divergence 0.8201, 50 iterations in 9.9239 sec
+2025-03-31 15:55:14 [INFO] Iteration  250, KL divergence 0.7572, 50 iterations in 10.2541 sec
+2025-03-31 15:55:14 [INFO]    --> Time elapsed: 49.28 seconds
+2025-03-31 15:55:15 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:55:15 [INFO] TSNE(early_exaggeration=12, learning_rate=5, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 15:55:15 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:55:15 [INFO] ===>
+2025-03-31 15:55:15 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 15:55:15 [INFO]    --> Time elapsed: 0.11 seconds
+2025-03-31 15:55:15 [INFO] ===>
+2025-03-31 15:55:15 [INFO] Calculating affinity matrix...
+2025-03-31 15:55:15 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 15:55:15 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 15:55:15 [INFO] ===>
+2025-03-31 15:55:15 [INFO] Calculating PCA-based initialization...
+2025-03-31 15:55:15 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 15:55:15 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 15:55:15 [INFO] ===>
+2025-03-31 15:55:15 [INFO] Running optimization with exaggeration=12.00, lr=5.00 for 250 iterations...
+2025-03-31 15:55:25 [INFO] Iteration   50, KL divergence 3.4842, 50 iterations in 9.9201 sec
+2025-03-31 15:55:35 [INFO] Iteration  100, KL divergence 2.6263, 50 iterations in 10.1172 sec
+2025-03-31 15:55:44 [INFO] Iteration  150, KL divergence 2.5840, 50 iterations in 9.5072 sec
+2025-03-31 15:55:54 [INFO] Iteration  200, KL divergence 2.5709, 50 iterations in 9.5664 sec
+2025-03-31 15:56:03 [INFO] Iteration  250, KL divergence 2.5492, 50 iterations in 8.9260 sec
+2025-03-31 15:56:03 [INFO]    --> Time elapsed: 48.04 seconds
+2025-03-31 15:56:03 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 15:56:03 [INFO] ===>
+2025-03-31 15:56:03 [INFO] Running optimization with exaggeration=1.00, lr=5.00 for 250 iterations...
+2025-03-31 15:56:13 [INFO] Iteration   50, KL divergence 1.3941, 50 iterations in 9.9405 sec
+2025-03-31 15:56:23 [INFO] Iteration  100, KL divergence 1.0708, 50 iterations in 10.0235 sec
+2025-03-31 15:56:33 [INFO] Iteration  150, KL divergence 0.9145, 50 iterations in 9.7766 sec
+2025-03-31 15:56:42 [INFO] Iteration  200, KL divergence 0.8208, 50 iterations in 9.7287 sec
+2025-03-31 15:56:52 [INFO] Iteration  250, KL divergence 0.7569, 50 iterations in 9.9935 sec
+2025-03-31 15:56:52 [INFO]    --> Time elapsed: 49.46 seconds
+2025-03-31 15:56:56 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:56:56 [INFO] TSNE(early_exaggeration=12, n_jobs=8, verbose=2)
+2025-03-31 15:56:56 [INFO] --------------------------------------------------------------------------------
+2025-03-31 15:56:56 [INFO] ===>
+2025-03-31 15:56:56 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 15:56:56 [INFO]    --> Time elapsed: 0.12 seconds
+2025-03-31 15:56:56 [INFO] ===>
+2025-03-31 15:56:56 [INFO] Calculating affinity matrix...
+2025-03-31 15:56:56 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 15:56:56 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 15:56:56 [INFO] ===>
+2025-03-31 15:56:56 [INFO] Calculating PCA-based initialization...
+2025-03-31 15:56:56 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 15:56:56 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 15:56:56 [INFO] ===>
+2025-03-31 15:56:56 [INFO] Running optimization with exaggeration=12.00, lr=83.33 for 250 iterations...
+2025-03-31 15:57:07 [INFO] Iteration   50, KL divergence 2.4884, 50 iterations in 10.5714 sec
+2025-03-31 15:57:17 [INFO] Iteration  100, KL divergence 2.5823, 50 iterations in 9.8127 sec
+2025-03-31 15:57:26 [INFO] Iteration  150, KL divergence 2.4880, 50 iterations in 8.9015 sec
+2025-03-31 15:57:35 [INFO] Iteration  200, KL divergence 2.3161, 50 iterations in 9.7085 sec
+2025-03-31 15:57:45 [INFO] Iteration  250, KL divergence 2.3107, 50 iterations in 9.9825 sec
+2025-03-31 15:57:45 [INFO]    --> Time elapsed: 48.98 seconds
+2025-03-31 15:57:45 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 15:57:45 [INFO] ===>
+2025-03-31 15:57:45 [INFO] Running optimization with exaggeration=1.00, lr=1000.00 for 500 iterations...
+2025-03-31 15:57:55 [INFO] Iteration   50, KL divergence 0.4947, 50 iterations in 9.9380 sec
+2025-03-31 15:58:06 [INFO] Iteration  100, KL divergence 0.4610, 50 iterations in 10.4607 sec
+2025-03-31 15:58:16 [INFO] Iteration  150, KL divergence 0.4533, 50 iterations in 10.5692 sec
+2025-03-31 15:58:27 [INFO] Iteration  200, KL divergence 0.4500, 50 iterations in 10.4953 sec
+2025-03-31 15:58:37 [INFO] Iteration  250, KL divergence 0.4476, 50 iterations in 10.5624 sec
+2025-03-31 15:58:48 [INFO] Iteration  300, KL divergence 0.4455, 50 iterations in 10.5976 sec
+2025-03-31 15:58:59 [INFO] Iteration  350, KL divergence 0.4444, 50 iterations in 10.6477 sec
+2025-03-31 15:59:09 [INFO] Iteration  400, KL divergence 0.4435, 50 iterations in 10.4968 sec
+2025-03-31 15:59:20 [INFO] Iteration  450, KL divergence 0.4423, 50 iterations in 10.4871 sec
+2025-03-31 15:59:30 [INFO] Iteration  500, KL divergence 0.4416, 50 iterations in 10.3593 sec
+2025-03-31 15:59:30 [INFO]    --> Time elapsed: 104.62 seconds
+2025-03-31 16:03:06 [INFO] --------------------------------------------------------------------------------
+2025-03-31 16:03:06 [INFO] TSNE(early_exaggeration=12, n_jobs=8, verbose=2)
+2025-03-31 16:03:06 [INFO] --------------------------------------------------------------------------------
+2025-03-31 16:03:06 [INFO] ===>
+2025-03-31 16:03:06 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 16:03:06 [INFO]    --> Time elapsed: 0.12 seconds
+2025-03-31 16:03:06 [INFO] ===>
+2025-03-31 16:03:06 [INFO] Calculating affinity matrix...
+2025-03-31 16:03:06 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 16:03:06 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 16:03:06 [INFO] ===>
+2025-03-31 16:03:06 [INFO] Calculating PCA-based initialization...
+2025-03-31 16:03:06 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 16:03:06 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 16:03:06 [INFO] ===>
+2025-03-31 16:03:06 [INFO] Running optimization with exaggeration=12.00, lr=83.33 for 250 iterations...
+2025-03-31 16:03:17 [INFO] Iteration   50, KL divergence 2.4914, 50 iterations in 10.8906 sec
+2025-03-31 16:03:25 [INFO] Iteration  100, KL divergence 2.5825, 50 iterations in 8.6701 sec
+2025-03-31 16:03:33 [INFO] Iteration  150, KL divergence 2.4897, 50 iterations in 7.9024 sec
+2025-03-31 16:03:43 [INFO] Iteration  200, KL divergence 2.3160, 50 iterations in 9.3058 sec
+2025-03-31 16:03:51 [INFO] Iteration  250, KL divergence 2.3105, 50 iterations in 8.7176 sec
+2025-03-31 16:03:51 [INFO]    --> Time elapsed: 45.49 seconds
+2025-03-31 16:03:51 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 16:03:51 [INFO] ===>
+2025-03-31 16:03:51 [INFO] Running optimization with exaggeration=1.00, lr=1000.00 for 500 iterations...
+2025-03-31 16:04:01 [INFO] Iteration   50, KL divergence 0.4962, 50 iterations in 10.0434 sec
+2025-03-31 16:04:12 [INFO] Iteration  100, KL divergence 0.4614, 50 iterations in 10.2401 sec
+2025-03-31 16:04:22 [INFO] Iteration  150, KL divergence 0.4537, 50 iterations in 10.4754 sec
+2025-03-31 16:04:32 [INFO] Iteration  200, KL divergence 0.4499, 50 iterations in 10.0233 sec
+2025-03-31 16:04:42 [INFO] Iteration  250, KL divergence 0.4478, 50 iterations in 9.5404 sec
+2025-03-31 16:04:52 [INFO] Iteration  300, KL divergence 0.4457, 50 iterations in 10.0045 sec
+2025-03-31 16:05:02 [INFO] Iteration  350, KL divergence 0.4443, 50 iterations in 10.0678 sec
+2025-03-31 16:05:12 [INFO] Iteration  400, KL divergence 0.4432, 50 iterations in 10.0121 sec
+2025-03-31 16:05:22 [INFO] Iteration  450, KL divergence 0.4424, 50 iterations in 10.3921 sec
+2025-03-31 16:05:33 [INFO] Iteration  500, KL divergence 0.4417, 50 iterations in 10.4125 sec
+2025-03-31 16:05:33 [INFO]    --> Time elapsed: 101.21 seconds
+2025-03-31 16:05:44 [INFO] --------------------------------------------------------------------------------
+2025-03-31 16:05:44 [INFO] TSNE(early_exaggeration=12, learning_rate=5, n_iter=250, n_jobs=8,
+2025-03-31 16:05:44 [INFO]      random_state=42, verbose=2)
+2025-03-31 16:05:44 [INFO] --------------------------------------------------------------------------------
+2025-03-31 16:05:44 [INFO] ===>
+2025-03-31 16:05:44 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 16:05:44 [INFO]    --> Time elapsed: 0.12 seconds
+2025-03-31 16:05:44 [INFO] ===>
+2025-03-31 16:05:44 [INFO] Calculating affinity matrix...
+2025-03-31 16:05:44 [INFO]    --> Time elapsed: 0.01 seconds
+2025-03-31 16:05:44 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 16:05:44 [INFO] ===>
+2025-03-31 16:05:44 [INFO] Calculating PCA-based initialization...
+2025-03-31 16:05:44 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 16:05:44 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 16:05:44 [INFO] ===>
+2025-03-31 16:05:44 [INFO] Running optimization with exaggeration=12.00, lr=5.00 for 250 iterations...
+2025-03-31 16:05:53 [INFO] Iteration   50, KL divergence 3.4842, 50 iterations in 9.0946 sec
+2025-03-31 16:06:03 [INFO] Iteration  100, KL divergence 2.6262, 50 iterations in 9.2090 sec
+2025-03-31 16:06:12 [INFO] Iteration  150, KL divergence 2.5835, 50 iterations in 9.4203 sec
+2025-03-31 16:06:22 [INFO] Iteration  200, KL divergence 2.5708, 50 iterations in 9.5967 sec
+2025-03-31 16:06:30 [INFO] Iteration  250, KL divergence 2.5490, 50 iterations in 8.8428 sec
+2025-03-31 16:06:30 [INFO]    --> Time elapsed: 46.16 seconds
+2025-03-31 16:06:31 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 16:06:31 [INFO] ===>
+2025-03-31 16:06:31 [INFO] Running optimization with exaggeration=1.00, lr=5.00 for 250 iterations...
+2025-03-31 16:06:41 [INFO] Iteration   50, KL divergence 1.3941, 50 iterations in 9.9872 sec
+2025-03-31 16:06:49 [INFO] Iteration  100, KL divergence 1.0711, 50 iterations in 8.2603 sec
+2025-03-31 16:06:57 [INFO] Iteration  150, KL divergence 0.9145, 50 iterations in 8.3529 sec
+2025-03-31 16:07:06 [INFO] Iteration  200, KL divergence 0.8206, 50 iterations in 8.9630 sec
+2025-03-31 16:07:16 [INFO] Iteration  250, KL divergence 0.7566, 50 iterations in 10.2884 sec
+2025-03-31 16:07:16 [INFO]    --> Time elapsed: 45.85 seconds
+2025-03-31 16:08:27 [INFO] --------------------------------------------------------------------------------
+2025-03-31 16:08:27 [INFO] TSNE(early_exaggeration=12, learning_rate=5, n_iter=250, n_jobs=8,
+2025-03-31 16:08:27 [INFO]      random_state=42, verbose=2)
+2025-03-31 16:08:27 [INFO] --------------------------------------------------------------------------------
+2025-03-31 16:08:27 [INFO] ===>
+2025-03-31 16:08:27 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 16:08:27 [INFO]    --> Time elapsed: 0.17 seconds
+2025-03-31 16:08:27 [INFO] ===>
+2025-03-31 16:08:27 [INFO] Calculating affinity matrix...
+2025-03-31 16:08:27 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 16:08:27 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 16:08:27 [INFO] ===>
+2025-03-31 16:08:27 [INFO] Calculating PCA-based initialization...
+2025-03-31 16:08:27 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 16:08:27 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 16:08:27 [INFO] ===>
+2025-03-31 16:08:27 [INFO] Running optimization with exaggeration=12.00, lr=5.00 for 250 iterations...
+2025-03-31 16:08:36 [INFO] Iteration   50, KL divergence 3.4842, 50 iterations in 9.1753 sec
+2025-03-31 16:08:46 [INFO] Iteration  100, KL divergence 2.6262, 50 iterations in 9.7339 sec
+2025-03-31 16:08:55 [INFO] Iteration  150, KL divergence 2.5835, 50 iterations in 9.2696 sec
+2025-03-31 16:09:05 [INFO] Iteration  200, KL divergence 2.5708, 50 iterations in 9.5494 sec
+2025-03-31 16:09:14 [INFO] Iteration  250, KL divergence 2.5490, 50 iterations in 9.2595 sec
+2025-03-31 16:09:14 [INFO]    --> Time elapsed: 46.99 seconds
+2025-03-31 16:09:14 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 16:09:14 [INFO] ===>
+2025-03-31 16:09:14 [INFO] Running optimization with exaggeration=1.00, lr=5.00 for 250 iterations...
+2025-03-31 16:09:24 [INFO] Iteration   50, KL divergence 1.3941, 50 iterations in 9.7591 sec
+2025-03-31 16:09:34 [INFO] Iteration  100, KL divergence 1.0711, 50 iterations in 10.4633 sec
+2025-03-31 16:09:45 [INFO] Iteration  150, KL divergence 0.9145, 50 iterations in 10.3357 sec
+2025-03-31 16:09:55 [INFO] Iteration  200, KL divergence 0.8206, 50 iterations in 10.2895 sec
+2025-03-31 16:10:05 [INFO] Iteration  250, KL divergence 0.7566, 50 iterations in 10.3981 sec
+2025-03-31 16:10:05 [INFO]    --> Time elapsed: 51.25 seconds
+2025-03-31 17:44:31 [INFO] Benchmarking D&C with parallel=False, perplexity=30, n_iter=250, verbose=2...
+2025-03-31 17:44:31 [INFO] Generating data...
+2025-03-31 17:44:31 [INFO] Starting benchmark...
+2025-03-31 17:44:31 [INFO] Benchmark run 1/20
+2025-03-31 17:44:31 [INFO] --------------------------------------------------------------------------------
+2025-03-31 17:44:31 [INFO] TSNE(early_exaggeration=12, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 17:44:31 [INFO] --------------------------------------------------------------------------------
+2025-03-31 17:44:31 [INFO] ===>
+2025-03-31 17:44:31 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 17:44:31 [INFO]    --> Time elapsed: 0.10 seconds
+2025-03-31 17:44:31 [INFO] ===>
+2025-03-31 17:44:31 [INFO] Calculating affinity matrix...
+2025-03-31 17:44:31 [INFO]    --> Time elapsed: 0.01 seconds
+2025-03-31 17:44:31 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 17:44:31 [INFO] ===>
+2025-03-31 17:44:31 [INFO] Calculating PCA-based initialization...
+2025-03-31 17:44:31 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 17:44:31 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 17:44:31 [INFO] ===>
+2025-03-31 17:44:31 [INFO] Running optimization with exaggeration=12.00, lr=83.33 for 250 iterations...
+2025-03-31 17:44:40 [INFO] Iteration   50, KL divergence 2.4913, 50 iterations in 8.8074 sec
+2025-03-31 17:44:49 [INFO] Iteration  100, KL divergence 2.5828, 50 iterations in 9.0611 sec
+2025-03-31 17:44:58 [INFO] Iteration  150, KL divergence 2.4840, 50 iterations in 8.8053 sec
+2025-03-31 17:45:07 [INFO] Iteration  200, KL divergence 2.3154, 50 iterations in 9.6486 sec
+2025-03-31 17:45:17 [INFO] Iteration  250, KL divergence 2.3105, 50 iterations in 9.9877 sec
+2025-03-31 17:45:17 [INFO]    --> Time elapsed: 46.31 seconds
+2025-03-31 17:45:17 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 17:45:17 [INFO] ===>
+2025-03-31 17:45:17 [INFO] Running optimization with exaggeration=1.00, lr=1000.00 for 250 iterations...
+2025-03-31 17:45:28 [INFO] Iteration   50, KL divergence 0.4954, 50 iterations in 10.6797 sec
+2025-03-31 17:45:39 [INFO] Iteration  100, KL divergence 0.4615, 50 iterations in 10.8812 sec
+2025-03-31 17:45:50 [INFO] Iteration  150, KL divergence 0.4538, 50 iterations in 10.8046 sec
+2025-03-31 17:46:01 [INFO] Iteration  200, KL divergence 0.4501, 50 iterations in 10.7762 sec
+2025-03-31 17:46:11 [INFO] Iteration  250, KL divergence 0.4474, 50 iterations in 10.5219 sec
+2025-03-31 17:46:11 [INFO]    --> Time elapsed: 53.66 seconds
+2025-03-31 17:46:12 [INFO] Benchmark run 2/20
+2025-03-31 17:46:12 [INFO] --------------------------------------------------------------------------------
+2025-03-31 17:46:12 [INFO] TSNE(early_exaggeration=12, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 17:46:12 [INFO] --------------------------------------------------------------------------------
+2025-03-31 17:46:12 [INFO] ===>
+2025-03-31 17:46:12 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 17:46:12 [INFO]    --> Time elapsed: 0.12 seconds
+2025-03-31 17:46:12 [INFO] ===>
+2025-03-31 17:46:12 [INFO] Calculating affinity matrix...
+2025-03-31 17:46:12 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 17:46:12 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 17:46:12 [INFO] ===>
+2025-03-31 17:46:12 [INFO] Calculating PCA-based initialization...
+2025-03-31 17:46:12 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 17:46:12 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 17:46:12 [INFO] ===>
+2025-03-31 17:46:12 [INFO] Running optimization with exaggeration=12.00, lr=83.33 for 250 iterations...
+2025-03-31 17:46:23 [INFO] Iteration   50, KL divergence 2.4997, 50 iterations in 11.2308 sec
+2025-03-31 17:46:34 [INFO] Iteration  100, KL divergence 2.5823, 50 iterations in 10.6345 sec
+2025-03-31 17:46:43 [INFO] Iteration  150, KL divergence 2.4839, 50 iterations in 9.9034 sec
+2025-03-31 17:46:55 [INFO] Iteration  200, KL divergence 2.3160, 50 iterations in 11.1148 sec
+2025-03-31 17:47:06 [INFO] Iteration  250, KL divergence 2.3105, 50 iterations in 11.7744 sec
+2025-03-31 17:47:06 [INFO]    --> Time elapsed: 54.66 seconds
+2025-03-31 17:47:07 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 17:47:07 [INFO] ===>
+2025-03-31 17:47:07 [INFO] Running optimization with exaggeration=1.00, lr=1000.00 for 250 iterations...
+2025-03-31 17:47:19 [INFO] Iteration   50, KL divergence 0.4951, 50 iterations in 12.0462 sec
+2025-03-31 17:47:31 [INFO] Iteration  100, KL divergence 0.4612, 50 iterations in 12.1752 sec
+2025-03-31 17:47:43 [INFO] Iteration  150, KL divergence 0.4540, 50 iterations in 11.9289 sec
+2025-03-31 17:47:55 [INFO] Iteration  200, KL divergence 0.4501, 50 iterations in 12.1209 sec
+2025-03-31 17:48:07 [INFO] Iteration  250, KL divergence 0.4476, 50 iterations in 11.9855 sec
+2025-03-31 17:48:07 [INFO]    --> Time elapsed: 60.26 seconds
+2025-03-31 17:48:07 [INFO] Benchmark run 3/20
+2025-03-31 17:48:07 [INFO] --------------------------------------------------------------------------------
+2025-03-31 17:48:07 [INFO] TSNE(early_exaggeration=12, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 17:48:07 [INFO] --------------------------------------------------------------------------------
+2025-03-31 17:48:07 [INFO] ===>
+2025-03-31 17:48:07 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 17:48:07 [INFO]    --> Time elapsed: 0.10 seconds
+2025-03-31 17:48:07 [INFO] ===>
+2025-03-31 17:48:07 [INFO] Calculating affinity matrix...
+2025-03-31 17:48:07 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 17:48:07 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 17:48:07 [INFO] ===>
+2025-03-31 17:48:07 [INFO] Calculating PCA-based initialization...
+2025-03-31 17:48:07 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 17:48:07 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 17:48:07 [INFO] ===>
+2025-03-31 17:48:07 [INFO] Running optimization with exaggeration=12.00, lr=83.33 for 250 iterations...
+2025-03-31 17:48:20 [INFO] Iteration   50, KL divergence 2.4884, 50 iterations in 12.6032 sec
+2025-03-31 17:48:31 [INFO] Iteration  100, KL divergence 2.5823, 50 iterations in 11.5770 sec
+2025-03-31 17:48:42 [INFO] Iteration  150, KL divergence 2.4880, 50 iterations in 10.7440 sec
+2025-03-31 17:48:53 [INFO] Iteration  200, KL divergence 2.3161, 50 iterations in 11.2610 sec
+2025-03-31 17:49:05 [INFO] Iteration  250, KL divergence 2.3107, 50 iterations in 11.6553 sec
+2025-03-31 17:49:05 [INFO]    --> Time elapsed: 57.84 seconds
+2025-03-31 17:49:05 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 17:49:05 [INFO] ===>
+2025-03-31 17:49:05 [INFO] Running optimization with exaggeration=1.00, lr=1000.00 for 250 iterations...
+2025-03-31 17:49:17 [INFO] Iteration   50, KL divergence 0.4947, 50 iterations in 11.8605 sec
+2025-03-31 17:49:29 [INFO] Iteration  100, KL divergence 0.4610, 50 iterations in 12.1022 sec
+2025-03-31 17:49:41 [INFO] Iteration  150, KL divergence 0.4533, 50 iterations in 12.1766 sec
+2025-03-31 17:49:54 [INFO] Iteration  200, KL divergence 0.4500, 50 iterations in 12.1901 sec
+2025-03-31 17:50:06 [INFO] Iteration  250, KL divergence 0.4476, 50 iterations in 12.2481 sec
+2025-03-31 17:50:06 [INFO]    --> Time elapsed: 60.58 seconds
+2025-03-31 17:50:06 [INFO] Benchmark run 4/20
+2025-03-31 17:50:06 [INFO] --------------------------------------------------------------------------------
+2025-03-31 17:50:06 [INFO] TSNE(early_exaggeration=12, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 17:50:06 [INFO] --------------------------------------------------------------------------------
+2025-03-31 17:50:06 [INFO] ===>
+2025-03-31 17:50:06 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 17:50:06 [INFO]    --> Time elapsed: 0.12 seconds
+2025-03-31 17:50:06 [INFO] ===>
+2025-03-31 17:50:06 [INFO] Calculating affinity matrix...
+2025-03-31 17:50:06 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 17:50:06 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 17:50:06 [INFO] ===>
+2025-03-31 17:50:06 [INFO] Calculating PCA-based initialization...
+2025-03-31 17:50:06 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 17:50:06 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 17:50:06 [INFO] ===>
+2025-03-31 17:50:06 [INFO] Running optimization with exaggeration=12.00, lr=83.33 for 250 iterations...
+2025-03-31 17:50:19 [INFO] Iteration   50, KL divergence 2.4914, 50 iterations in 12.4529 sec
+2025-03-31 17:50:30 [INFO] Iteration  100, KL divergence 2.5825, 50 iterations in 11.6211 sec
+2025-03-31 17:50:41 [INFO] Iteration  150, KL divergence 2.4897, 50 iterations in 10.4946 sec
+2025-03-31 17:50:52 [INFO] Iteration  200, KL divergence 2.3160, 50 iterations in 11.4996 sec
+2025-03-31 17:51:04 [INFO] Iteration  250, KL divergence 2.3105, 50 iterations in 11.8682 sec
+2025-03-31 17:51:04 [INFO]    --> Time elapsed: 57.94 seconds
+2025-03-31 17:51:04 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 17:51:04 [INFO] ===>
+2025-03-31 17:51:04 [INFO] Running optimization with exaggeration=1.00, lr=1000.00 for 250 iterations...
+2025-03-31 17:51:17 [INFO] Iteration   50, KL divergence 0.4962, 50 iterations in 12.2528 sec
+2025-03-31 17:51:29 [INFO] Iteration  100, KL divergence 0.4614, 50 iterations in 12.1378 sec
+2025-03-31 17:51:41 [INFO] Iteration  150, KL divergence 0.4537, 50 iterations in 12.2322 sec
+2025-03-31 17:51:53 [INFO] Iteration  200, KL divergence 0.4499, 50 iterations in 12.0984 sec
+2025-03-31 17:52:05 [INFO] Iteration  250, KL divergence 0.4478, 50 iterations in 12.0829 sec
+2025-03-31 17:52:05 [INFO]    --> Time elapsed: 60.80 seconds
+2025-03-31 17:52:06 [INFO] Benchmark run 5/20
+2025-03-31 17:52:06 [INFO] --------------------------------------------------------------------------------
+2025-03-31 17:52:06 [INFO] TSNE(early_exaggeration=12, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 17:52:06 [INFO] --------------------------------------------------------------------------------
+2025-03-31 17:52:06 [INFO] ===>
+2025-03-31 17:52:06 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 17:52:06 [INFO]    --> Time elapsed: 0.10 seconds
+2025-03-31 17:52:06 [INFO] ===>
+2025-03-31 17:52:06 [INFO] Calculating affinity matrix...
+2025-03-31 17:52:06 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 17:52:06 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 17:52:06 [INFO] ===>
+2025-03-31 17:52:06 [INFO] Calculating PCA-based initialization...
+2025-03-31 17:52:06 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 17:52:06 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 17:52:06 [INFO] ===>
+2025-03-31 17:52:06 [INFO] Running optimization with exaggeration=12.00, lr=83.33 for 250 iterations...
+2025-03-31 17:52:18 [INFO] Iteration   50, KL divergence 2.4940, 50 iterations in 12.7931 sec
+2025-03-31 17:52:30 [INFO] Iteration  100, KL divergence 2.5825, 50 iterations in 11.5608 sec
+2025-03-31 17:52:39 [INFO] Iteration  150, KL divergence 2.4849, 50 iterations in 8.9861 sec
+2025-03-31 17:52:50 [INFO] Iteration  200, KL divergence 2.3157, 50 iterations in 10.7497 sec
+2025-03-31 17:53:01 [INFO] Iteration  250, KL divergence 2.3107, 50 iterations in 11.3929 sec
+2025-03-31 17:53:01 [INFO]    --> Time elapsed: 55.48 seconds
+2025-03-31 17:53:01 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 17:53:01 [INFO] ===>
+2025-03-31 17:53:01 [INFO] Running optimization with exaggeration=1.00, lr=1000.00 for 250 iterations...
+2025-03-31 17:53:13 [INFO] Iteration   50, KL divergence 0.4956, 50 iterations in 11.9966 sec
+2025-03-31 17:53:26 [INFO] Iteration  100, KL divergence 0.4606, 50 iterations in 12.2652 sec
+2025-03-31 17:53:38 [INFO] Iteration  150, KL divergence 0.4533, 50 iterations in 12.3846 sec
+2025-03-31 17:53:50 [INFO] Iteration  200, KL divergence 0.4493, 50 iterations in 12.4137 sec
+2025-03-31 17:54:03 [INFO] Iteration  250, KL divergence 0.4471, 50 iterations in 12.2477 sec
+2025-03-31 17:54:03 [INFO]    --> Time elapsed: 61.31 seconds
+2025-03-31 17:54:03 [INFO] Benchmark run 6/20
+2025-03-31 17:54:03 [INFO] --------------------------------------------------------------------------------
+2025-03-31 17:54:03 [INFO] TSNE(early_exaggeration=12, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 17:54:03 [INFO] --------------------------------------------------------------------------------
+2025-03-31 17:54:03 [INFO] ===>
+2025-03-31 17:54:03 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 17:54:03 [INFO]    --> Time elapsed: 0.11 seconds
+2025-03-31 17:54:03 [INFO] ===>
+2025-03-31 17:54:03 [INFO] Calculating affinity matrix...
+2025-03-31 17:54:03 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 17:54:03 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 17:54:03 [INFO] ===>
+2025-03-31 17:54:03 [INFO] Calculating PCA-based initialization...
+2025-03-31 17:54:03 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 17:54:03 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 17:54:03 [INFO] ===>
+2025-03-31 17:54:03 [INFO] Running optimization with exaggeration=12.00, lr=83.33 for 250 iterations...
+2025-03-31 17:54:16 [INFO] Iteration   50, KL divergence 2.4974, 50 iterations in 12.8346 sec
+2025-03-31 17:54:28 [INFO] Iteration  100, KL divergence 2.5810, 50 iterations in 11.8523 sec
+2025-03-31 17:54:39 [INFO] Iteration  150, KL divergence 2.4971, 50 iterations in 10.7885 sec
+2025-03-31 17:54:50 [INFO] Iteration  200, KL divergence 2.3160, 50 iterations in 11.5086 sec
+2025-03-31 17:55:02 [INFO] Iteration  250, KL divergence 2.3106, 50 iterations in 11.7479 sec
+2025-03-31 17:55:02 [INFO]    --> Time elapsed: 58.73 seconds
+2025-03-31 17:55:02 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 17:55:02 [INFO] ===>
+2025-03-31 17:55:02 [INFO] Running optimization with exaggeration=1.00, lr=1000.00 for 250 iterations...
+2025-03-31 17:55:14 [INFO] Iteration   50, KL divergence 0.4955, 50 iterations in 12.1784 sec
+2025-03-31 17:55:27 [INFO] Iteration  100, KL divergence 0.4611, 50 iterations in 12.2351 sec
+2025-03-31 17:55:39 [INFO] Iteration  150, KL divergence 0.4540, 50 iterations in 12.1806 sec
+2025-03-31 17:55:51 [INFO] Iteration  200, KL divergence 0.4499, 50 iterations in 12.2987 sec
+2025-03-31 17:56:03 [INFO] Iteration  250, KL divergence 0.4475, 50 iterations in 12.0532 sec
+2025-03-31 17:56:03 [INFO]    --> Time elapsed: 60.95 seconds
+2025-03-31 17:56:03 [INFO] Benchmark run 7/20
+2025-03-31 17:56:03 [INFO] --------------------------------------------------------------------------------
+2025-03-31 17:56:03 [INFO] TSNE(early_exaggeration=12, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 17:56:03 [INFO] --------------------------------------------------------------------------------
+2025-03-31 17:56:03 [INFO] ===>
+2025-03-31 17:56:03 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 17:56:03 [INFO]    --> Time elapsed: 0.10 seconds
+2025-03-31 17:56:03 [INFO] ===>
+2025-03-31 17:56:03 [INFO] Calculating affinity matrix...
+2025-03-31 17:56:03 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 17:56:03 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 17:56:03 [INFO] ===>
+2025-03-31 17:56:03 [INFO] Calculating PCA-based initialization...
+2025-03-31 17:56:03 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 17:56:03 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 17:56:03 [INFO] ===>
+2025-03-31 17:56:03 [INFO] Running optimization with exaggeration=12.00, lr=83.33 for 250 iterations...
+2025-03-31 17:56:16 [INFO] Iteration   50, KL divergence 2.4918, 50 iterations in 12.5886 sec
+2025-03-31 17:56:28 [INFO] Iteration  100, KL divergence 2.5817, 50 iterations in 11.7630 sec
+2025-03-31 17:56:39 [INFO] Iteration  150, KL divergence 2.4751, 50 iterations in 10.7242 sec
+2025-03-31 17:56:50 [INFO] Iteration  200, KL divergence 2.3157, 50 iterations in 11.2715 sec
+2025-03-31 17:56:59 [INFO] Iteration  250, KL divergence 2.3105, 50 iterations in 9.6153 sec
+2025-03-31 17:56:59 [INFO]    --> Time elapsed: 55.96 seconds
+2025-03-31 17:57:00 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 17:57:00 [INFO] ===>
+2025-03-31 17:57:00 [INFO] Running optimization with exaggeration=1.00, lr=1000.00 for 250 iterations...
+2025-03-31 17:57:11 [INFO] Iteration   50, KL divergence 0.4952, 50 iterations in 11.0280 sec
+2025-03-31 17:57:22 [INFO] Iteration  100, KL divergence 0.4612, 50 iterations in 11.0713 sec
+2025-03-31 17:57:34 [INFO] Iteration  150, KL divergence 0.4535, 50 iterations in 12.3273 sec
+2025-03-31 17:57:46 [INFO] Iteration  200, KL divergence 0.4496, 50 iterations in 12.2482 sec
+2025-03-31 17:57:58 [INFO] Iteration  250, KL divergence 0.4471, 50 iterations in 12.0392 sec
+2025-03-31 17:57:58 [INFO]    --> Time elapsed: 58.72 seconds
+2025-03-31 17:57:59 [INFO] Benchmark run 8/20
+2025-03-31 17:57:59 [INFO] --------------------------------------------------------------------------------
+2025-03-31 17:57:59 [INFO] TSNE(early_exaggeration=12, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 17:57:59 [INFO] --------------------------------------------------------------------------------
+2025-03-31 17:57:59 [INFO] ===>
+2025-03-31 17:57:59 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 17:57:59 [INFO]    --> Time elapsed: 0.10 seconds
+2025-03-31 17:57:59 [INFO] ===>
+2025-03-31 17:57:59 [INFO] Calculating affinity matrix...
+2025-03-31 17:57:59 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 17:57:59 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 17:57:59 [INFO] ===>
+2025-03-31 17:57:59 [INFO] Calculating PCA-based initialization...
+2025-03-31 17:57:59 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 17:57:59 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 17:57:59 [INFO] ===>
+2025-03-31 17:57:59 [INFO] Running optimization with exaggeration=12.00, lr=83.33 for 250 iterations...
+2025-03-31 17:58:12 [INFO] Iteration   50, KL divergence 2.4948, 50 iterations in 12.9077 sec
+2025-03-31 17:58:23 [INFO] Iteration  100, KL divergence 2.5805, 50 iterations in 11.7056 sec
+2025-03-31 17:58:34 [INFO] Iteration  150, KL divergence 2.4696, 50 iterations in 10.8907 sec
+2025-03-31 17:58:46 [INFO] Iteration  200, KL divergence 2.3157, 50 iterations in 11.6670 sec
+2025-03-31 17:58:58 [INFO] Iteration  250, KL divergence 2.3106, 50 iterations in 11.9531 sec
+2025-03-31 17:58:58 [INFO]    --> Time elapsed: 59.12 seconds
+2025-03-31 17:58:58 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 17:58:58 [INFO] ===>
+2025-03-31 17:58:58 [INFO] Running optimization with exaggeration=1.00, lr=1000.00 for 250 iterations...
+2025-03-31 17:59:08 [INFO] Iteration   50, KL divergence 0.4952, 50 iterations in 10.1986 sec
+2025-03-31 17:59:18 [INFO] Iteration  100, KL divergence 0.4614, 50 iterations in 9.8278 sec
+2025-03-31 17:59:30 [INFO] Iteration  150, KL divergence 0.4542, 50 iterations in 12.2744 sec
+2025-03-31 17:59:43 [INFO] Iteration  200, KL divergence 0.4504, 50 iterations in 12.2372 sec
+2025-03-31 17:59:54 [INFO] Iteration  250, KL divergence 0.4483, 50 iterations in 11.8102 sec
+2025-03-31 17:59:54 [INFO]    --> Time elapsed: 56.35 seconds
+2025-03-31 17:59:55 [INFO] Benchmark run 9/20
+2025-03-31 17:59:55 [INFO] --------------------------------------------------------------------------------
+2025-03-31 17:59:55 [INFO] TSNE(early_exaggeration=12, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 17:59:55 [INFO] --------------------------------------------------------------------------------
+2025-03-31 17:59:55 [INFO] ===>
+2025-03-31 17:59:55 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 17:59:55 [INFO]    --> Time elapsed: 0.10 seconds
+2025-03-31 17:59:55 [INFO] ===>
+2025-03-31 17:59:55 [INFO] Calculating affinity matrix...
+2025-03-31 17:59:55 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 17:59:55 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 17:59:55 [INFO] ===>
+2025-03-31 17:59:55 [INFO] Calculating PCA-based initialization...
+2025-03-31 17:59:55 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 17:59:55 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 17:59:55 [INFO] ===>
+2025-03-31 17:59:55 [INFO] Running optimization with exaggeration=12.00, lr=83.33 for 250 iterations...
+2025-03-31 18:00:07 [INFO] Iteration   50, KL divergence 2.4904, 50 iterations in 12.6682 sec
+2025-03-31 18:00:19 [INFO] Iteration  100, KL divergence 2.5807, 50 iterations in 11.6478 sec
+2025-03-31 18:00:29 [INFO] Iteration  150, KL divergence 2.4818, 50 iterations in 10.0610 sec
+2025-03-31 18:00:39 [INFO] Iteration  200, KL divergence 2.3160, 50 iterations in 10.0123 sec
+2025-03-31 18:00:51 [INFO] Iteration  250, KL divergence 2.3107, 50 iterations in 11.6346 sec
+2025-03-31 18:00:51 [INFO]    --> Time elapsed: 56.02 seconds
+2025-03-31 18:00:51 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 18:00:51 [INFO] ===>
+2025-03-31 18:00:51 [INFO] Running optimization with exaggeration=1.00, lr=1000.00 for 250 iterations...
+2025-03-31 18:01:03 [INFO] Iteration   50, KL divergence 0.4953, 50 iterations in 12.1027 sec
+2025-03-31 18:01:15 [INFO] Iteration  100, KL divergence 0.4611, 50 iterations in 12.2654 sec
+2025-03-31 18:01:28 [INFO] Iteration  150, KL divergence 0.4535, 50 iterations in 12.2529 sec
+2025-03-31 18:01:40 [INFO] Iteration  200, KL divergence 0.4501, 50 iterations in 12.2716 sec
+2025-03-31 18:01:52 [INFO] Iteration  250, KL divergence 0.4472, 50 iterations in 12.3789 sec
+2025-03-31 18:01:52 [INFO]    --> Time elapsed: 61.27 seconds
+2025-03-31 18:01:53 [INFO] Benchmark run 10/20
+2025-03-31 18:01:53 [INFO] --------------------------------------------------------------------------------
+2025-03-31 18:01:53 [INFO] TSNE(early_exaggeration=12, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 18:01:53 [INFO] --------------------------------------------------------------------------------
+2025-03-31 18:01:53 [INFO] ===>
+2025-03-31 18:01:53 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 18:01:53 [INFO]    --> Time elapsed: 0.11 seconds
+2025-03-31 18:01:53 [INFO] ===>
+2025-03-31 18:01:53 [INFO] Calculating affinity matrix...
+2025-03-31 18:01:53 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 18:01:53 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 18:01:53 [INFO] ===>
+2025-03-31 18:01:53 [INFO] Calculating PCA-based initialization...
+2025-03-31 18:01:53 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 18:01:53 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 18:01:53 [INFO] ===>
+2025-03-31 18:01:53 [INFO] Running optimization with exaggeration=12.00, lr=83.33 for 250 iterations...
+2025-03-31 18:02:05 [INFO] Iteration   50, KL divergence 2.4983, 50 iterations in 12.3950 sec
+2025-03-31 18:02:17 [INFO] Iteration  100, KL divergence 2.5820, 50 iterations in 11.7554 sec
+2025-03-31 18:02:28 [INFO] Iteration  150, KL divergence 2.4898, 50 iterations in 10.7457 sec
+2025-03-31 18:02:39 [INFO] Iteration  200, KL divergence 2.3160, 50 iterations in 11.5219 sec
+2025-03-31 18:02:51 [INFO] Iteration  250, KL divergence 2.3106, 50 iterations in 11.7601 sec
+2025-03-31 18:02:51 [INFO]    --> Time elapsed: 58.18 seconds
+2025-03-31 18:02:51 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 18:02:51 [INFO] ===>
+2025-03-31 18:02:51 [INFO] Running optimization with exaggeration=1.00, lr=1000.00 for 250 iterations...
+2025-03-31 18:03:03 [INFO] Iteration   50, KL divergence 0.4946, 50 iterations in 12.2882 sec
+2025-03-31 18:03:16 [INFO] Iteration  100, KL divergence 0.4610, 50 iterations in 12.5171 sec
+2025-03-31 18:03:28 [INFO] Iteration  150, KL divergence 0.4534, 50 iterations in 12.2272 sec
+2025-03-31 18:03:40 [INFO] Iteration  200, KL divergence 0.4495, 50 iterations in 12.1548 sec
+2025-03-31 18:03:52 [INFO] Iteration  250, KL divergence 0.4473, 50 iterations in 12.1140 sec
+2025-03-31 18:03:52 [INFO]    --> Time elapsed: 61.30 seconds
+2025-03-31 18:03:53 [INFO] Benchmark run 11/20
+2025-03-31 18:03:53 [INFO] --------------------------------------------------------------------------------
+2025-03-31 18:03:53 [INFO] TSNE(early_exaggeration=12, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 18:03:53 [INFO] --------------------------------------------------------------------------------
+2025-03-31 18:03:53 [INFO] ===>
+2025-03-31 18:03:53 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 18:03:53 [INFO]    --> Time elapsed: 0.10 seconds
+2025-03-31 18:03:53 [INFO] ===>
+2025-03-31 18:03:53 [INFO] Calculating affinity matrix...
+2025-03-31 18:03:53 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 18:03:53 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 18:03:53 [INFO] ===>
+2025-03-31 18:03:53 [INFO] Calculating PCA-based initialization...
+2025-03-31 18:03:53 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 18:03:53 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 18:03:53 [INFO] ===>
+2025-03-31 18:03:53 [INFO] Running optimization with exaggeration=12.00, lr=83.33 for 250 iterations...
+2025-03-31 18:04:05 [INFO] Iteration   50, KL divergence 2.4937, 50 iterations in 12.1854 sec
+2025-03-31 18:04:17 [INFO] Iteration  100, KL divergence 2.5811, 50 iterations in 11.5629 sec
+2025-03-31 18:04:27 [INFO] Iteration  150, KL divergence 2.4786, 50 iterations in 10.6683 sec
+2025-03-31 18:04:39 [INFO] Iteration  200, KL divergence 2.3160, 50 iterations in 11.3945 sec
+2025-03-31 18:04:50 [INFO] Iteration  250, KL divergence 2.3105, 50 iterations in 11.7319 sec
+2025-03-31 18:04:50 [INFO]    --> Time elapsed: 57.54 seconds
+2025-03-31 18:04:51 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 18:04:51 [INFO] ===>
+2025-03-31 18:04:51 [INFO] Running optimization with exaggeration=1.00, lr=1000.00 for 250 iterations...
+2025-03-31 18:05:03 [INFO] Iteration   50, KL divergence 0.4965, 50 iterations in 12.2430 sec
+2025-03-31 18:05:15 [INFO] Iteration  100, KL divergence 0.4622, 50 iterations in 12.2188 sec
+2025-03-31 18:05:27 [INFO] Iteration  150, KL divergence 0.4545, 50 iterations in 12.1142 sec
+2025-03-31 18:05:39 [INFO] Iteration  200, KL divergence 0.4504, 50 iterations in 12.0325 sec
+2025-03-31 18:05:51 [INFO] Iteration  250, KL divergence 0.4483, 50 iterations in 12.0274 sec
+2025-03-31 18:05:51 [INFO]    --> Time elapsed: 60.64 seconds
+2025-03-31 18:05:52 [INFO] Benchmark run 12/20
+2025-03-31 18:05:52 [INFO] --------------------------------------------------------------------------------
+2025-03-31 18:05:52 [INFO] TSNE(early_exaggeration=12, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 18:05:52 [INFO] --------------------------------------------------------------------------------
+2025-03-31 18:05:52 [INFO] ===>
+2025-03-31 18:05:52 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 18:05:52 [INFO]    --> Time elapsed: 0.11 seconds
+2025-03-31 18:05:52 [INFO] ===>
+2025-03-31 18:05:52 [INFO] Calculating affinity matrix...
+2025-03-31 18:05:52 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 18:05:52 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 18:05:52 [INFO] ===>
+2025-03-31 18:05:52 [INFO] Calculating PCA-based initialization...
+2025-03-31 18:05:52 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 18:05:52 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 18:05:52 [INFO] ===>
+2025-03-31 18:05:52 [INFO] Running optimization with exaggeration=12.00, lr=83.33 for 250 iterations...
+2025-03-31 18:06:04 [INFO] Iteration   50, KL divergence 2.4973, 50 iterations in 12.6274 sec
+2025-03-31 18:06:16 [INFO] Iteration  100, KL divergence 2.5813, 50 iterations in 11.6406 sec
+2025-03-31 18:06:27 [INFO] Iteration  150, KL divergence 2.4868, 50 iterations in 10.5882 sec
+2025-03-31 18:06:38 [INFO] Iteration  200, KL divergence 2.3160, 50 iterations in 11.4227 sec
+2025-03-31 18:06:50 [INFO] Iteration  250, KL divergence 2.3109, 50 iterations in 11.6630 sec
+2025-03-31 18:06:50 [INFO]    --> Time elapsed: 57.94 seconds
+2025-03-31 18:06:50 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 18:06:50 [INFO] ===>
+2025-03-31 18:06:50 [INFO] Running optimization with exaggeration=1.00, lr=1000.00 for 250 iterations...
+2025-03-31 18:07:02 [INFO] Iteration   50, KL divergence 0.4978, 50 iterations in 12.1846 sec
+2025-03-31 18:07:14 [INFO] Iteration  100, KL divergence 0.4608, 50 iterations in 12.2533 sec
+2025-03-31 18:07:26 [INFO] Iteration  150, KL divergence 0.4531, 50 iterations in 12.2081 sec
+2025-03-31 18:07:39 [INFO] Iteration  200, KL divergence 0.4491, 50 iterations in 12.2240 sec
+2025-03-31 18:07:50 [INFO] Iteration  250, KL divergence 0.4468, 50 iterations in 11.6853 sec
+2025-03-31 18:07:50 [INFO]    --> Time elapsed: 60.56 seconds
+2025-03-31 18:07:51 [INFO] Benchmark run 13/20
+2025-03-31 18:07:51 [INFO] --------------------------------------------------------------------------------
+2025-03-31 18:07:51 [INFO] TSNE(early_exaggeration=12, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 18:07:51 [INFO] --------------------------------------------------------------------------------
+2025-03-31 18:07:51 [INFO] ===>
+2025-03-31 18:07:51 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 18:07:51 [INFO]    --> Time elapsed: 0.11 seconds
+2025-03-31 18:07:51 [INFO] ===>
+2025-03-31 18:07:51 [INFO] Calculating affinity matrix...
+2025-03-31 18:07:51 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 18:07:51 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 18:07:51 [INFO] ===>
+2025-03-31 18:07:51 [INFO] Calculating PCA-based initialization...
+2025-03-31 18:07:51 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 18:07:51 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 18:07:51 [INFO] ===>
+2025-03-31 18:07:51 [INFO] Running optimization with exaggeration=12.00, lr=83.33 for 250 iterations...
+2025-03-31 18:08:03 [INFO] Iteration   50, KL divergence 2.4914, 50 iterations in 12.3288 sec
+2025-03-31 18:08:15 [INFO] Iteration  100, KL divergence 2.5808, 50 iterations in 11.8317 sec
+2025-03-31 18:08:26 [INFO] Iteration  150, KL divergence 2.4719, 50 iterations in 10.7716 sec
+2025-03-31 18:08:37 [INFO] Iteration  200, KL divergence 2.3160, 50 iterations in 11.4900 sec
+2025-03-31 18:08:49 [INFO] Iteration  250, KL divergence 2.3106, 50 iterations in 11.7291 sec
+2025-03-31 18:08:49 [INFO]    --> Time elapsed: 58.15 seconds
+2025-03-31 18:08:49 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 18:08:49 [INFO] ===>
+2025-03-31 18:08:49 [INFO] Running optimization with exaggeration=1.00, lr=1000.00 for 250 iterations...
+2025-03-31 18:09:01 [INFO] Iteration   50, KL divergence 0.4961, 50 iterations in 12.0401 sec
+2025-03-31 18:09:13 [INFO] Iteration  100, KL divergence 0.4617, 50 iterations in 12.2498 sec
+2025-03-31 18:09:26 [INFO] Iteration  150, KL divergence 0.4541, 50 iterations in 12.1652 sec
+2025-03-31 18:09:38 [INFO] Iteration  200, KL divergence 0.4499, 50 iterations in 12.2490 sec
+2025-03-31 18:09:50 [INFO] Iteration  250, KL divergence 0.4476, 50 iterations in 11.8012 sec
+2025-03-31 18:09:50 [INFO]    --> Time elapsed: 60.51 seconds
+2025-03-31 18:09:50 [INFO] Benchmark run 14/20
+2025-03-31 18:09:50 [INFO] --------------------------------------------------------------------------------
+2025-03-31 18:09:50 [INFO] TSNE(early_exaggeration=12, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 18:09:50 [INFO] --------------------------------------------------------------------------------
+2025-03-31 18:09:50 [INFO] ===>
+2025-03-31 18:09:50 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 18:09:50 [INFO]    --> Time elapsed: 0.10 seconds
+2025-03-31 18:09:50 [INFO] ===>
+2025-03-31 18:09:50 [INFO] Calculating affinity matrix...
+2025-03-31 18:09:50 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 18:09:50 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 18:09:50 [INFO] ===>
+2025-03-31 18:09:50 [INFO] Calculating PCA-based initialization...
+2025-03-31 18:09:50 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 18:09:50 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 18:09:50 [INFO] ===>
+2025-03-31 18:09:50 [INFO] Running optimization with exaggeration=12.00, lr=83.33 for 250 iterations...
+2025-03-31 18:10:03 [INFO] Iteration   50, KL divergence 2.4929, 50 iterations in 12.4696 sec
+2025-03-31 18:10:14 [INFO] Iteration  100, KL divergence 2.5826, 50 iterations in 11.6095 sec
+2025-03-31 18:10:25 [INFO] Iteration  150, KL divergence 2.4822, 50 iterations in 10.6911 sec
+2025-03-31 18:10:36 [INFO] Iteration  200, KL divergence 2.3155, 50 iterations in 11.4099 sec
+2025-03-31 18:10:48 [INFO] Iteration  250, KL divergence 2.3106, 50 iterations in 11.3700 sec
+2025-03-31 18:10:48 [INFO]    --> Time elapsed: 57.55 seconds
+2025-03-31 18:10:48 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 18:10:48 [INFO] ===>
+2025-03-31 18:10:48 [INFO] Running optimization with exaggeration=1.00, lr=1000.00 for 250 iterations...
+2025-03-31 18:11:00 [INFO] Iteration   50, KL divergence 0.4944, 50 iterations in 12.0681 sec
+2025-03-31 18:11:12 [INFO] Iteration  100, KL divergence 0.4614, 50 iterations in 12.1010 sec
+2025-03-31 18:11:24 [INFO] Iteration  150, KL divergence 0.4540, 50 iterations in 12.1346 sec
+2025-03-31 18:11:36 [INFO] Iteration  200, KL divergence 0.4505, 50 iterations in 12.1486 sec
+2025-03-31 18:11:49 [INFO] Iteration  250, KL divergence 0.4476, 50 iterations in 12.3332 sec
+2025-03-31 18:11:49 [INFO]    --> Time elapsed: 60.79 seconds
+2025-03-31 18:11:49 [INFO] Benchmark run 15/20
+2025-03-31 18:11:49 [INFO] --------------------------------------------------------------------------------
+2025-03-31 18:11:49 [INFO] TSNE(early_exaggeration=12, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 18:11:49 [INFO] --------------------------------------------------------------------------------
+2025-03-31 18:11:49 [INFO] ===>
+2025-03-31 18:11:49 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 18:11:49 [INFO]    --> Time elapsed: 0.11 seconds
+2025-03-31 18:11:49 [INFO] ===>
+2025-03-31 18:11:49 [INFO] Calculating affinity matrix...
+2025-03-31 18:11:49 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 18:11:49 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 18:11:49 [INFO] ===>
+2025-03-31 18:11:49 [INFO] Calculating PCA-based initialization...
+2025-03-31 18:11:49 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 18:11:49 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 18:11:49 [INFO] ===>
+2025-03-31 18:11:49 [INFO] Running optimization with exaggeration=12.00, lr=83.33 for 250 iterations...
+2025-03-31 18:12:02 [INFO] Iteration   50, KL divergence 2.4926, 50 iterations in 12.7949 sec
+2025-03-31 18:12:14 [INFO] Iteration  100, KL divergence 2.5822, 50 iterations in 11.8623 sec
+2025-03-31 18:12:24 [INFO] Iteration  150, KL divergence 2.4891, 50 iterations in 10.5762 sec
+2025-03-31 18:12:36 [INFO] Iteration  200, KL divergence 2.3160, 50 iterations in 11.3306 sec
+2025-03-31 18:12:47 [INFO] Iteration  250, KL divergence 2.3109, 50 iterations in 11.6511 sec
+2025-03-31 18:12:47 [INFO]    --> Time elapsed: 58.22 seconds
+2025-03-31 18:12:48 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 18:12:48 [INFO] ===>
+2025-03-31 18:12:48 [INFO] Running optimization with exaggeration=1.00, lr=1000.00 for 250 iterations...
+2025-03-31 18:13:00 [INFO] Iteration   50, KL divergence 0.4947, 50 iterations in 12.0622 sec
+2025-03-31 18:13:12 [INFO] Iteration  100, KL divergence 0.4606, 50 iterations in 12.3780 sec
+2025-03-31 18:13:24 [INFO] Iteration  150, KL divergence 0.4534, 50 iterations in 12.4971 sec
+2025-03-31 18:13:37 [INFO] Iteration  200, KL divergence 0.4493, 50 iterations in 12.6068 sec
+2025-03-31 18:13:50 [INFO] Iteration  250, KL divergence 0.4470, 50 iterations in 12.5188 sec
+2025-03-31 18:13:50 [INFO]    --> Time elapsed: 62.06 seconds
+2025-03-31 18:13:50 [INFO] Benchmark run 16/20
+2025-03-31 18:13:50 [INFO] --------------------------------------------------------------------------------
+2025-03-31 18:13:50 [INFO] TSNE(early_exaggeration=12, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 18:13:50 [INFO] --------------------------------------------------------------------------------
+2025-03-31 18:13:50 [INFO] ===>
+2025-03-31 18:13:50 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 18:13:50 [INFO]    --> Time elapsed: 0.11 seconds
+2025-03-31 18:13:50 [INFO] ===>
+2025-03-31 18:13:50 [INFO] Calculating affinity matrix...
+2025-03-31 18:13:50 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 18:13:50 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 18:13:50 [INFO] ===>
+2025-03-31 18:13:50 [INFO] Calculating PCA-based initialization...
+2025-03-31 18:13:50 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 18:13:50 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 18:13:50 [INFO] ===>
+2025-03-31 18:13:50 [INFO] Running optimization with exaggeration=12.00, lr=83.33 for 250 iterations...
+2025-03-31 18:14:03 [INFO] Iteration   50, KL divergence 2.4923, 50 iterations in 12.7195 sec
+2025-03-31 18:14:15 [INFO] Iteration  100, KL divergence 2.5826, 50 iterations in 11.8427 sec
+2025-03-31 18:14:25 [INFO] Iteration  150, KL divergence 2.4941, 50 iterations in 10.8444 sec
+2025-03-31 18:14:35 [INFO] Iteration  200, KL divergence 2.3165, 50 iterations in 9.5700 sec
+2025-03-31 18:14:44 [INFO] Iteration  250, KL divergence 2.3106, 50 iterations in 9.2223 sec
+2025-03-31 18:14:44 [INFO]    --> Time elapsed: 54.20 seconds
+2025-03-31 18:14:44 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 18:14:44 [INFO] ===>
+2025-03-31 18:14:44 [INFO] Running optimization with exaggeration=1.00, lr=1000.00 for 250 iterations...
+2025-03-31 18:14:54 [INFO] Iteration   50, KL divergence 0.4952, 50 iterations in 9.7723 sec
+2025-03-31 18:15:06 [INFO] Iteration  100, KL divergence 0.4608, 50 iterations in 11.9277 sec
+2025-03-31 18:15:16 [INFO] Iteration  150, KL divergence 0.4536, 50 iterations in 10.3292 sec
+2025-03-31 18:15:29 [INFO] Iteration  200, KL divergence 0.4501, 50 iterations in 12.1002 sec
+2025-03-31 18:15:41 [INFO] Iteration  250, KL divergence 0.4479, 50 iterations in 12.4208 sec
+2025-03-31 18:15:41 [INFO]    --> Time elapsed: 56.55 seconds
+2025-03-31 18:15:41 [INFO] Benchmark run 17/20
+2025-03-31 18:15:41 [INFO] --------------------------------------------------------------------------------
+2025-03-31 18:15:41 [INFO] TSNE(early_exaggeration=12, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 18:15:41 [INFO] --------------------------------------------------------------------------------
+2025-03-31 18:15:41 [INFO] ===>
+2025-03-31 18:15:41 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 18:15:41 [INFO]    --> Time elapsed: 0.11 seconds
+2025-03-31 18:15:41 [INFO] ===>
+2025-03-31 18:15:41 [INFO] Calculating affinity matrix...
+2025-03-31 18:15:41 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 18:15:41 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 18:15:41 [INFO] ===>
+2025-03-31 18:15:41 [INFO] Calculating PCA-based initialization...
+2025-03-31 18:15:41 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 18:15:41 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 18:15:41 [INFO] ===>
+2025-03-31 18:15:41 [INFO] Running optimization with exaggeration=12.00, lr=83.33 for 250 iterations...
+2025-03-31 18:15:54 [INFO] Iteration   50, KL divergence 2.4992, 50 iterations in 12.6396 sec
+2025-03-31 18:16:06 [INFO] Iteration  100, KL divergence 2.5830, 50 iterations in 11.6425 sec
+2025-03-31 18:16:16 [INFO] Iteration  150, KL divergence 2.4844, 50 iterations in 10.7937 sec
+2025-03-31 18:16:28 [INFO] Iteration  200, KL divergence 2.3164, 50 iterations in 11.4776 sec
+2025-03-31 18:16:40 [INFO] Iteration  250, KL divergence 2.3107, 50 iterations in 11.7398 sec
+2025-03-31 18:16:40 [INFO]    --> Time elapsed: 58.29 seconds
+2025-03-31 18:16:40 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 18:16:40 [INFO] ===>
+2025-03-31 18:16:40 [INFO] Running optimization with exaggeration=1.00, lr=1000.00 for 250 iterations...
+2025-03-31 18:16:52 [INFO] Iteration   50, KL divergence 0.4940, 50 iterations in 12.1569 sec
+2025-03-31 18:17:04 [INFO] Iteration  100, KL divergence 0.4607, 50 iterations in 12.1997 sec
+2025-03-31 18:17:16 [INFO] Iteration  150, KL divergence 0.4534, 50 iterations in 12.0573 sec
+2025-03-31 18:17:28 [INFO] Iteration  200, KL divergence 0.4495, 50 iterations in 11.9521 sec
+2025-03-31 18:17:40 [INFO] Iteration  250, KL divergence 0.4472, 50 iterations in 11.9639 sec
+2025-03-31 18:17:40 [INFO]    --> Time elapsed: 60.33 seconds
+2025-03-31 18:17:40 [INFO] Benchmark run 18/20
+2025-03-31 18:17:40 [INFO] --------------------------------------------------------------------------------
+2025-03-31 18:17:40 [INFO] TSNE(early_exaggeration=12, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 18:17:40 [INFO] --------------------------------------------------------------------------------
+2025-03-31 18:17:40 [INFO] ===>
+2025-03-31 18:17:40 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 18:17:41 [INFO]    --> Time elapsed: 0.11 seconds
+2025-03-31 18:17:41 [INFO] ===>
+2025-03-31 18:17:41 [INFO] Calculating affinity matrix...
+2025-03-31 18:17:41 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 18:17:41 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 18:17:41 [INFO] ===>
+2025-03-31 18:17:41 [INFO] Calculating PCA-based initialization...
+2025-03-31 18:17:41 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 18:17:41 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 18:17:41 [INFO] ===>
+2025-03-31 18:17:41 [INFO] Running optimization with exaggeration=12.00, lr=83.33 for 250 iterations...
+2025-03-31 18:17:53 [INFO] Iteration   50, KL divergence 2.4917, 50 iterations in 12.7236 sec
+2025-03-31 18:18:05 [INFO] Iteration  100, KL divergence 2.5815, 50 iterations in 11.7742 sec
+2025-03-31 18:18:16 [INFO] Iteration  150, KL divergence 2.4915, 50 iterations in 10.8375 sec
+2025-03-31 18:18:27 [INFO] Iteration  200, KL divergence 2.3165, 50 iterations in 11.4992 sec
+2025-03-31 18:18:39 [INFO] Iteration  250, KL divergence 2.3107, 50 iterations in 11.6703 sec
+2025-03-31 18:18:39 [INFO]    --> Time elapsed: 58.51 seconds
+2025-03-31 18:18:39 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 18:18:39 [INFO] ===>
+2025-03-31 18:18:39 [INFO] Running optimization with exaggeration=1.00, lr=1000.00 for 250 iterations...
+2025-03-31 18:18:51 [INFO] Iteration   50, KL divergence 0.4949, 50 iterations in 11.8472 sec
+2025-03-31 18:19:01 [INFO] Iteration  100, KL divergence 0.4608, 50 iterations in 9.4845 sec
+2025-03-31 18:19:11 [INFO] Iteration  150, KL divergence 0.4532, 50 iterations in 10.3164 sec
+2025-03-31 18:19:23 [INFO] Iteration  200, KL divergence 0.4496, 50 iterations in 12.1314 sec
+2025-03-31 18:19:35 [INFO] Iteration  250, KL divergence 0.4472, 50 iterations in 12.0270 sec
+2025-03-31 18:19:35 [INFO]    --> Time elapsed: 55.81 seconds
+2025-03-31 18:19:35 [INFO] Benchmark run 19/20
+2025-03-31 18:19:35 [INFO] --------------------------------------------------------------------------------
+2025-03-31 18:19:35 [INFO] TSNE(early_exaggeration=12, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 18:19:35 [INFO] --------------------------------------------------------------------------------
+2025-03-31 18:19:35 [INFO] ===>
+2025-03-31 18:19:35 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 18:19:35 [INFO]    --> Time elapsed: 0.11 seconds
+2025-03-31 18:19:35 [INFO] ===>
+2025-03-31 18:19:35 [INFO] Calculating affinity matrix...
+2025-03-31 18:19:35 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 18:19:35 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 18:19:35 [INFO] ===>
+2025-03-31 18:19:35 [INFO] Calculating PCA-based initialization...
+2025-03-31 18:19:35 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 18:19:35 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 18:19:35 [INFO] ===>
+2025-03-31 18:19:35 [INFO] Running optimization with exaggeration=12.00, lr=83.33 for 250 iterations...
+2025-03-31 18:19:48 [INFO] Iteration   50, KL divergence 2.4891, 50 iterations in 12.5934 sec
+2025-03-31 18:19:58 [INFO] Iteration  100, KL divergence 2.5820, 50 iterations in 10.4760 sec
+2025-03-31 18:20:09 [INFO] Iteration  150, KL divergence 2.4842, 50 iterations in 10.7952 sec
+2025-03-31 18:20:21 [INFO] Iteration  200, KL divergence 2.3153, 50 iterations in 11.5313 sec
+2025-03-31 18:20:33 [INFO] Iteration  250, KL divergence 2.3106, 50 iterations in 11.8337 sec
+2025-03-31 18:20:33 [INFO]    --> Time elapsed: 57.23 seconds
+2025-03-31 18:20:33 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 18:20:33 [INFO] ===>
+2025-03-31 18:20:33 [INFO] Running optimization with exaggeration=1.00, lr=1000.00 for 250 iterations...
+2025-03-31 18:20:45 [INFO] Iteration   50, KL divergence 0.4943, 50 iterations in 12.1309 sec
+2025-03-31 18:20:57 [INFO] Iteration  100, KL divergence 0.4609, 50 iterations in 12.0586 sec
+2025-03-31 18:21:09 [INFO] Iteration  150, KL divergence 0.4533, 50 iterations in 12.0314 sec
+2025-03-31 18:21:22 [INFO] Iteration  200, KL divergence 0.4499, 50 iterations in 12.4649 sec
+2025-03-31 18:21:34 [INFO] Iteration  250, KL divergence 0.4474, 50 iterations in 12.3439 sec
+2025-03-31 18:21:34 [INFO]    --> Time elapsed: 61.03 seconds
+2025-03-31 18:21:34 [INFO] Benchmark run 20/20
+2025-03-31 18:21:34 [INFO] --------------------------------------------------------------------------------
+2025-03-31 18:21:34 [INFO] TSNE(early_exaggeration=12, n_iter=250, n_jobs=8, verbose=2)
+2025-03-31 18:21:34 [INFO] --------------------------------------------------------------------------------
+2025-03-31 18:21:34 [INFO] ===>
+2025-03-31 18:21:34 [INFO] Finding 90 nearest neighbors using Annoy approximate search using euclidean distance...
+2025-03-31 18:21:34 [INFO]    --> Time elapsed: 0.11 seconds
+2025-03-31 18:21:34 [INFO] ===>
+2025-03-31 18:21:34 [INFO] Calculating affinity matrix...
+2025-03-31 18:21:34 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 18:21:34 [INFO] Precomputed initialization provided. Ignoring initalization-related parameters.
+2025-03-31 18:21:34 [INFO] ===>
+2025-03-31 18:21:34 [INFO] Calculating PCA-based initialization...
+2025-03-31 18:21:34 [INFO]    --> Time elapsed: 0.00 seconds
+2025-03-31 18:21:34 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 18:21:34 [INFO] ===>
+2025-03-31 18:21:34 [INFO] Running optimization with exaggeration=12.00, lr=83.33 for 250 iterations...
+2025-03-31 18:21:47 [INFO] Iteration   50, KL divergence 2.4966, 50 iterations in 12.7453 sec
+2025-03-31 18:21:59 [INFO] Iteration  100, KL divergence 2.5837, 50 iterations in 11.7543 sec
+2025-03-31 18:22:10 [INFO] Iteration  150, KL divergence 2.4929, 50 iterations in 10.8315 sec
+2025-03-31 18:22:21 [INFO] Iteration  200, KL divergence 2.3163, 50 iterations in 11.5325 sec
+2025-03-31 18:22:33 [INFO] Iteration  250, KL divergence 2.3108, 50 iterations in 11.7445 sec
+2025-03-31 18:22:33 [INFO]    --> Time elapsed: 58.61 seconds
+2025-03-31 18:22:33 [INFO] Automatically determined negative gradient method `bh`
+2025-03-31 18:22:33 [INFO] ===>
+2025-03-31 18:22:33 [INFO] Running optimization with exaggeration=1.00, lr=1000.00 for 250 iterations...
+2025-03-31 18:22:45 [INFO] Iteration   50, KL divergence 0.4948, 50 iterations in 12.0682 sec
+2025-03-31 18:22:58 [INFO] Iteration  100, KL divergence 0.4608, 50 iterations in 12.3422 sec
+2025-03-31 18:23:10 [INFO] Iteration  150, KL divergence 0.4534, 50 iterations in 12.4929 sec
+2025-03-31 18:23:23 [INFO] Iteration  200, KL divergence 0.4498, 50 iterations in 12.4878 sec
+2025-03-31 18:23:35 [INFO] Iteration  250, KL divergence 0.4475, 50 iterations in 12.4604 sec
+2025-03-31 18:23:35 [INFO]    --> Time elapsed: 61.85 seconds
+2025-03-31 18:23:35 [INFO] Benchmark completed!

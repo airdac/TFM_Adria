@@ -17,12 +17,9 @@ method = DRMethod.tSNE
 #      100000,   177828,   316228, 562341, 1000000, 3162278, 10000000]
 n_list = [1000]
 l = 1000
-method_arguments = {'perplexity': 20,
-                    'learning_rate': 5,
+method_arguments = {'perplexity': 30,
                     'n_iter': 250,
-                    'verbose': 2,
-                    'principal_components': True,
-                    'random_state': 42}
+                    'verbose': 2}
 
 if __name__ == '__main__':
     np.random.seed(42)

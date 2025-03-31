@@ -80,7 +80,7 @@ def divide_conquer(method: DRMethod,
 
     # For small datasets, apply the method directly
     if n_row_x <= l:
-        return projection_method(x, r, principal_components=False, **kwargs)
+        return projection_method(x, r, principal_components=True, **kwargs)
 
     # Create partitions
     idx_list = get_partitions_for_divide_conquer(n_row_x, l, c_points, r)
