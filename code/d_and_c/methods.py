@@ -84,6 +84,7 @@ def local_mds(x: np.ndarray, r: int = 2,
 
 def tsne(x: np.ndarray, r: int = 2,
          principal_components: bool | None = True,
+         n_jobs: int | None = -1,
          **kwargs) -> np.ndarray:
     """
         Perform t-SNE on data matrix x.
@@ -97,8 +98,8 @@ def tsne(x: np.ndarray, r: int = 2,
         Returns:
             projection (np.ndarray): The low-dimensional embedding of x.
         """
-    tsne = TSNE(n_components=r, n_jobs=os.cpu_count(), **kwargs)
-    embedding = tsne.fit(x)
+    tsne = TSNE(n_components=r, n_jobs=n_jobs, **kwargs)
+    embedding = np.array(tsne.fit(x))
     if principal_components:
         return apply_principal_components(embedding)
     return embedding

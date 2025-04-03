@@ -14,8 +14,10 @@ method = DRMethod.tSNE
 # Parameters to test (logarithmic sequences)
 # n_list = [1000,     1778,   3162,   5623,
 #      10000,    17783,    31623,  56234,
-#      100000,   177828,   316228, 562341, 1000000, 3162278, 10000000]
-n_list = [1000]
+#      100000,   177828,   316228, 562341,
+#      1000000, 3162278,
+#      10000000]
+n_list = [1000000]
 l = 1000
 method_arguments = {'perplexity': 30,
                     'n_iter': 250,
@@ -31,7 +33,7 @@ if __name__ == '__main__':
     # Start logger
     log_stdout_and_warnings(os.path.join(benchmark_path, 'results.log'))
 
-    # Run benchmark with parallel=True
+    # Run benchmark
     freeze_support()    # Fix for parallelization on Windows
     for n in n_list:
         method_arguments_str = [f'{key}={argument}' for key, argument in method_arguments.items()]
@@ -43,6 +45,6 @@ if __name__ == '__main__':
 
         print("Starting benchmark...")
         benchmark_d_and_c(benchmark_path, 'swiss_roll', X, color, l,
-                          c_points, method, method_arguments, system="Windows", parallel=True)
+                          c_points, method, method_arguments, system="Windows", parallel=True, runs=1)
 
         print("Benchmark completed!")
