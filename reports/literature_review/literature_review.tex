@@ -8,6 +8,8 @@
 \usepackage{minted}
 \setminted{frame=lines, fontsize=\small}
 \usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{float}
 \usepackage{hyperref}
 \hypersetup{
     colorlinks=true,
@@ -666,14 +668,35 @@ sum_P, kl_divergence_ = _tsne.estimate_positive_gradient_nn(...,
 
 \subsection{April 3rd}
 \begin{itemize}
-    \item \textbf{Applied t-SNE to the Swiss Roll dataset}: We have fine-tuned the parameters of t-SNE to obtain a resonably good 2D-embedding of the Swiss Roll dataset with 1000 rows. The obtained parameters have been $\{perplexity: 30, n\_iter: 250\}$. Results with $n\_iter = 500$ are similar, but the algorithm is significantly slower. Plots of each embedding can be found at \verb|d_and_c.LMDS.plots|.
+    \item \textbf{Applied t-SNE to the Swiss Roll dataset}: We have fine-tuned the parameters of t-SNE to obtain a resonably good 2D-embedding of the Swiss Roll dataset with 1000 rows. The obtained parameters have been $\{perplexity:30, n\_iter:250\}$. Results with $n\_iter = 500$ are similar, but the algorithm is significantly slower. Plots of each embedding can be found at \verb|d_and_c.LMDS.plots|.
     \item \textbf{Measured time complexity of D\&C t-SNE}: with the fine-tuned parameters previously obtained, we have performed a series of experiments on the Swiss Roll dataset. Results can be seen in \verb|d_and_c.benchmark.plot_benchmark_ipynb|.
-    \item \textbf{Repeated last week's experiments on Local MDS with Principal Components on R}: to ensure once more that the Python translation of \verb|smacofx:lmds| is sound. Indeed it is:
-    INSERT PLOTS COMPARING BOTH RESULTS
-    \item \textbf{Optimized Local MDS}: we have preallocated matrices in the main optimization loop and calculated the gradient and stress with Numba compiled independent functions.
+    \item \textbf{Repeated last week's experiments on Local MDS with Principal Components on R}: to ensure once more that the Python translation of \verb|smacofx:lmds| is sound. As seen in \verb|d_and_c.LMDS.run_LMDS.Rmd|, it is:
+
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}[b]{0.75\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{figures/LocalMDS_embedding_R.png}
+            \caption{R implementation}
+            \label{fig:lmds_R}
+        \end{subfigure}
+        
+        \vspace{1cm}
+        
+        \begin{subfigure}[b]{0.75\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{figures/LocalMDS_embedding.png}
+            \caption{Python implementation}
+            \label{fig:lmds_python}
+        \end{subfigure}
+        \caption{Comparison of Local MDS implementations on the Swiss Roll dataset (n=1000, k=10, $\tau$=0.1) with principal components applied.}
+        \label{fig:lmds_comparison}
+    \end{figure}
+
+    \item \textbf{Optimized Local MDS}: we have preallocated matrices in the main optimization loop and calculated the gradient and stress with Numba compiled independent functions. See \verb|d_and_c.private_lmds.py|.
     \item \textbf{Tested Isomap on a tetrahedron}: both on four clusters centered at the vertices and on a solid tetrahedron. The goal is to observe whether the insconsistences present when using t-SNE also appear with this DR method.
     
-    Results have turned out similar than in t-SNE for both datasets. However, note that in the "vertices" dataset the kNN graph had to be modified by adding the shortest edges between pairs of clusters to connect the graph. This is a necessary condition to compute geodesics on it. For more details, see \verb|d_and_c.Isomap.Isomap_examples.ipynb|.
+    Results have turned out similar than in t-SNE for both datasets. However, note that in the "vertices" dataset the kNN graph had to be modified by adding the shortest edges between pairs of clusters to connect the graph. This is a necessary operation to compute geodesics on it. For more details, see \verb|d_and_c.Isomap.Isomap_examples.ipynb|.
 \end{itemize}
 
 \pagebreak

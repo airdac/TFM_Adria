@@ -35,7 +35,7 @@ principal_components <- embedding_centered %*% eig$vectors
 
 ```{r}
 # Plot the results
-plot(principal_components, col=rainbow(nrow(swiss_roll))[rank(swiss_roll[,3L])],
-     main="dataset=swiss_roll, n=1000, method=Local_MDS\nk=10, tau=0.1, principal_components=True\nR implementation (smacofx:lmds)", xlab="", ylab="")
+plot(principal_components, xlab="", ylab="",
+     main="dataset=swiss_roll, n=1000, method=Local_MDS\nk=10, tau=0.1, principal_components=True\nR implementation (smacofx:lmds)")
 ```
 
