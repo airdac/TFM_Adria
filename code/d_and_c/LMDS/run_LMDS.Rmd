@@ -1,0 +1,41 @@
+---
+title: "run_LMDS"
+author: "Adrià Casanova Lloveras"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Let us check that Local MDS with principal components works similarly on R and Python.
+
+```{r libraries; set.seed}
+library(smacofx)
+library(RColorBrewer)  # For Spectral palette
+library(scales)        # For rescaling values
+set.seed(42)
+```
+
+```{r read data}
+swiss_roll <- read.csv('swiss_roll_data.csv')
+```
+
+```{r apply lmds}
+embedding <- lmds(dist(swiss_roll), ndim=2L, k=10L, tau=0.1, verbose=2)
+```
+
+```{r apply PC}
+embedding_centered <- sweep(embedding$conf, 2L, colMeans(embedding$conf))
+cov_matrix <- cov(embedding_centered)
+eig <- eigen(cov_matrix, symmetric = TRUE)
+principal_components <- embedding_centered %*% eig$vectors
+```
+
+```{r}
+# Plot the results
+plot(principal_components, col=rainbow(nrow(swiss_roll))[rank(swiss_roll[,3L])],
+     main="dataset=swiss_roll, n=1000, method=Local_MDS\nk=10, tau=0.1, principal_components=True\nR implementation (smacofx:lmds)", xlab="", ylab="")
+```
+
