@@ -39,7 +39,6 @@ results/
 code/d_and_c/old_figures/
 code/Isomap_BigData/megaman-master
 code/Isomap_BigData/pysomap
-code/d_and_c/t-SNE/all_data.RData
-code/d_and_c/t-SNE/all_data.RData
+code/d_and_c/MNIST.RData
 code/d_and_c/benchmark/plots
 !code/d_and_c/benchmark/results.log
