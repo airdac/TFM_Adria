@@ -699,6 +699,14 @@ sum_P, kl_divergence_ = _tsne.estimate_positive_gradient_nn(...,
     Results have turned out similar than in t-SNE for both datasets. However, note that in the "vertices" dataset the kNN graph had to be modified by adding the shortest edges between pairs of clusters to connect the graph. This is a necessary operation to compute geodesics on it. For more details, see \verb|d_and_c.Isomap.Isomap_examples.ipynb|.
 \end{itemize}
 
+\subsection{April 10th}
+\begin{itemize}
+    \item \textbf{Implemented SMACOF}
+    \item \textbf{Parallelized Isomap}: just like t-SNE or SMACOF, with the \verb|n_jobs| argument.
+\end{itemize}
+
+
+
 \pagebreak
 \section{Title \texorpdfstring{TEXstring}{TEXstring}}
 \label{sec:}

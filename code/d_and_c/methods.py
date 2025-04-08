@@ -1,12 +1,12 @@
 from enum import Enum
 import os
 import numpy as np
-from sklearn.manifold import Isomap
+from sklearn.manifold import Isomap, smacof
 from openTSNE import TSNE
 from scipy.spatial.distance import pdist, squareform
 from typing import Callable
 
-from .private_lmds import lmds_R
+from .private_lmds import lmds_R_optimized
 from .utils import apply_principal_components
 
 
@@ -15,6 +15,7 @@ class DRMethod(Enum):
     Isomap = "Isomap"
     LocalMDS = "Local MDS"
     tSNE = "t-SNE"
+    SMACOF = "SMACOF"
 
     def __str__(self):
         return self.value
@@ -28,7 +29,8 @@ def get_method_function(method: DRMethod) -> Callable:
     method_map = {
         DRMethod.Isomap: isomap,
         DRMethod.LocalMDS: local_mds,
-        DRMethod.tSNE: tsne
+        DRMethod.tSNE: tsne,
+        DRMethod.SMACOF: mds_smacof
     }
 
     if method not in method_map:
@@ -40,6 +42,7 @@ def get_method_function(method: DRMethod) -> Callable:
 
 def isomap(x: np.ndarray, r: int = 2,
            principal_components: bool | None = True,
+           n_jobs: int | None = -1,
            **kwargs) -> np.ndarray:
     """
     Perform Isomap on data matrix x.
@@ -54,8 +57,31 @@ def isomap(x: np.ndarray, r: int = 2,
         projection (np.ndarray): The low-dimensional embedding of x.
     """
     n_neighbors = kwargs.get('n_neighbors', 5)
-    isomap = Isomap(n_neighbors=n_neighbors, n_components=r)
+    isomap = Isomap(n_neighbors=n_neighbors, n_components=r, n_jobs=n_jobs)
     embedding = isomap.fit_transform(x)
+    if principal_components:
+        return apply_principal_components(embedding)
+    return embedding
+
+
+def mds_smacof(x: np.ndarray, r: int = 2,
+               principal_components: bool | None = True,
+               n_jobs: int | None = -1,
+               **kwargs) -> np.ndarray:
+    """
+        Compute multidimensional scaling on x using the SMACOF algorithm.
+
+        Parameters:
+            x (np.ndarray): Input data matrix.
+            r (int, optional): Target dimensionality (default 2).
+            principal_components (bool, optional): Whether to apply principal compoenents to output embedding.
+            n_jobs (int, optional): number of jobs to run in parallel. -1 is interpreted as using all cores.
+            kwargs (Any): Additional parameters for SMACOF(e.g. k, max_iter).
+
+        Returns:
+            projection (np.ndarray): The low-dimensional embedding of x.
+        """
+    embedding, _ = smacof(squareform(pdist(x)), n_components=r, n_jobs=n_jobs, **kwargs)
     if principal_components:
         return apply_principal_components(embedding)
     return embedding
@@ -76,7 +102,7 @@ def local_mds(x: np.ndarray, r: int = 2,
         Returns:
             projection (np.ndarray): The low-dimensional embedding of x.
         """
-    embedding = lmds_R(delta=squareform(pdist(x)), d=r, **kwargs)
+    embedding = lmds_R_optimized(delta=squareform(pdist(x)), d=r, **kwargs)
     if principal_components:
         return apply_principal_components(embedding)
     return embedding
@@ -93,6 +119,7 @@ def tsne(x: np.ndarray, r: int = 2,
             x (np.ndarray): Input data matrix.
             r (int, optional): Target dimensionality (default 2).
             principal_components (bool, optional): Whether to apply principal compoenents to output embedding.
+            n_jobs (int, optional): number of jobs to run in parallel. -1 is interpreted as using all cores.
             kwargs (Any): Additional parameters for t-SNE.
 
         Returns:

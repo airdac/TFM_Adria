@@ -68,8 +68,7 @@ def divide_conquer(method: DRMethod,
         l (int): Partition size.
         c_points (int): Number of common points.
         r (int): Target dimensionality.
-        color (np.ndarray): Colors for visualization.
-        dataset_name (str): Name of the dataset (used in results folder naming).
+        plot (dict): if not None, plot the embedding. Moreover, if not None, it must be a dict with the arguments for the plot: 'color' (np.ndarray), 'dataset_name' (str).
         kwargs (Any): Additional method-specific parameters.
 
     Returns:
