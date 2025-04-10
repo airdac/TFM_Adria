@@ -701,8 +701,13 @@ sum_P, kl_divergence_ = _tsne.estimate_positive_gradient_nn(...,
 
 \subsection{April 10th}
 \begin{itemize}
-    \item \textbf{Implemented SMACOF}
+    \item \textbf{Implemented SMACOF}: as a standalone DR method and as a possible method for D\&C.
     \item \textbf{Parallelized Isomap}: just like t-SNE or SMACOF, with the \verb|n_jobs| argument.
+    \item \textbf{Tested bare and D\&C DR methods on MNIST}: the only satisfactory embedding has been that of bare t-SNE, but D\&C shows a significant time improvement to bare methods. See \verb|d_and_c.Isomap.Isomap_examples.ipynb|, \verb|d_and_c.SMACOF.SMACOF_examples.ipynb|,
+    
+    \verb|d_and_c.t-SNE.tSNE_examples.ipynb| and \verb|d_and_c.LMDS.LMDS_examples.ipynb| for details.
+
+    In comparison, \cite{reichmann2024outofcoredimensionalityreductionlarge}, show their Big Data approach to Autoencoders applied to MNIST. However, a remarkable structure only appears when the reference size is larger or equal than 16384. They use other methods as well (with their big data methodology), but only show quantitative metrics of the embeddings. It could be interesting to implement the computation of those metrics as well to compare our method and theirs.
 \end{itemize}
 
 
