@@ -15,7 +15,7 @@ def _main_divide_conquer(args: tuple) -> np.ndarray:
         args (tuple) : tuple of the following arguments:
         method (DRMethod): Dimensionality reduction method to use
         x_filtered (np.ndarray): Data points of the current partition.
-        x_sample_1 (np.ndarray): Anchor points sampled from the first partition.
+        x_sample_1 (np.ndarray): Connecting points sampled from the first partition.
         r (int): Target dimensionality.
         original_sample_1 (np.ndarray): Projection of the anchor points from the first partition.
         partition_plots_path (str): Path to store the partition's visualization.

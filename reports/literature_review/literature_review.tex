@@ -710,6 +710,18 @@ sum_P, kl_divergence_ = _tsne.estimate_positive_gradient_nn(...,
     In comparison, \cite{reichmann2024outofcoredimensionalityreductionlarge}, show their Big Data approach to Autoencoders applied to MNIST. However, a remarkable structure only appears when the reference size is larger or equal than 16384. They use other methods as well (with their big data methodology), but only show quantitative metrics of the embeddings. It could be interesting to implement the computation of those metrics as well to compare our method and theirs.
 \end{itemize}
 
+\subsection{April 24th}
+\begin{itemize}
+    \item \textbf{Improved MNIST plots}:
+    
+    \begin{itemize}
+        \item Pickled experiment's high-dimensional and low-dimensional data.
+        \item Plotted each digit's embedding separately.
+        \item Used a color map with more distinct colors: Set1 + black.
+        \item Applied a Procrustes transformation to every digit $> 0$'s embedding to align it with 0's embedding.
+    \end{itemize}
+\end{itemize}
+
 
 
 \pagebreak
