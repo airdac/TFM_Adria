@@ -725,7 +725,22 @@ sum_P, kl_divergence_ = _tsne.estimate_positive_gradient_nn(...,
     
     \item \textbf{Structured the thesis}
     
-    
+\end{itemize}
+
+\subsection{May 1st}
+\begin{itemize}
+    \item \textbf{Improved MNIST's embedding visualization}: by plotting kernel density estimations of each digit.
+    \item \textbf{Computed dimension's correlation between bare and D\&C MNIST embeddings}: both in total and per digit.
+    \item \textbf{Applied Procrustes transformation to D\&C MNIST embedding}: to compare it with bare method's embedding.
+\end{itemize}
+
+\subsection{May 9th}
+\begin{itemize}
+    \item \textbf{Analyzed possible bottlenecks of D\&C}: results show that the only bottleneck is the dimensionality reduction method used, since the D\&C overhead is minimal. See \verb|d_and_c/benchark/dc_bottlenecks.ipynb|.
+    \item \textbf{Applied D\&C t-SNE to MNIST}: after choosing efficient parameters to apply t-SNE to a 1000-points random subset of MNIST, we have been able to apply D\&C t-SNE to the whole numeric training set of MNIST.
+    \item \textbf{Fixed Procrustes transformation in MNIST's embeddings visualization}: the Procrustes transformation was not capable of rotating the D\&C embedding so that digits were aligned with those of bare SMACOF. Hence, we applied Procrustes to each digit independently.
+    \item \textbf{Removed extra contour lines in KDE plots}: \verb|plt.contour()| plots up to an extra contour line if it thinks it is necessary, hence causing unnecessary lines. Intead of relying on the automatic method to choose contour levels, we set them to only one level that fits each specific plot.
+    \item \textbf{Fixed thesis review}
 \end{itemize}
 
 
