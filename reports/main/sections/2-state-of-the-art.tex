@@ -5,7 +5,7 @@
 \begin{itemize}
     \item There are many DR algorithms, linear and non-linear, but they use the distance matrix of datapoints. In big datasets, this matrix cannot fit in the system's RAM, so DR methods are not feasible. Moreover, time complexity can be prohibitive in some cases as well.
     \item Delicado and Pachón-García proposed new versions of MDS that handled this problem and compared them with prior algorithms \cite{Delicado2024MDSBigData}.
-    \item Regarding non-linear methods, Landmark Isomap \cite{deSilvaTenenbaum2002} was proposed to adapt Isomap to large data settings. Later, in 2024, Reichmann, Hägele and Weiskopf generalized that algorithm to any DR method that would return a map between high- and low-dimensional spaces, such as t-SNE, UMAP, Autoencoders or linear methods (PCA, MDS).
+    \item Regarding non-linear methods, Landmark Isomap \cite{deSilvaTenenbaum2002} was proposed to adapt Isomap to large data settings. Later, in 2024, Reichmann, Hägele and Weiskopf generalized Interpolation MDS to any DR method that would return a map between high- and low-dimensional spaces, such as PCA, non-classicla MDS, t-SNE, UMAP or Autoencoders.
     \item Finally, t-SNE has been optimized for big data environments in Python through iterative implementations. Their details, however, are out of the scope of this project.
 \end{itemize}
 
@@ -126,4 +126,10 @@ Delicado and Pachón-García \cite{Delicado2024MDSBigData} compared four existin
     \label{fig:bigmds}
 \end{figure}
 
-\subsection{Landmark Isomap and the OOS Projection Framework}
+\subsection{Landmark Isomap and the Out-of-Core Dimensionality Reduction Framework}
+
+Silva and Tenenbaum \cite{deSilvaTenenbaum2002} first introduced Landmark MDS in 2002 by applying it to Isomap (L-Isomap). This way, they reduced the time complexity of both classical multidimensional scaling and Isomap from $\mathcal{O}(n^3)$ to $\mathcal{O}(n^2l)$, where $l \ll n$ is the amount of landmark points.
+
+Note that, similarly to Landmark MDS, other big data versions of MDS can be used with Isomap. Nonetheless, interpolation-based and approximation-based algorithms cannot be trivially generalized to nonlinear dimensionality reduction methods.
+
+Later, in 2024, Reichmann, Hägele and Weiskopf \cite{reichmann2024outofcoredimensionalityreductionlarge} proposed the Out-of-Core Dimensionality Reduction Framework. Similar to Interpolation MDS, this algorithm applies a DR method that produces a mapping between high- and low-dimensional spaces (i.e. PCA, MDS, t-SNE, UMAP, Autoencoder) to a small subset of the data and then projects the remaining datapoints in blocks. In order to obtain the aforementioned mappings, Reichmann et. al. gathered different projection mechanisms for every method. PCA and autoencoders learn a parametric mapping between the original data and the embedding, so projecting new points is straightforward. For non-classical MDS, stress is minimized for a single point while keeping others fixed, a process known as \textit{single scaling} in the literature \cite{single-scaling}. A similar strategy is used for t-SNE \cite{tsne-knn} and UMAP \cite{McInnes2018}, which leverage the k-NN of the projecting point to initizalize the optimizer.
