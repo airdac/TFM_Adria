@@ -1,13 +1,6 @@
 \section{State of the Art}
 
-\subsection{Introduction}
-
-\begin{itemize}
-    \item There are many DR algorithms, linear and non-linear, but they use the distance matrix of datapoints. In big datasets, this matrix cannot fit in the system's RAM, so DR methods are not feasible. Moreover, time complexity can be prohibitive in some cases as well.
-    \item Delicado and Pachón-García proposed new versions of MDS that handled this problem and compared them with prior algorithms \cite{Delicado2024MDSBigData}.
-    \item Regarding non-linear methods, Landmark Isomap \cite{deSilvaTenenbaum2002} was proposed to adapt Isomap to large data settings. Later, in 2024, Reichmann, Hägele and Weiskopf generalized Interpolation MDS to any DR method that would return a map between high- and low-dimensional spaces, such as PCA, non-classicla MDS, t-SNE, UMAP or Autoencoders.
-    \item Finally, t-SNE has been optimized for big data environments in Python through iterative implementations. Their details, however, are out of the scope of this project.
-\end{itemize}
+In this section, we aim to review four dimensionality reduction techniques that we will later apply our divide-and-conquer framework to. Next, we will showcase in more detail the work of Delicado and Pachón-García with respect to MDS in big data to motivate our choosing of the divide-and-conquer approach. Finally, we will discuss three more appreciable solutions to the big data problem in DR and how they relate to our proposal: Landmark Isomap, the Out-of-Core Dimensionality Reduction Framework and formidable Python t-SNE implementations.
 
 \subsection{A few Dimensionality Reduction Techniques}
 
@@ -133,3 +126,16 @@ Silva and Tenenbaum \cite{deSilvaTenenbaum2002} first introduced Landmark MDS in
 Note that, similarly to Landmark MDS, other big data versions of MDS can be used with Isomap. Nonetheless, interpolation-based and approximation-based algorithms cannot be trivially generalized to nonlinear dimensionality reduction methods.
 
 Later, in 2024, Reichmann, Hägele and Weiskopf \cite{reichmann2024outofcoredimensionalityreductionlarge} proposed the Out-of-Core Dimensionality Reduction Framework. Similar to Interpolation MDS, this algorithm applies a DR method that produces a mapping between high- and low-dimensional spaces (i.e. PCA, MDS, t-SNE, UMAP, Autoencoder) to a small subset of the data and then projects the remaining datapoints in blocks. In order to obtain the aforementioned mappings, Reichmann et. al. gathered different projection mechanisms for every method. PCA and autoencoders learn a parametric mapping between the original data and the embedding, so projecting new points is straightforward. For non-classical MDS, stress is minimized for a single point while keeping others fixed, a process known as \textit{single scaling} in the literature \cite{single-scaling}. A similar strategy is used for t-SNE \cite{tsne-knn} and UMAP \cite{McInnes2018}, which leverage the k-NN of the projecting point to initizalize the optimizer.
+
+\subsection{openTSNE, an outstanding implementation of t-SNE}
+
+Maybe because of its popularity, t-SNE has been optimized for large data environments in Python through iterative implementations. In 2024, Poličar, Stražar and Zupan \cite{Policar2024} considered many of them and published \verb|openTSNE|, a package that includes several t-SNE extensions \enquote{\textit{to address scalability issues and the quality of the resulting visualizations}}. Furthermore, they compared their proposal with those of other popular packages in serial and parallel configurations. In figure \ref{fig:python_tsne_benchmarks} it can be seen that, thanks to these advances, the challenges of big data have already been solved in the specific case of t-SNE.
+
+()\textit{POSSIBLE ANNEX})
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/python_tsne_benchmarks.png}
+    \caption{Benchmark of the best open-source t-SNE Python implementations \cite{Policar2024}.}
+    \label{fig:python_tsne_benchmarks}
+\end{figure}
