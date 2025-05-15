@@ -797,3 +797,50 @@ eprint = {https://doi.org/10.1198/jasa.2009.0111}
   issn      = {1862-5355},
   abstract  = {We present a set of algorithms implementing multidimensional scaling (MDS) for large data sets. MDS is a family of dimensionality reduction techniques using an n × n distance matrix as input, where n is the number of individuals, and producing a low dimensional configuration: an n × r matrix with r ≪ n. When n is large, MDS is unaffordable with classical MDS algorithms because of their extremely large memory and time requirements. We compare six non-standard algorithms intended to overcome these difficulties. They are based on the central idea of partitioning the data set into small pieces, where classical MDS methods can work. Two of these algorithms are original proposals. In order to check the performance of the algorithms as well as to compare them, we have done a simulation study. Additionally, we have used the algorithms to obtain an MDS configuration for EMNIST: a real large data set with more than 800000 points. We conclude that all the algorithms are appropriate to use for obtaining an MDS configuration, but we recommend using one of our proposals, since it is a fast algorithm with satisfactory statistical properties when working with big data. An R package implementing the algorithms has been created.}
 }
+
+@article{
+Tenenbaum2000,
+author = {Joshua B. Tenenbaum  and Vin de Silva  and John C. Langford },
+title = {A Global Geometric Framework for Nonlinear Dimensionality Reduction},
+journal = {Science},
+volume = {290},
+number = {5500},
+pages = {2319-2323},
+year = {2000},
+doi = {10.1126/science.290.5500.2319},
+URL = {https://www.science.org/doi/abs/10.1126/science.290.5500.2319},
+abstract = {Scientists working with large volumes of high-dimensional data, such as global climate patterns, stellar spectra, or human gene distributions, regularly confront the problem of dimensionality reduction: finding meaningful low-dimensional structures hidden in their high-dimensional observations. The human brain confronts the same problem in everyday perception, extracting from its high-dimensional sensory inputs—30,000 auditory nerve fibers or 106 optic nerve fibers—a manageably small number of perceptually relevant features. Here we describe an approach to solving dimensionality reduction problems that uses easily measured local metric information to learn the underlying global geometry of a data set. Unlike classical techniques such as principal component analysis (PCA) and multidimensional scaling (MDS), our approach is capable of discovering the nonlinear degrees of freedom that underlie complex natural observations, such as human handwriting or images of a face under different viewing conditions. In contrast to previous algorithms for nonlinear dimensionality reduction, ours efficiently computes a globally optimal solution, and, for an important class of data manifolds, is guaranteed to converge asymptotically to the true structure.}}
+
+@article{tsne,
+  author  = {Laurens van der Maaten and Geoffrey Hinton},
+  title   = {Visualizing Data using t-SNE},
+  journal = {Journal of Machine Learning Research},
+  year    = {2008},
+  volume  = {9},
+  number  = {86},
+  pages   = {2579--2605},
+  url     = {http://jmlr.org/papers/v9/vandermaaten08a.html}
+}
+
+@book{borg1997modern,
+  title     = {Modern Multidimensional Scaling: Theory and Applications},
+  author    = {Borg, Ingwer and Groenen, Patrick J. F.},
+  year      = {1997},
+  publisher = {Springer},
+  series    = {Springer Series in Statistics},
+  address   = {New York}
+}
+
+@article{LocalMDS,
+author = {Lisha Chen and Andreas Buja and},
+title = {Local Multidimensional Scaling for Nonlinear Dimension Reduction, Graph Drawing, and Proximity Analysis},
+journal = {Journal of the American Statistical Association},
+volume = {104},
+number = {485},
+pages = {209--219},
+year = {2009},
+publisher = {ASA Website},
+doi = {10.1198/jasa.2009.0111},
+URL = {https://doi.org/10.1198/jasa.2009.0111},
+eprint = {https://doi.org/10.1198/jasa.2009.0111}
+}

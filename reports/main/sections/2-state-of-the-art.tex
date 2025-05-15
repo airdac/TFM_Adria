@@ -1,0 +1,120 @@
+\section{State of the Art}
+
+\subsection{Introduction}
+
+\begin{itemize}
+    \item There are many DR algorithms, linear and non-linear, but they use the distance matrix of datapoints. In big datasets, this matrix cannot fit in the system's RAM, so DR methods are not feasible. Moreover, time complexity can be prohibitive in some cases as well.
+    \item Delicado and Pachón-García proposed new versions of MDS that handled this problem and compared them with prior algorithms \cite{Delicado2024MDSBigData}.
+    \item Regarding non-linear methods, Landmark Isomap \cite{deSilvaTenenbaum2002} was proposed to adapt Isomap to large data settings. Later, in 2024, Reichmann, Hägele and Weiskopf generalized that algorithm to any DR method that would return a map between high- and low-dimensional spaces, such as t-SNE, UMAP, Autoencoders or linear methods (PCA, MDS).
+    \item Finally, t-SNE has been specifically adapted to big data environments in Python through iterative implementations. Their details, however, are out of the scope of our project.
+\end{itemize}
+
+\subsection{A few Dimensionality Reduction Techniques}
+
+\subsubsection{Non-classical MDS. The SMACOF algorithm}
+
+SMACOF (Scaling by MAjorizing a COmplicated Function) algorithm is a multidimensional scaling algorithm which minimizes metric stress using a majorization technique \cite{borg1997modern}. Also known as the Guttman Transform, this technique is more powerful than general optimization methods such as gradient descent.
+
+\begin{algorithm}
+    \caption{SMACOF}
+    \label{alg:SMACOF}
+    
+    \begin{algorithmic}[1]
+    \REQUIRE $D_{\mathcal{X}} = (\delta_{ij})$, the matrix of observed distances; $q$, the embedding's dimensionality; maximum number of iterations $n\_iter$; convergence threshold $\epsilon$.
+    \ENSURE A configuration in a $q$-dimensional space $\tilde{\mathcal{Y}}$.
+    \STATE Initialize $\tilde{\mathcal{Y}}^{(0)} \in \mathbb{R}^{n \times q}$
+    \STATE $k \leftarrow 0$
+    \REPEAT
+        \STATE Compute distance matrix of $\tilde{\mathcal{Y}}^{(k)}$:  $d_{ij}(\tilde{\mathcal{Y}}^{(k)}) = \|x_i - x_j\|$
+        \STATE Compute the Metric STRESS: $STRESS_M(D_{\mathcal{X}}, \tilde{\mathcal{Y}}^{(k)}) = \sqrt{\frac{\sum_{i<j}\left(\delta_{i j}-d_{i j}\right)^2}{\sum_{i<j} \delta_{i j}^2}}$
+        \STATE Compute the Guttman Transform: $\tilde{\mathcal{Y}}^{(k+1)} = n^{-1}B(\tilde{\mathcal{Y}}^{(k)})\tilde{\mathcal{Y}}^{(k)}$ where $B(\tilde{\mathcal{Y}}^{(k)}) = (b_{ij})$:
+        $$
+        b_{ij} =
+        \begin{cases}
+        -\delta_{ij}/d_{ij}(\tilde{\mathcal{Y}}^{(k)}) & \text{if } i \neq j \text{ and } d_{ij}(\tilde{\mathcal{Y}}^{(k)}) > 0 \\
+        0 & \text{if } i \neq j \text{ and } d_{ij}(\tilde{\mathcal{Y}}^{(k)}) = 0 \\
+        -\sum_{j \neq i} b_{ij} & \text{if } i = j
+        \end{cases}
+        $$
+        \STATE $k \leftarrow k + 1$
+    \UNTIL{$k \geq n\_iter$ or $|STRESS_M(D_{\mathcal{X}}, \tilde{\mathcal{Y}}^{(k-1)}) - STRESS_M(D_{\mathcal{X}}, \tilde{\mathcal{Y}}^{(k)}| < \epsilon$}
+    \RETURN $\tilde{\mathcal{Y}}^{(k)}$
+    \end{algorithmic}
+\end{algorithm}
+
+\subsubsection{Local MDS}
+
+Local MDS \cite{LocalMDS} is a variant of MDS that handles small and large distances differently. Specifically, for large distances, a repulsive term is added to the stress function to separate points in the low-dimensional configuration.
+
+\begin{algorithm}
+    \caption{Local MDS}
+    \label{alg:LocalMDS}
+    
+    \begin{algorithmic}[1]
+    \REQUIRE $D_{\mathcal{X}} = (d_{ij})$, the matrix of original distances; $q$, the embedding's dimensionality; $k$, the size of neighborhoods; and $\tau$, the weight of the repulsive term in the stress function.
+    \ENSURE A configuration in a $q$-dimensional space $\tilde{\mathcal{Y}}$.
+    \STATE Compute the symmetrized k-NN graph of $D_{\mathcal{X}}$, $\mathcal{N}$
+    \STATE Let $t=\frac{|\mathcal{N}|}{\left|\mathcal{N}^C\right|} \cdot \operatorname{median}_{\mathcal{N}}\left(D_{i, j}\right) \cdot \tau$
+    \STATE Minimize $$\sum_{(i, j) \in N}\left(D_{i, j}-\left\|\mathbf{y}_i-\mathbf{y}_j\right\|\right)^2 - t \sum_{(i, j) \notin N}\left\|\mathbf{y}_i-\mathbf{y}_j\right\|$$
+    \RETURN The solution to the optimization problem, $\tilde{\mathcal{Y}}$.
+    \end{algorithmic}
+\end{algorithm}
+
+Parameters $k$ and $\tau$ can be tuned with $k'$-cross validation thanks to the LCMC (Local Continuity Meta-Criteria) (\textit{POSSIBLE ANNEX})
+
+\subsubsection{Isomap}
+
+Isomap \cite{Tenenbaum2000} is a nonlinear technique that preserves geodesic distances between points in a manifold. The key insight of Isomap is that large distances between objects are estimated from the shorter ones, by the shortest path length. Then, shorter and estimated-larger distances have the same importance in a final MDS step.
+
+\begin{algorithm}
+    \caption{Isomap}
+    \label{alg:Isomap}
+    
+    \begin{algorithmic}[1]
+    \REQUIRE $D_{\mathcal{X}}$, the matrix of observed Euclidean distances; $q$, the embedding's dimensionality; and $\epsilon$ or $k$, the bandwith.
+    \ENSURE A configuration in a $q$-dimensional space $\tilde{\mathcal{Y}}$.
+    \STATE Find the k-NN or $\epsilon$-NN graph of $\mathcal{X}$, $G$.
+    \STATE Compute the distance matrix of $G$: $D_G$.
+    \STATE Embed $D_G$ to a $q$-dimensional space with MDS.
+    \RETURN The output configuration of MDS.
+    
+    \end{algorithmic}
+\end{algorithm}
+
+The only tuning parameter of Isomap is the bandwith ($\epsilon$ or $k$), but there is no consensus on what is the best method to choose it.
+
+\subsubsection{t-SNE}
+
+t-SNE (t-Distributed Stochastic Neighbor Embedding) \cite{tsne} is a nonlinear dimensionality reduction technique particularly well-suited for visualizing high-dimensional data. It preserves local neighborhoods by modeling similarities between points as conditional probabilities and minimizing the difference between these probability distributions in high and low-dimensional spaces.
+
+\begin{algorithm}
+    \caption{t-SNE}
+    \label{alg:tSNE}
+    
+    \begin{algorithmic}[1]
+    \REQUIRE $\mathcal{X} \in \mathbb{R}^{n \times p}$, the high-dimensional configuration; $q$, the embedding's dimensionality; perplexity $Perp$.
+    \ENSURE A configuration in a $q$-dimensional space $\tilde{\mathcal{Y}}$.
+    \STATE For every datapoint $i$, find $\sigma_i$ so that the conditional probability ditribution
+        $$p_{j|i} = \frac{\exp(-\|x_i-x_j\|^2/2\sigma_i^2)}{\sum_{k \neq i}\exp(-\|x_i-x_k\|^2/2\sigma_i^2)}$$ has perplexity $2^{-\sum_{j}p_j \log_2 p_j} = Perp$
+    \STATE Symmetrize conditional distributions: $p_{ij} = \frac{p_{j|i} + p_{i|j}}{2n}$ if $i\neq j$, $p_{ii} = 0$
+    \STATE Consider Student t-distributed joint probabilities for the low-dimensional data $y_i$: $$q_{ij} = \frac{(1 + \|y_i-y_j\|^2)^{-1}}{\sum_{h \neq k}(1 + \|y_h-y_k\|^2)^{-1}}$$
+    \STATE Minimize the sum of Kullback-Leibler divergences between the joint distributions over all datapoints: $$C(\tilde{\mathcal{Y}})=\sum_i \sum_j p_{j \mid i} \log \frac{p_{j \mid i}}{q_{j \mid i}}$$
+    \RETURN The solution to the optimization problem, $\tilde{\mathcal{Y}}$.
+    
+    \end{algorithmic}
+\end{algorithm}
+
+t-SNE focuses on retaining the local structure of the data while ensuring that every point $y_i$ in the low-dimensional space will have the same number of neighbors, making it particularly effective for visualizing clusters in high-dimensional data. The use of the Student t-distribution in the low-dimensional space addresses the \textit{crowding problem} by allowing dissimilar points to be modeled far apart \cite{tsne}.
+
+The tuning parameter $Perp$ is interpreted as the average effective number of neighbors of the high-dimensional datapoints $x_i$ and typical values are between 5 and 50.
+
+\subsection{Multidimensional Scaling for Big Data}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/bigmds.png}
+    \caption{Schematic representation of the six MDS algorithms described by Delicado and Pachón-García \cite{Delicado2024MDSBigData}.}
+    \label{fig:python_tsne_benchmarks}
+\end{figure}
+
+\subsection{Landmark Isomap and the OOS Projection Framework}

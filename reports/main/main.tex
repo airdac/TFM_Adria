@@ -2,6 +2,7 @@
 \usepackage[left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}
 \usepackage{pdfpages}
 \usepackage{amssymb}
+\usepackage{amsmath}
 \usepackage[backend=biber]{biblatex}
 \addbibresource{../bibliography.bib}
 \usepackage{minted}
@@ -15,6 +16,8 @@
     urlcolor=black,
     citecolor=black
 }
+\usepackage{algorithm}
+\usepackage{algorithmic}
 % Allow more flexible breaking of long URLs:
 \setlength\emergencystretch{3em}
 \setcounter{biburllcpenalty}{7000}
@@ -36,31 +39,31 @@
 \tableofcontents
 \pagebreak
 
-\input{main_sections/introduction.tex}
+\input{sections/1-introduction.tex}
 \pagebreak
 
-\input{main_sections/state_of_the_art.tex}
+\input{sections/2-state-of-the-art.tex}
 \pagebreak
 
-\input{main_sections/specification_and_design.tex}
+\input{sections/3-specification-and-design.tex}
 \pagebreak
 
-\input{main_sections/development.tex}
+\input{sections/4-development.tex}
 \pagebreak
 
-\input{main_sections/experimentation_and_evaluation.tex}
+\input{sections/5-experimentation-and-evaluation.tex}
 \pagebreak
 
-\input{main_sections/sustainability_and_ethics.tex}
+\input{sections/6-sustainability-and-ethics.tex}
 \pagebreak
 
-\input{main_sections/conclusions.tex}
+\input{sections/7-conclusions.tex}
 \pagebreak
 
 \printbibliography
 \pagebreak
 
-\input{main_sections/annexes.tex}
+\input{sections/8-annexes.tex}
 \pagebreak
 
 
