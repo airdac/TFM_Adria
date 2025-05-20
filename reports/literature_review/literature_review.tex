@@ -3,8 +3,50 @@
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage{mathtools}
-\usepackage[backend=biber]{biblatex}
+\usepackage[
+	style=authoryear,
+	maxbibnames=100
+]{biblatex}
 \addbibresource{../bibliography.bib}
+
+\DeclareBibliographyAlias{letter}{misc}
+
+\setcounter{biburllcpenalty}{1}
+\DeclareSortingTemplate{nymdt}{
+  \sort{
+    \field{presort}
+  }
+  \sort[final]{
+    \field{sortkey}
+  }
+  \sort{
+    \field{sortname}
+    \field{author}
+    \field{editor}
+    \field{translator}
+    \field{sorttitle}
+    \field{title}
+  }
+  \sort{
+    \field{sortyear}
+    \field{year}
+  }
+  \sort{
+    \field[padside=left,padwidth=2,padchar=0]{month}
+    \literal{00}
+  }
+  \sort{
+    \field[padside=left,padwidth=2,padchar=0]{day}
+    \literal{00}
+  }
+  \sort{
+    \field{sorttitle}
+  }
+  \sort{
+    \field[padside=left,padwidth=4,padchar=0]{volume}
+    \literal{0000}
+  }
+}
 \usepackage{minted}
 \setminted{frame=lines, fontsize=\small}
 \usepackage{graphicx}
@@ -747,6 +789,17 @@ sum_P, kl_divergence_ = _tsne.estimate_positive_gradient_nn(...,
 \begin{itemize}
     \item \textbf{Fixed thesis outline} with the comments of the previous meeting.
     \item \textbf{Written the first draft of sections 1 and 2}. Two annexes on LCMC and t-SNE extensions might be good additions if time permits.
+\end{itemize}
+
+\subsection{May 20th}
+\begin{itemize}
+    \item \textbf{Changed format of bigmds image}.
+    \item \textbf{Formatted bibliography} as in Cristian's PhD thesis. Doubts:\begin{itemize}
+        \item A \cite{Pedregosa2011}, \cite{Vandermaaten2014}, \cite{Vandermaaten2008} i \cite{Mcqueen2016} no he trobat el doi. \textit{\href{https://nickwalker.us/blog/2024/acm-dl-fake-dois/}{Aquí}} es queixen que el que he trobat a \textit{\href{https://dl.acm.org/doi/10.5555/1953048.2078195}{ACM}} és fals. \textit{\href{https://academia.stackexchange.com/questions/144097/doi-for-jmlr-papers}{En aquest fòrum}} comenten que el journal no assigna doi's. Els hauria de classificar com a @unpublished? En el cas de \cite{Mcqueen2016}, no està penjat a ACM, però sí a \textit{\href{https://arxiv.org/abs/1603.0276}{arXiv}}.
+        \item A \cite{Menvouta2023}, només hi ha la pàgina inicial (101282), encara que el PDF ocupi 7 pàgines...
+        \item A \cite{Wattenberg2016} falta informació, però a la web es demana que se citi així.
+        \item A \cite{Salah2020} falta informació. Al PDF de l'article posa que és un inproceedings de la conferència \textit{4th International Conference on Artificial Intelligence in Renewable Energetic Systems}, però a la \textit{\href{https://link.springer.com/book/10.1007/978-3-030-63846-7?page=4}{web}} dels proceedings no hi surt. És un article estrany que no crec que citi a la memòria, de totes maneres.
+    \end{itemize}
 \end{itemize}
 
 
