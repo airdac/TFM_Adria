@@ -1,6 +1,6 @@
 \section{State of the Art}
 
-In this section, we aim to review four dimensionality reduction techniques that we will later apply our divide-and-conquer framework to. Next, we will showcase in more detail the work of Delicado and Pachón-García with respect to MDS in big data to motivate our choosing of the divide-and-conquer approach. Finally, we will discuss three more appreciable solutions to the big data problem in DR and how they relate to our proposal: Landmark Isomap, the Out-of-Core Dimensionality Reduction Framework and formidable Python t-SNE implementations.
+In this section, we aim to review four dimensionality reduction techniques that we will later apply our divide-and-conquer framework to. Next, we will showcase in more detail the work of Delicado and Pachón-García with respect to MDS in big data \cite{Delicado2024a} to motivate our choosing of the divide-and-conquer approach. Finally, we will discuss three more appreciable solutions to the big data problem in DR and how they relate to our proposal: Landmark Isomap, the Out-of-Core Dimensionality Reduction Framework ??? and formidable Python t-SNE implementations.
 
 \subsection{A few Dimensionality Reduction Techniques}
 
@@ -53,7 +53,7 @@ Local MDS \cite{LocalMDS} is a variant of non-classical multidimensional scaling
     \end{algorithmic}
 \end{algorithm}
 
-Parameters $\tau$ - which must be in the unit interval - and $k$ may be tuned with $k'$-cross validation thanks to the LCMC (Local Continuity Meta-Criteria). (\textit{POSSIBLE ANNEX})
+Parameters $\tau$ (which must be in the unit interval) and $k$ may be tuned with $k'$-cross validation thanks to the LCMC (Local Continuity Meta-Criteria). (\textit{POSSIBLE ANNEX})
 
 \subsubsection{Isomap}
 
@@ -103,7 +103,7 @@ Perplexity is interpreted as the average effective number of neighbors of the hi
 
 \subsection{Multidimensional Scaling for Big Data}
 
-Delicado and Pachón-García \cite{Delicado2024MDSBigData} compared four existing versions of MDS with two newly proposed (Divide-and-conquer MDS and Interpolation MDS) to handle large data. As can be seen in figure \ref{fig:bigmds}, these can be grouped into four categories:
+Delicado and Pachón-García \cite{Delicado2024a} compared four existing versions of MDS with two newly proposed (Divide-and-conquer MDS and Interpolation MDS) to handle large data. As can be seen in figure \ref{fig:bigmds}, these can be grouped into four categories:
 
 \begin{itemize}
     \item \textbf{Interpolation-based}: Landmark MDS, Interpolation MDS and Reduced MDS apply classical multidimensional scaling to a subset of $l \ll n$ points and then interpolate the projection of the remaining data. They differ in how the interpolation is computed: Landmark MDS uses distance-based triangulation; Interpolation MDS, the $l$-points Gower Interpolation Formula; and Reduced MDS, the 1-point Gower Interpolation Formula.
@@ -114,8 +114,51 @@ Delicado and Pachón-García \cite{Delicado2024MDSBigData} compared four existin
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.8\textwidth]{figures/bigmds.png}
-    \caption{Schematic representation of the six MDS algorithms described by Delicado and Pachón-García \cite{Delicado2024MDSBigData}.}
+    \captionsetup[subfigure]{labelformat=empty}
+
+    \begin{subfigure}[t]{0.3\textwidth}
+        \centering
+        \includegraphics[width=.7\textwidth]{figures/landmark_MDS.png}
+        \caption{Landmark MDS}
+        \label{fig:landmark_MDS}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.3\textwidth}
+        \centering
+        \includegraphics[width=.7\textwidth]{figures/interpolation_adac.png}
+        \caption{Interpolation MDS}
+        \label{fig:interpolation_MDS}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.3\textwidth}
+        \centering
+        \includegraphics[width=.7\textwidth]{figures/reduced_MDS.png}
+        \caption{Reduced MDS}
+        \label{fig:reduced_MDS}
+    \end{subfigure}
+
+    \begin{subfigure}[t]{0.3\textwidth}
+        \centering
+        \includegraphics[width=.7\textwidth]{figures/pivot_MDS.png}
+        \caption{Pivot MDS}
+        \label{fig:pivot_MDS}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.3\textwidth}
+        \centering
+        \includegraphics[width=.7\textwidth]{figures/divide_conquer_adac.png}
+        \caption{Divide-and-conquer MDS}
+        \label{fig:divide_conquer_MDS}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.3\textwidth}
+        \centering
+        \includegraphics[width=.9\textwidth]{figures/fast_adac.png}
+        \caption{Fast MDS}
+        \label{fig:fast_MDS}
+    \end{subfigure}
+    
+    \caption{Schematic representation of the six MDS algorithms for big data described by Delicado and Pachón-García \cite{Delicado2024a}. (Source: original publication.)}
     \label{fig:bigmds}
 \end{figure}
 
@@ -136,6 +179,6 @@ Maybe because of its popularity, t-SNE has been optimized for large data environ
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.8\textwidth]{figures/python_tsne_benchmarks.png}
-    \caption{Benchmark of the best open-source t-SNE Python implementations \cite{Policar2024}.}
+    \caption{Benchmark of the best open-source t-SNE Python implementations \cite{Policar2024}. (Source: original ??? webpage (cite webpage too).)}
     \label{fig:python_tsne_benchmarks}
 \end{figure}
