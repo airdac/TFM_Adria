@@ -1,12 +1,12 @@
 \section{State of the Art}
 
-In this section, we aim to review four dimensionality reduction techniques that we will later apply our divide-and-conquer framework to. Next, we will showcase in more detail the work of Delicado and Pachón-García with respect to MDS in big data \cite{Delicado2024a} to motivate our choosing of the divide-and-conquer approach. Finally, we will discuss three more appreciable solutions to the big data problem in DR and how they relate to our proposal: Landmark Isomap, the Out-of-Core Dimensionality Reduction Framework ??? and formidable Python t-SNE implementations.
+In this section, we aim to review four dimensionality reduction techniques that we will later apply our divide-and-conquer framework to. Next, we will showcase in more detail the work of Delicado and Pachón-García with respect to MDS in big data (\cite{Delicado2024}) to motivate our choosing of the divide-and-conquer approach. Finally, we will discuss three more appreciable solutions to the big data problem in DR and how they relate to our proposal: Landmark Isomap (\cite{Silva2002}), the Out-of-Core Dimensionality Reduction Framework (\cite{Reichmann2024}) and formidable Python t-SNE implementations.
 
 \subsection{A few Dimensionality Reduction Techniques}
 
 \subsubsection{Non-classical MDS. The SMACOF algorithm}
 
-SMACOF (Scaling by MAjorizing a COmplicated Function) is a multidimensional scaling algorithm that minimizes metric stress using a majorization technique \cite{borg1997modern}. Also known as the Guttman Transform, this technique is more powerful for this problem than general optimization methods, such as gradient descent.
+SMACOF (Scaling by MAjorizing a COmplicated Function) is a multidimensional scaling algorithm that minimizes metric stress using a majorization technique (\cite{Borg1997}). Also known as the Guttman Transform, this technique is more powerful for this problem than general optimization methods, such as gradient descent.
 
 \begin{algorithm}
     \caption{SMACOF}
@@ -37,7 +37,7 @@ SMACOF (Scaling by MAjorizing a COmplicated Function) is a multidimensional scal
 
 \subsubsection{Local MDS}
 
-Local MDS \cite{LocalMDS} is a variant of non-classical multidimensional scaling that differs in how large distances are treated. Specifically, a repulsive term between distant points is added to the stress function to further separate points in the low-dimensional configuration.
+Local MDS (\cite{Chen2009}) is a variant of non-classical multidimensional scaling that differs in how large distances are treated. Specifically, a repulsive term between distant points is added to the stress function to further separate points in the low-dimensional configuration.
 
 \begin{algorithm}
     \caption{Local MDS}
@@ -57,7 +57,7 @@ Parameters $\tau$ (which must be in the unit interval) and $k$ may be tuned with
 
 \subsubsection{Isomap}
 
-Isomap \cite{Tenenbaum2000} is a nonlinear technique that preserves geodesic distances between points in a manifold. The key insight of Isomap is that large distances between objects are estimated from the shorter ones by the shortest path length. Then, shorter and estimated-larger distances have the same importance in a final MDS step.
+Isomap (\cite{Tenenbaum2000}) is a nonlinear technique that preserves geodesic distances between points in a manifold. The key insight of Isomap is that large distances between objects are estimated from the shorter ones by the shortest path length. Then, shorter and estimated-larger distances have the same importance in a final MDS step.
 
 \begin{algorithm}
     \caption{Isomap}
@@ -78,7 +78,7 @@ The only tuning parameter of Isomap is the bandwith ($\epsilon$ or $k$), but the
 
 \subsubsection{t-SNE}
 
-t-SNE (t-Distributed Stochastic Neighbor Embedding) \cite{tsne} is a nonlinear dimensionality reduction technique that preserves local neighborhoods by modeling similarities between points as conditional probabilities. The difference between these probability distributions in high and low-dimensional spaces is then minimized.
+t-SNE (t-Distributed Stochastic Neighbor Embedding) (\cite{Vandermaaten2008}) is a nonlinear dimensionality reduction technique that preserves local neighborhoods by modeling similarities between points as conditional probabilities. The difference between these probability distributions in high and low-dimensional spaces is then minimized.
 
 \begin{algorithm}
     \caption{t-SNE}
@@ -97,13 +97,13 @@ t-SNE (t-Distributed Stochastic Neighbor Embedding) \cite{tsne} is a nonlinear d
     \end{algorithmic}
 \end{algorithm}
 
-t-SNE focuses on retaining the local structure of the data while ensuring that every point $y_i$ in the low-dimensional space will have the same number of neighbors, making it particularly effective for visualizing clusters. The use of the Student t-distribution in the low-dimensional space addresses the \textit{crowding problem} by allowing dissimilar points to be modeled far apart \cite{tsne}.
+t-SNE focuses on retaining the local structure of the data while ensuring that every point $y_i$ in the low-dimensional space will have the same number of neighbors, making it particularly effective for visualizing clusters. The use of the Student t-distribution in the low-dimensional space addresses the \textit{crowding problem} by allowing dissimilar points to be modeled far apart (\cite{Vandermaaten2008}).
 
 Perplexity is interpreted as the average effective number of neighbors of the high-dimensional datapoints $x_i$ and typical values are between 5 and 50.
 
 \subsection{Multidimensional Scaling for Big Data}
 
-Delicado and Pachón-García \cite{Delicado2024a} compared four existing versions of MDS with two newly proposed (Divide-and-conquer MDS and Interpolation MDS) to handle large data. As can be seen in figure \ref{fig:bigmds}, these can be grouped into four categories:
+\cite{Delicado2024} compared four existing versions of MDS with two newly proposed (Divide-and-conquer MDS and Interpolation MDS) to handle large data. As can be seen in figure \ref{fig:bigmds}, these can be grouped into four categories:
 
 \begin{itemize}
     \item \textbf{Interpolation-based}: Landmark MDS, Interpolation MDS and Reduced MDS apply classical multidimensional scaling to a subset of $l \ll n$ points and then interpolate the projection of the remaining data. They differ in how the interpolation is computed: Landmark MDS uses distance-based triangulation; Interpolation MDS, the $l$-points Gower Interpolation Formula; and Reduced MDS, the 1-point Gower Interpolation Formula.
@@ -158,27 +158,27 @@ Delicado and Pachón-García \cite{Delicado2024a} compared four existing version
         \label{fig:fast_MDS}
     \end{subfigure}
     
-    \caption{Schematic representation of the six MDS algorithms for big data described by Delicado and Pachón-García \cite{Delicado2024a}. (Source: original publication.)}
+    \caption{Schematic representation of the six MDS algorithms for big data described in \cite{Delicado2024}. (Source: original publication.)}
     \label{fig:bigmds}
 \end{figure}
 
 \subsection{Landmark Isomap and the Out-of-Core Dimensionality Reduction Framework}
 
-Silva and Tenenbaum \cite{deSilvaTenenbaum2002} first introduced Landmark MDS in 2002 by applying it to Isomap (L-Isomap). This way, they reduced the time complexity of both classical multidimensional scaling and Isomap from $\mathcal{O}(n^3)$ to $\mathcal{O}(n^2l)$, where $l \ll n$ is the amount of landmark points.
+\cite{Silva2002} first introduced Landmark MDS in 2002 by applying it to Isomap (L-Isomap). This way, they reduced the time complexity of both classical multidimensional scaling and Isomap from $\mathcal{O}(n^3)$ to $\mathcal{O}(n^2l)$, where $l \ll n$ is the amount of landmark points.
 
 Note that, similarly to Landmark MDS, other big data versions of MDS can be used with Isomap. Nonetheless, interpolation-based and approximation-based algorithms cannot be trivially generalized to nonlinear dimensionality reduction methods.
 
-Later, in 2024, Reichmann, Hägele and Weiskopf \cite{reichmann2024outofcoredimensionalityreductionlarge} proposed the Out-of-Core Dimensionality Reduction Framework. Similar to Interpolation MDS, this algorithm applies a DR method that produces a mapping between high- and low-dimensional spaces (i.e. PCA, MDS, t-SNE, UMAP, Autoencoder) to a small subset of the data and then projects the remaining datapoints in blocks. In order to obtain the aforementioned mappings, Reichmann et. al. gathered different projection mechanisms for every method. PCA and autoencoders learn a parametric mapping between the original data and the embedding, so projecting new points is straightforward. For non-classical MDS, stress is minimized for a single point while keeping others fixed, a process known as \textit{single scaling} in the literature \cite{single-scaling}. A similar strategy is used for t-SNE \cite{tsne-knn} and UMAP \cite{McInnes2018}, which leverage the k-NN of the projecting point to initizalize the optimizer.
+Later, \cite{Reichmann2024} proposed the Out-of-Core Dimensionality Reduction Framework. Similar to Interpolation MDS, this algorithm applies a DR method that produces a mapping between high- and low-dimensional spaces (i.e. PCA, MDS, t-SNE, UMAP, Autoencoder) to a small subset of the data and then projects the remaining datapoints in blocks. In order to obtain the aforementioned mappings, Reichmann et. al. gathered different projection mechanisms for every method. PCA and autoencoders learn a parametric mapping between the original data and the embedding, so projecting new points is straightforward. For non-classical MDS, stress is minimized for a single point while keeping others fixed, a process known as \textit{single scaling} in the literature (\cite{Basalaj1999}). A similar strategy is used for t-SNE (\cite{Zhang2021}) and UMAP (\cite{McInnes2018}), which leverage the k-NN of the projecting point to initizalize the optimizer.
 
 \subsection{openTSNE, an outstanding implementation of t-SNE}
 
-Maybe because of its popularity, t-SNE has been optimized for large data environments in Python through iterative implementations. In 2024, Poličar, Stražar and Zupan \cite{Policar2024} considered many of them and published \verb|openTSNE|, a package that includes several t-SNE extensions \enquote{\textit{to address scalability issues and the quality of the resulting visualizations}}. Furthermore, they compared their proposal with those of other popular packages in serial and parallel configurations. In figure \ref{fig:python_tsne_benchmarks} it can be seen that, thanks to these advances, the challenges of big data have already been solved in the specific case of t-SNE.
+Maybe because of its popularity, t-SNE has been optimized for large data environments in Python through iterative implementations. \cite{Policar2024} considered many of them and published \verb|openTSNE|, a package that includes several t-SNE extensions \enquote{\textit{to address scalability issues and the quality of the resulting visualizations}}. Furthermore, they compared their proposal with those of other popular packages in serial and parallel configurations. In figure \ref{fig:python_tsne_benchmarks} it can be seen that, thanks to these advances, the challenges of big data have already been solved in the specific case of t-SNE.
 
-()\textit{POSSIBLE ANNEX})
+(\textit{POSSIBLE ANNEX})
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.8\textwidth]{figures/python_tsne_benchmarks.png}
-    \caption{Benchmark of the best open-source t-SNE Python implementations \cite{Policar2024}. (Source: original ??? webpage (cite webpage too).)}
+    \caption{Benchmark of the best open-source t-SNE Python implementations by \cite{Poličar2023}. (Source: original webpage.)}
     \label{fig:python_tsne_benchmarks}
 \end{figure}
