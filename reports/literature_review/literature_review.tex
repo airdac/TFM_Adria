@@ -77,7 +77,7 @@
 \pagebreak
 
 \section{\texttt{Rdimtools}: An R Package for Dimension Reduction
-and Intrinsic Dimension Estimation \texorpdfstring{\cite{Rdimtools}}{}}
+and Intrinsic Dimension Estimation (\texorpdfstring{\cite{You2022}}{})}
 \label{sec:rdimtools}
 
 
@@ -133,7 +133,7 @@ and Intrinsic Dimension Estimation \texorpdfstring{\cite{Rdimtools}}{}}
 \end{figure}
 
 \pagebreak
-\section{Global versus local methods in nonlinear dimensionality reduction \texorpdfstring{\cite{deSilvaTenenbaum2002}}{}}
+\section{Global versus local methods in nonlinear dimensionality reduction (\texorpdfstring{\cite{Silva2002}}{})}
 \label{sec:deSilvaTenenbaum2002}
 
 \subsection{Abstract}
@@ -158,13 +158,13 @@ and Intrinsic Dimension Estimation \texorpdfstring{\cite{Rdimtools}}{}}
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.8\textwidth]{figures/LMDS_3.png}
-    \caption{L-Isomap is stable over a wide range of values for the sparseness parameter (the number of landmarks). Results from LLE are shown for comparision\cite{deSilvaTenenbaum2002}.}
+    \caption{L-Isomap is stable over a wide range of values for the sparseness parameter (the number of landmarks). Results from LLE are shown for comparision (\cite{Silva2002}).}
     \label{fig:LMDS}
 \end{figure}
 
 
 \pagebreak
-\section{\texttt{dimRed} and \texttt{coRanking} - Unifying Dimensionality Reduction in R \texorpdfstring{\cite{Kraemer2018dimRedAC}}{}}
+\section{\texttt{dimRed} and \texttt{coRanking} - Unifying Dimensionality Reduction in R (\texorpdfstring{\cite{Kraemer2018}}{})}
 \label{sec:Kraemer2018dimRedAC}
 
 \subsection{Abstract}
@@ -204,21 +204,21 @@ and Intrinsic Dimension Estimation \texorpdfstring{\cite{Rdimtools}}{}}
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.8\textwidth]{figures/dimRed_methods.png}
-    \caption{DR methods implemented in \texttt{dimRed} \cite{Kraemer2018dimRedAC}.}
+    \caption{DR methods implemented in \texttt{dimRed} (\cite{Kraemer2018}).}
     \label{fig:dimRed_methods}
 \end{figure}
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.8\textwidth]{figures/dimRed_R_NX.png}
-    \caption{$R_{NX}$ measures the quality of the embedding. \cite{Kraemer2018dimRedAC}.}
+    \caption{$R_{NX}$ measures the quality of the embedding. (\cite{Kraemer2018}).}
     \label{fig:dimRed_R_NX}
 \end{figure}
 
 
 \pagebreak
 \section{Sparse multidimensional scaling
-using landmark points \texorpdfstring{\cite{LMDS:2004}}{}}
+using landmark points (\texorpdfstring{\cite{DeSilva2004}}{})}
 \label{sec:LMDS:2004}
 
 \subsection{Abstract}
@@ -244,7 +244,7 @@ using landmark points \texorpdfstring{\cite{LMDS:2004}}{}}
 
 
 \pagebreak
-\section{Comparative study for dimensionality reduction techniques for big data \texorpdfstring{\cite{SalahHenouda2020}}{}}
+\section{Comparative study for dimensionality reduction techniques for big data (\texorpdfstring{\cite{Salah2020}}{})}
 \label{sec:SalahHenouda2020}
 
 \subsection{Abstract}
@@ -272,7 +272,7 @@ This paper aims to summarize and compare some of the recent methods that are use
 
 
 \pagebreak
-\section{Out-of-Core Dimensionality Reduction for Large Data via Out-of-Sample Extensions \texorpdfstring{\cite{reichmann2024outofcoredimensionalityreductionlarge}}{}}
+\section{Out-of-Core Dimensionality Reduction for Large Data via Out-of-Sample Extensions (\texorpdfstring{\cite{Reichmann2024}}{})}
 \label{sec:reichmann2024outofcoredimensionalityreductionlarge}
 
 \subsection{Abstract}
@@ -295,23 +295,23 @@ TriMAP, which claim to handle larger data sets than traditional approaches. To s
     \item \textbf{Related work}:
     \begin{itemize}
         \item \textbf{Efficient DR algorithms}: PaCMAP (up to 4 million data points), TriMAP (up to 11 million data points), LargeVis (also millions of data points, aimed to reduce computational cost of t-SNE). Note that t-SNE and UMAP fail at 1 million data points.
-        \item \textbf{Parametric DR methods}: learn explicit maps between the high- and low-dimensional space.  Hinterreiter et al. \cite{ParaDime} introduced a framework making parametric extensions generally available for DR techniques.
+        \item \textbf{Parametric DR methods}: learn explicit maps between the high- and low-dimensional space.  Hinterreiter et al. (\cite{Hinterreiter2023}) introduced a framework making parametric extensions generally available for DR techniques.
         \item \textbf{GPU porting}: of t-SNE, UMAP and metrics computations such as trustworthiness. Reichmann et al. also parallelize metric MDS.
-        \item \textbf{OOS extensions}: Bengio et. al. \cite{Bengio2003OOS} introduced an OOS framework by learning the corresponding eigenfunctions. Gisbrecht et. al. \cite{Gisbrecht2012OutofsampleKE} proposed three kernel-based methods and \cite{Zhang2021OOS} improved them.
+        \item \textbf{OOS extensions}: Bengio et. al. (\cite{Bengio2003})introduced an OOS framework by learning the corresponding eigenfunctions. Gisbrecht et. al. (\cite{Gisbrecht2012}) proposed three kernel-based methods and (\cite{Zhang2021}) improved them.
     \end{itemize}
     \item \textbf{Computational framework}: see figure \ref{fig:OOS_algorithm}. Details and sematics of the $\beta$ parameters depends on the DR method. As an example, see figure \ref{fig:OOS_methods}.
     
     \begin{figure}[ht]
         \centering
         \includegraphics[width=0.8\textwidth]{figures/OOS_algorithm.png}
-        \caption{OOS projection framework proposed in \cite{reichmann2024outofcoredimensionalityreductionlarge}.}
+        \caption{OOS projection framework proposed in (\cite{Reichmann2024}).}
         \label{fig:OOS_algorithm}
     \end{figure}
 
     \begin{figure}[ht]
         \centering
         \includegraphics[width=0.8\textwidth]{figures/OOS_methods.png}
-        \caption{DR methods used in the evaluation of the OOS framework proposed in \cite{reichmann2024outofcoredimensionalityreductionlarge}.}
+        \caption{DR methods used in the evaluation of the OOS framework proposed in (\cite{Reichmann2024}).}
         \label{fig:OOS_methods}
     \end{figure}
 
@@ -323,7 +323,7 @@ TriMAP, which claim to handle larger data sets than traditional approaches. To s
         \begin{figure}[ht]
             \centering
             \includegraphics[width=0.8\textwidth]{figures/CUDA_MDS.png}
-            \caption{Output of the CUDA imeplementation in \cite{reichmann2024outofcoredimensionalityreductionlarge} of metric MDS for a test dataset.}
+            \caption{Output of the CUDA imeplementation in (\cite{Reichmann2024}) of metric MDS for a test dataset.}
             \label{fig:CUDA_MDS}
         \end{figure}
         
@@ -334,7 +334,7 @@ TriMAP, which claim to handle larger data sets than traditional approaches. To s
     \begin{figure}[ht]
         \centering
         \includegraphics[width=0.8\textwidth]{figures/OOS_datasets.png}
-        \caption{Datasets used in the evaluation of the OOS framework proposed in \cite{reichmann2024outofcoredimensionalityreductionlarge}.}
+        \caption{Datasets used in the evaluation of the OOS framework proposed in (\cite{Reichmann2024}).}
         \label{fig:OOS_datasets}
     \end{figure}
     
@@ -382,7 +382,7 @@ TriMAP, which claim to handle larger data sets than traditional approaches. To s
 
 
 \pagebreak
-\section{Local Multidimensional Scaling for Nonlinear Dimension Reduction, Graph Drawing, and Proximity Analysis \texorpdfstring{\cite{Chen01032009}}{}}
+\section{Local Multidimensional Scaling for Nonlinear Dimension Reduction, Graph Drawing, and Proximity Analysis (\texorpdfstring{\cite{Chen2009}}{})}
 \label{sec:LocalMDS}
 
 \subsection{Abstract}
@@ -456,7 +456,7 @@ Regarding time complexity, classical MDS shows quadratic growth with respect to 
     \label{fig:MDS_Rdimtools}
 \end{figure}
 
-Next, we compared the implementations of classical MDS in libraries \texttt{Rdimtools} and \texttt{dimRed}, since \texttt{Rdimtools} is said to be very efficient while \texttt{dimRed} just wraps the \texttt{cmdscale} method \cite{Kraemer2018dimRedAC}. As can be seen in figure \ref{fig:MDS_dimRed_vs_Rdimtools}, our tests corroborate the results shown in \cite{Rdimtools}, since \texttt{Rdimtools::do.mds} has a lower time complexity than \texttt{dimRed::embed(.method="MDS", ...)}, resulting in runtime improvements of 10x for datasets with 100 rows and up to 1000x for samples with 10000 observations. Indeed, we did not test \texttt{dimRed::embed(.method="MDS", ...)} on larger datasets because, when size equaled 1000 rows, each experiment took around 15 minutes to run on our system.
+Next, we compared the implementations of classical MDS in libraries \texttt{Rdimtools} and \texttt{dimRed}, since \texttt{Rdimtools} is said to be very efficient while \texttt{dimRed} just wraps the \texttt{cmdscale} method (\cite{Kraemer2018}). As can be seen in figure \ref{fig:MDS_dimRed_vs_Rdimtools}, our tests corroborate the results shown in (\cite{You2022}), since \texttt{Rdimtools::do.mds} has a lower time complexity than \texttt{dimRed::embed(.method="MDS", ...)}, resulting in runtime improvements of 10x for datasets with 100 rows and up to 1000x for samples with 10000 observations. Indeed, we did not test \texttt{dimRed::embed(.method="MDS", ...)} on larger datasets because, when size equaled 1000 rows, each experiment took around 15 minutes to run on our system.
 
 \begin{figure}[ht]
     \centering
@@ -472,17 +472,17 @@ Next, we compared the implementations of classical MDS in libraries \texttt{Rdim
 
 \begin{itemize}
     \item To our knowledge, there is no comprehensive Python package that implements many DR techniques akin the R library \texttt{Rdimtools} (see section \ref{sec:rdimtools}).
-    \item To show the consequences of this in an example, classical MDS is only implemented in \texttt{pyseer} (through \texttt{pyseer.cmdscale}), a package for microbial pangenome-wide association studies \cite{pyseer}.
-    \item The package that contains the most DR methods is \texttt{scikit-learn}, specifically in its \texttt{manifold} module \cite{pedregosa2011scikit}. It implements: Isomap, LLE, Laplacian Eigenmaps, t-SNE and non-classical MDS (both \texttt{sklearn.manifold.MDS} and \texttt{sklearn.manifold.smacof} can perform metric and non-metric MDS). Moreover, \texttt{sklearn.manifold.trustworthiness} measures to what extent the local structure is retained when dimensionality is reduced. Hence, the total amount of methods present in \texttt{sklearn.manifold} cannot be compared to the 143 of \texttt{Rdimtools}.
-    \item Another remarkable, although differently oriented, library is \texttt{direpack}, which implements a set of modern statistical dimension reduction techniques including projection pursuit, sufficient dimension reduction, and robust M estimators. It also includes regularized regression estimators, pre-processing utilities, plotting functionality, and cross-validation utilities, all consistent with the scikit-learn API \cite{direpack}. Nonetheless, these methods are outside the scope of our thesis.
+    \item To show the consequences of this in an example, classical MDS is only implemented in \texttt{pyseer} (through \texttt{pyseer.cmdscale}), a package for microbial pangenome-wide association studies (\cite{Lees2018}).
+    \item The package that contains the most DR methods is \texttt{scikit-learn}, specifically in its \texttt{manifold} module (\cite{Pedregosa2011}). It implements: Isomap, LLE, Laplacian Eigenmaps, t-SNE and non-classical MDS (both \texttt{sklearn.manifold.MDS} and \texttt{sklearn.manifold.smacof} can perform metric and non-metric MDS). Moreover, \texttt{sklearn.manifold.trustworthiness} measures to what extent the local structure is retained when dimensionality is reduced. Hence, the total amount of methods present in \texttt{sklearn.manifold} cannot be compared to the 143 of \texttt{Rdimtools}.
+    \item Another remarkable, although differently oriented, library is \texttt{direpack}, which implements a set of modern statistical dimension reduction techniques including projection pursuit, sufficient dimension reduction, and robust M estimators. It also includes regularized regression estimators, pre-processing utilities, plotting functionality, and cross-validation utilities, all consistent with the scikit-learn API (\cite{Menvouta2023}). Nonetheless, these methods are outside the scope of our thesis.
     \item Other, more specific, libraries that implement DR methods in Python are:
     \begin{itemize}
-        \item \texttt{umap-learn}: the library that introduced UMAP \cite{2018arXivUMAP}.
-        \item \texttt{MulticoreTSNE}: a multicore modification of Barnes-Hut t-SNE with Python CFFI-based wrappers \cite{Ulyanov2016}. Barnes-Hut is a tree-based algorithm that can be used to accelerate t-SNE up to $\mathcal{O}(N\log N)$ \cite{JMLR:v15:vandermaaten14a}.
-        \item \texttt{fitsne}: Fast Fourier Transform-accelerated Interpolation-based t-SNE \cite{fitsne}.
+        \item \texttt{umap-learn}: the library that introduced UMAP (\cite{McInnes2018}).
+        \item \texttt{MulticoreTSNE}: a multicore modification of Barnes-Hut t-SNE with Python CFFI-based wrappers (\cite{Ulyanov2016}). Barnes-Hut is a tree-based algorithm that can be used to accelerate t-SNE up to $\mathcal{O}(N\log N)$ (\cite{Vandermaaten2014}).
+        \item \texttt{fitsne}: Fast Fourier Transform-accelerated Interpolation-based t-SNE (\cite{Linderman2019}).
         \item \texttt{OpenTSNE}: incorporates the latest improvements to the t-SNE algorithm, including the ability to add new data points to existing embeddings, massive speed improvements, enabling t-SNE to scale to millions of data points and various tricks to improve global alignment of the resulting visualizations \cite{Policar2024}. The team behind \texttt{OpenTSNE} benchmarked the here described t-SNE Python implementations and showed that the fastest one in general is \texttt{fitsne}, although \texttt{OpenTSNE} is equally efficient on multicore systems (see figure \ref{fig:python_tsne_benchmarks}) \cite{Policar2024}.
     \end{itemize}
-    \item Moreover, other libraries focused on certain fields like genomics (\texttt{phate}) or NLP (\texttt{gensim}) implement DR methods for specific tasks and scenarios in their topics \cite{phate, rehurek_lrec}.
+    \item Moreover, other libraries focused on certain fields like genomics (\texttt{phate}) or NLP (\texttt{gensim}) implement DR methods for specific tasks and scenarios in their topics.
 \end{itemize}
 
 \begin{figure}[ht]
@@ -496,13 +496,13 @@ Next, we compared the implementations of classical MDS in libraries \texttt{Rdim
 \section{The \texttt{Numba} Python package}
 \label{sec:Numba}
 
-\texttt{Numba} \cite{lam2015numba} is an open‐source just-in-time (JIT) compiler that translates a subset of Python and \texttt{Numpy} code into optimized machine code using LLVM.
+\texttt{Numba} (\cite{Lam2015}) is an open‐source just-in-time (JIT) compiler that translates a subset of Python and \texttt{Numpy} code into optimized machine code using LLVM.
 
 It accelerates numerical computations on CPUs and GPUs by enabling parallelization and vectorization with minimal code modifications. To gain the most out of it, computations should use loops, \texttt{Numpy} functions and \texttt{Numpy} broadcasting.
 
 \subsection{How does \texttt{Numba} work?}
 
-As described in its documentation \cite{lam2015numba}, \texttt{Numba} reads the Python bytecode for a decorated function and combines this with information about the types of the input arguments to the function. It analyzes and optimizes your code, and finally uses the LLVM compiler library to generate a machine code version of your function, tailored to your CPU capabilities. This compiled version is then used every time your function is called.
+As described in its documentation (\cite{Lam2015}), \texttt{Numba} reads the Python bytecode for a decorated function and combines this with information about the types of the input arguments to the function. It analyzes and optimizes your code, and finally uses the LLVM compiler library to generate a machine code version of your function, tailored to your CPU capabilities. This compiled version is then used every time your function is called.
 
 \pagebreak
 \section{Isomap in Python}
@@ -512,13 +512,13 @@ In this section we will explore the current Isomap Python implementations to use
 \subsection{Package implementations}
 
 \begin{itemize}
-    \item \texttt{sklearn.manifold.Isomap} \cite{pedregosa2011scikit}: as shown in  \nolinkurl{code/ReichmanHagele2024_MDS/mds_demo.py}, the constructor of this class accepts the dimensionality of the projection.  Then, the method \nolinkurl{fit_transform} applies Isomap to the dataset passed in the arguments.
+    \item \texttt{sklearn.manifold.Isomap} (\cite{Pedregosa2011}): as shown in  \nolinkurl{code/ReichmanHagele2024_MDS/mds_demo.py}, the constructor of this class accepts the dimensionality of the projection.  Then, the method \nolinkurl{fit_transform} applies Isomap to the dataset passed in the arguments.
 
-    \item \texttt{pysomap.isodata} \cite{spiwokv2007}: this package requires Python 2.4.3, \texttt{numpy} 1.0.1 and \texttt{SWIG} 1.3.29. After some attempts to install the package on our macOS system, we have not been succesful, so, given its age, we will reject it.
+    \item \texttt{pysomap.isodata} (\cite{Spiwokv2007}): this package requires Python 2.4.3, \texttt{numpy} 1.0.1 and \texttt{SWIG} 1.3.29. After some attempts to install the package on our macOS system, we have not been succesful, so, given its age, we will reject it.
 
-    \item Distributed implementation with Apache Spark: \cite{Isomap_ApacheSpark}.
+    \item Distributed implementation with Apache Spark: (\cite{Schoeneman2018}).
 
-    \item \texttt{megaman} \cite{mcqueen2016megamanmanifoldlearningmillions}: this package is said to implement manifold learning algorithms for big data, but it is not very trustworthy. Indeed, it has not been published in any magazine nor conference and our attemps to install it have failed. We tried to use the conda installation, but it was not active anymore. Moreover, we sourced its GitHub repository and failed again because it depends on the deprecated module \texttt{numpy.distutils.msvccompiler}, which seems to be very complicated to run on macOS.
+    \item \texttt{megaman} (\cite{Mcqueen2016}): this package is said to implement manifold learning algorithms for big data, but it is not very trustworthy. Indeed, it has not been published in any magazine nor conference and our attemps to install it have failed. We tried to use the conda installation, but it was not active anymore. Moreover, we sourced its GitHub repository and failed again because it depends on the deprecated module \texttt{numpy.distutils.msvccompiler}, which seems to be very complicated to run on macOS.
     \item Let us test the partitions' projections:
     \begin{itemize}
         \item With $n=3000, l=1000$, projections concentrate in filaments, but are uniform along both axes with $n_neighbors \leq 6$. 
@@ -639,7 +639,7 @@ def center_and_rotate(combined_projection: np.ndarray) -> np.ndarray:
     \item Local MDS has been tested on the examples seen in the AMA course. Results in Pyhton and R coincide graphically, although axes' limits may vary slightly. See \verb|code/d_and_c/LMDS/LMDS_examples.ipynb|.
     \item \texttt{t-SNE} has been added as a \texttt{DRMethod} through the openTSNE implementation. The Jupyter notebook \verb|code/d_and_c/t-SNE/tSNE_examples.ipynb| includes the following tests:
     \begin{itemize}
-        \item two examples from \cite{wattenberg2016how}: two 2D clusters with equal number of points; random Gaussian walk.
+        \item two examples from (\cite{Wattenberg2016}): two 2D clusters with equal number of points; random Gaussian walk.
         \item four 3D clusters with equal number of points centered in the vertices of a tetrahedron. The goal of this experiment was to check if opposite vertices change with different parameters, by chance or modifying the noise in the clusters. We have found out that variations in the noise of each vertex of the tetrahedron may embed a pair of vertices in the high-dimensional space into opposite or adjacent vertices of a square (or even not form a square).
         \item the MNIST train dataset with numeric digits. We have splitted it into two partitions and then applied t-SNE on each. Results are inconsistent, since shapes are different and some regions are swapped; specifically, those corresponding to digits 2, 5 and 6.
     \end{itemize}
@@ -749,7 +749,7 @@ sum_P, kl_divergence_ = _tsne.estimate_positive_gradient_nn(...,
     
     \verb|d_and_c.t-SNE.tSNE_examples.ipynb| and \verb|d_and_c.LMDS.LMDS_examples.ipynb| for details.
 
-    In comparison, \cite{reichmann2024outofcoredimensionalityreductionlarge}, show their Big Data approach to Autoencoders applied to MNIST. However, a remarkable structure only appears when the reference size is larger or equal than 16384. They use other methods as well (with their big data methodology), but only show quantitative metrics of the embeddings. It could be interesting to implement the computation of those metrics as well to compare our method and theirs.
+    In comparison, (\cite{Reichmann2024}), show their Big Data approach to Autoencoders applied to MNIST. However, a remarkable structure only appears when the reference size is larger or equal than 16384. They use other methods as well (with their big data methodology), but only show quantitative metrics of the embeddings. It could be interesting to implement the computation of those metrics as well to compare our method and theirs.
 \end{itemize}
 
 \subsection{April 24th}
@@ -800,6 +800,7 @@ sum_P, kl_divergence_ = _tsne.estimate_positive_gradient_nn(...,
         \item A \cite{Wattenberg2016} falta informació, però a la web es demana que se citi així.
         \item A \cite{Salah2020} falta informació. Al PDF de l'article posa que és un inproceedings de la conferència \textit{4th International Conference on Artificial Intelligence in Renewable Energetic Systems}, però a la \textit{\href{https://link.springer.com/book/10.1007/978-3-030-63846-7?page=4}{web}} dels proceedings no hi surt. És un article estrany que no crec que citi a la memòria, de totes maneres.
     \end{itemize}
+    \item \textbf{Adapted the literature review to the new bibliography}.
 \end{itemize}
 
 
