@@ -1,6 +1,36 @@
 \section{Specification and Design of the Solution}
 
-\begin{itemize}
-    \item Jusitfy D\&C in non-linear DR methods. Most techniques shown in \verb|bigmds| are not generalizable to non-linear DR methods different to Isomap (since it uses MDS). However, D\&C and recurrence can work with more general algorithms. Finally, we chose D\&C because recurrence can create very small partitions that may be problematic.
-    \item D\&C algorithm
-\end{itemize}
+\begin{algorithm}
+    \caption{Divide-and-Conquer for Dimensionality Reduction}
+    \label{alg:DivideConquer}
+    
+    \begin{algorithmic}[1]
+    \REQUIRE $\mathcal{X} \in \mathbb{R}^{n \times p}$, the high-dimensional data; $\mathcal{M}$, the DR method; $l$, the partition size; $c$, the amount of connecting points; $q$, the embedding's dimensionality; and $arg$, the $\mathcal{M}$'s specific parameters.
+    \ENSURE $\tilde{\mathcal{Y}}$, a configuration in a $q$-dimensional space.
+    
+    \IF{$n \leq l$}
+        \RETURN $\mathcal{M}(\mathcal{X}, q)$
+    \ENDIF
+    
+    \STATE Partition data into $k$ subsets: $\mathcal{P} = \{\mathcal{P}_1, \mathcal{P}_2, \ldots, \mathcal{P}_k\}$ where $|\mathcal{P}_i| \leq l$ for all $i$
+    
+    \STATE Apply DR method to first partition: $\tilde{\mathcal{Y}}_1 = \mathcal{M}(\mathcal{X}_{\mathcal{P}_1}, q)$
+    
+    \STATE Randomly sample $c$ connecting points from $\mathcal{P}_1$: $\mathcal{C} \subset \mathcal{P}_1$ with $|\mathcal{C}| = c$
+
+    \STATE Extract embedding of $\mathcal{C}$: $\tilde{\mathcal{Y}}_\mathcal{C} = \tilde{\mathcal{Y}}_1[{\mathcal{C}},:]$
+    
+    \FOR{$i = 2$ to $k$}
+        \STATE Combine connecting points with current partition: $\mathcal{X}_{\text{join}} = [\mathcal{X}_{\mathcal{C}}; \mathcal{X}_{\mathcal{P}_i}]$
+        \STATE Project combined data: $\tilde{\mathcal{Y}}_{\text{join}} = \mathcal{M}(\mathcal{X}_{\text{join}}, q)$
+        \STATE Separate embedding of $\mathcal{X}_{\mathcal{C}}$: $\tilde{\mathcal{Y}}_{\mathcal{C}}^{(i)} = \tilde{\mathcal{Y}}_{\text{join}}[1:c,:]$ and $\tilde{\mathcal{Y}}_i = \tilde{\mathcal{Y}}_{\text{join}}[(c+1):,:]$
+        \STATE Align projection using Procrustes: $\tilde{\mathcal{Y}}_i = \text{Procrustes}(\tilde{\mathcal{Y}}_{\mathcal{C}}^{(i)}, \tilde{\mathcal{Y}}_\mathcal{C}, \tilde{\mathcal{Y}}_i)$
+    \ENDFOR
+    
+    \STATE Combine all projections: $\tilde{\mathcal{Y}}_{\text{combined}} = [\tilde{\mathcal{Y}}_1; \tilde{\mathcal{Y}}_2; \ldots; \tilde{\mathcal{Y}}_k]$
+    \STATE Reorder rows to match original ordering: $\tilde{\mathcal{Y}}' = \tilde{\mathcal{Y}}_{\text{combined}}[\text{order},:]$
+    \STATE Apply PCA to center and rotate for maximum variance: $\tilde{\mathcal{Y}}$ = PCA($\tilde{\mathcal{Y}}', q$)
+    
+    \RETURN $\tilde{\mathcal{Y}}$
+    \end{algorithmic}
+\end{algorithm}

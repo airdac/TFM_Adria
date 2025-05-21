@@ -29,7 +29,7 @@ def _main_divide_conquer(args: tuple) -> np.ndarray:
     method, x_filtered, x_sample_1, r, original_sample_1, plot, kwargs = args
     projection_method = get_method_function(method)
 
-    # Combine anchor points and partition data
+    # Combine connecting points and partition data
     x_join_sample_1 = np.vstack((x_sample_1, x_filtered))
 
     # Apply projection method

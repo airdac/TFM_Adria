@@ -2,19 +2,19 @@
 
 \subsection{Introduction}
 
-Dimensionality Reduction (DR) techniques embed high-dimensional datasets into signficantly lower-dimensional spaces while preserving the structure of the original data. Their primary goal is to tackle the common challegens of working with high-dimensional data, such as sparsity (caused by the curse of dimensionality) or large computational and storage costs.
+Dimensionality Reduction (DR) techniques embed high-dimensional datasets into signficantly lower-dimensional spaces while preserving the structure of the original data. Their primary goal is to tackle the common challenges of working with high-dimensional data, such as sparsity (caused by the curse of dimensionality) or large computational and storage costs.
 
-That being said, DR is mainly used for visualization purposes. In this setting, complex high-dimensional data is projected into $\mathbb{R}^2$, making patters and clusters more apparent.
+That being said, DR is mainly used for visualization purposes. In this setting, complex high-dimensional data is projected into $\mathbb{R}^2$, making patterns and clusters more apparent.
 
 Many DR methods have been proposed since Principal Components Analysis (PCA) (the most famous linear method) was first introduced, each with distinct approaches and objectives. In particular, non-linear techniques have turned out to be very useful thanks to their ability to preserve complex relationships. Some examples are Multidimensional Scaling (MDS), Local MDS, Isomap, t-Distributed Stochastic Neighbor Embedding (t-SNE), Uniform Manifold Approximation and Projection (UMAP) and Autoencoder. All these methods differ in how they define and maintain relationships between points, although all try to preserve global structure and local neighborhoods.
 
-Despite their utility, DR methods face a few limitations. Many algorithms require computing and/or keeping in memory pairwise distances between all data points, resulting in quadratic time complexity and memory requirements. This becomes prohibitive for large datasets with millions of points. Parameter selection presents challenges too, since there is no general consensus on the best way to tune them and $k$-fold cross ???? validation is very costly due to the substantial time complexities of these algorithms. Furthermore, information loss is inevitable during dimensionality reduction, and understanding which aspects of the data are preserved and which are distorted is crucial to correctly interpret the results.
+Despite their utility, DR methods face a few limitations. Many algorithms require computing and/or keeping in memory pairwise distances between all data points, resulting in quadratic time complexity and memory requirements. This becomes prohibitive for large datasets with millions of points. Parameter selection presents challenges too, since there is no general consensus on the best way to tune them and $k$-fold cross-validation is very costly due to the substantial time complexities of these algorithms. Furthermore, information loss is inevitable during dimensionality reduction and understanding which aspects of the data are preserved and which are distorted is crucial to correctly interpret the results.
 
 \subsection{Motivation}
 
 The recent advent of large data has led to new challenges and technologies to face them. When the number of observations of a dataset is very big, distance-based DR methods become computationally prohibitive because of their quadratic time and memory complexities. For example, working with a dataset of 100,000 individuals and 10 numeric variables would require a system with about 400GB of RAM.
 
-Recently, \cite{Delicado2024} studied existing and new modifications of MDS to tackle big datasets, demonstrating significant improvements in computational efficiency while maintaining embedding quality. One of the variations they came up with followed a divide-and-conquer approach, that in principle could be generalized to any DR technique based on between-points distances.
+Recently, \cite{Delicado2024} studied existing and new modifications of MDS to tackle big datasets, demonstrating significant improvements in computational efficiency while maintaining embedding quality. Even though most of them could not be generalized to any DR techniques, two of them followed more common approaches: divide-and-conquer and recursion. However, the latter suffers from low-quality embeddings because it might divide the dataset into too small partitions. Therefore, we were interested in generalizing the divide-and-conquer proposal.
 
 \subsection{Objectives}
 

@@ -64,7 +64,7 @@ Isomap (\cite{Tenenbaum2000}) is a nonlinear technique that preserves geodesic d
     \label{alg:Isomap}
 
     \begin{algorithmic}[1]
-    \REQUIRE $D_{\mathcal{X}}$, the matrix of observed distances; $q$, the embedding's dimensionality; and $\epsilon$ or $k$, the bandwith.
+    \REQUIRE $D_{\mathcal{X}}$, the matrix of observed distances; $q$, the embedding's dimensionality; and $\epsilon$ or $k$, the bandwidth.
     \ENSURE $\tilde{\mathcal{Y}}$, a configuration in a $q$-dimensional space.
     \STATE Find the $\epsilon$-NN or k-NN graph of $\mathcal{X}$, $G$.
     \STATE Compute the distance matrix of $G$, $D_G$.
@@ -74,7 +74,7 @@ Isomap (\cite{Tenenbaum2000}) is a nonlinear technique that preserves geodesic d
     \end{algorithmic}
 \end{algorithm}
 
-The only tuning parameter of Isomap is the bandwith ($\epsilon$ or $k$), but there is no consensus on what is the best method to choose it.
+The only tuning parameter of Isomap is the bandwidth ($\epsilon$ or $k$), but there is no consensus on what is the best method to choose it.
 
 \subsubsection{t-SNE}
 
@@ -103,7 +103,7 @@ Perplexity is interpreted as the average effective number of neighbors of the hi
 
 \subsection{Multidimensional Scaling for Big Data}
 
-\cite{Delicado2024} compared four existing versions of MDS with two newly proposed (Divide-and-conquer MDS and Interpolation MDS) to handle large data. As can be seen in figure \ref{fig:bigmds}, these can be grouped into four categories:
+\cite{Delicado2024} compared four existing versions of MDS with two newly proposed (Divide-and-conquer MDS and Interpolation MDS) to handle large data. As can be seen in Figure \ref{fig:bigmds}, these can be grouped into four categories:
 
 \begin{itemize}
     \item \textbf{Interpolation-based}: Landmark MDS, Interpolation MDS and Reduced MDS apply classical multidimensional scaling to a subset of $l \ll n$ points and then interpolate the projection of the remaining data. They differ in how the interpolation is computed: Landmark MDS uses distance-based triangulation; Interpolation MDS, the $l$-points Gower Interpolation Formula; and Reduced MDS, the 1-point Gower Interpolation Formula.
@@ -168,11 +168,11 @@ Perplexity is interpreted as the average effective number of neighbors of the hi
 
 Note that, similarly to Landmark MDS, other big data versions of MDS can be used with Isomap. Nonetheless, interpolation-based and approximation-based algorithms cannot be trivially generalized to nonlinear dimensionality reduction methods.
 
-Later, \cite{Reichmann2024} proposed the Out-of-Core Dimensionality Reduction Framework. Similar to Interpolation MDS, this algorithm applies a DR method that produces a mapping between high- and low-dimensional spaces (i.e. PCA, MDS, t-SNE, UMAP, Autoencoder) to a small subset of the data and then projects the remaining datapoints in blocks. In order to obtain the aforementioned mappings, Reichmann et. al. gathered different projection mechanisms for every method. PCA and autoencoders learn a parametric mapping between the original data and the embedding, so projecting new points is straightforward. For non-classical MDS, stress is minimized for a single point while keeping others fixed, a process known as \textit{single scaling} in the literature (\cite{Basalaj1999}). A similar strategy is used for t-SNE (\cite{Zhang2021}) and UMAP (\cite{McInnes2018}), which leverage the k-NN of the projecting point to initizalize the optimizer.
+Later, \cite{Reichmann2024} proposed the Out-of-Core Dimensionality Reduction Framework. Similar to Interpolation MDS, this algorithm applies a DR method that produces a mapping between high- and low-dimensional spaces (i.e. PCA, MDS, t-SNE, UMAP, Autoencoder) to a small subset of the data and then projects the remaining datapoints in blocks. In order to obtain the aforementioned mappings, Reichmann et. al. gathered different projection mechanisms for every method. PCA and autoencoders learn a parametric mapping between the original data and the embedding, so projecting new points is straightforward. For non-classical MDS, stress is minimized for a single point while keeping others fixed, a process known as \textit{single scaling} in the literature (\cite{Basalaj1999}). A similar strategy is used for t-SNE (\cite{Zhang2021}) and UMAP (\cite{McInnes2018a, McInnes2018b}), which leverage the k-NN of the projecting point to initialize the optimizer.
 
 \subsection{openTSNE, an outstanding implementation of t-SNE}
 
-Maybe because of its popularity, t-SNE has been optimized for large data environments in Python through iterative implementations. \cite{Policar2024} considered many of them and published \verb|openTSNE|, a package that includes several t-SNE extensions \enquote{\textit{to address scalability issues and the quality of the resulting visualizations}}. Furthermore, they compared their proposal with those of other popular packages in serial and parallel configurations. In figure \ref{fig:python_tsne_benchmarks} it can be seen that, thanks to these advances, the challenges of big data have already been solved in the specific case of t-SNE.
+Maybe because of its popularity, t-SNE has been optimized for large data environments in Python through iterative implementations. \cite{Policar2024} considered many of them and published \verb|openTSNE|, a package that includes several t-SNE extensions \enquote{\textit{to address scalability issues and the quality of the resulting visualizations}}. Furthermore, they compared their proposal with those of other popular packages in serial and parallel configurations. In Figure \ref{fig:python_tsne_benchmarks} it can be seen that, thanks to these advances, the challenges of big data have already been solved in the specific case of t-SNE.
 
 (\textit{POSSIBLE ANNEX})
 
