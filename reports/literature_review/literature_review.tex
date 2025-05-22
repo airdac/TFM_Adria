@@ -477,7 +477,7 @@ Next, we compared the implementations of classical MDS in libraries \texttt{Rdim
     \item Another remarkable, although differently oriented, library is \texttt{direpack}, which implements a set of modern statistical dimension reduction techniques including projection pursuit, sufficient dimension reduction, and robust M estimators. It also includes regularized regression estimators, pre-processing utilities, plotting functionality, and cross-validation utilities, all consistent with the scikit-learn API (\cite{Menvouta2023}). Nonetheless, these methods are outside the scope of our thesis.
     \item Other, more specific, libraries that implement DR methods in Python are:
     \begin{itemize}
-        \item \texttt{umap-learn}: the library that introduced UMAP (\cite{McInnes2018}).
+        \item \texttt{umap-learn}: the library that introduced UMAP (\cite{McInnes2018a}).
         \item \texttt{MulticoreTSNE}: a multicore modification of Barnes-Hut t-SNE with Python CFFI-based wrappers (\cite{Ulyanov2016}). Barnes-Hut is a tree-based algorithm that can be used to accelerate t-SNE up to $\mathcal{O}(N\log N)$ (\cite{Vandermaaten2014}).
         \item \texttt{fitsne}: Fast Fourier Transform-accelerated Interpolation-based t-SNE (\cite{Linderman2019}).
         \item \texttt{OpenTSNE}: incorporates the latest improvements to the t-SNE algorithm, including the ability to add new data points to existing embeddings, massive speed improvements, enabling t-SNE to scale to millions of data points and various tricks to improve global alignment of the resulting visualizations \cite{Policar2024}. The team behind \texttt{OpenTSNE} benchmarked the here described t-SNE Python implementations and showed that the fastest one in general is \texttt{fitsne}, although \texttt{OpenTSNE} is equally efficient on multicore systems (see figure \ref{fig:python_tsne_benchmarks}) \cite{Policar2024}.
@@ -805,7 +805,8 @@ sum_P, kl_divergence_ = _tsne.estimate_positive_gradient_nn(...,
     \item \textbf{Adapted thesis to new bibliography}.
     \item \textbf{Reviewed sections 1 and 2 in thesis}.
     \item \textbf{Written divide-and-conquer algorithm in \LaTeX}.
-    \item \textbf{Explained Procustes transformation}
+    \item \textbf{Explained Procustes transformation}.
+    \item \textbf{Written section 3 in thesis}.
 \end{itemize}
 
 
