@@ -1,5 +1,9 @@
 \section{Specification and Design of the Solution}
 
+Explain idea behind divide-and-conquer algorithm.
+
+Explain why we compute Procustes transformations on small subsets and then apply them to the whole partitions.
+
 \begin{algorithm}
     \caption{Divide-and-Conquer for Dimensionality Reduction}
     \label{alg:DivideConquer}
@@ -24,7 +28,7 @@
         \STATE Combine connecting points with current partition: $\mathcal{X}_{\text{join}} = [\mathcal{X}_{\mathcal{C}}; \mathcal{X}_{\mathcal{P}_i}]$
         \STATE Project combined data: $\tilde{\mathcal{Y}}_{\text{join}} = \mathcal{M}(\mathcal{X}_{\text{join}}, q)$
         \STATE Separate embedding of $\mathcal{X}_{\mathcal{C}}$: $\tilde{\mathcal{Y}}_{\mathcal{C}}^{(i)} = \tilde{\mathcal{Y}}_{\text{join}}[1:c,:]$ and $\tilde{\mathcal{Y}}_i = \tilde{\mathcal{Y}}_{\text{join}}[(c+1):,:]$
-        \STATE Align projection using Procrustes: $\tilde{\mathcal{Y}}_i = \text{Procrustes}(\tilde{\mathcal{Y}}_{\mathcal{C}}^{(i)}, \tilde{\mathcal{Y}}_\mathcal{C}, \tilde{\mathcal{Y}}_i)$
+        \STATE Align projection using Procrustes: $\tilde{\mathcal{Y}}_i = \text{Procrustes}(\tilde{\mathcal{Y}}_\mathcal{C}, \tilde{\mathcal{Y}}_{\mathcal{C}}^{(i)}, \tilde{\mathcal{Y}}_i)$
     \ENDFOR
     
     \STATE Combine all projections: $\tilde{\mathcal{Y}}_{\text{combined}} = [\tilde{\mathcal{Y}}_1; \tilde{\mathcal{Y}}_2; \ldots; \tilde{\mathcal{Y}}_k]$
@@ -32,5 +36,41 @@
     \STATE Apply PCA to center and rotate for maximum variance: $\tilde{\mathcal{Y}}$ = PCA($\tilde{\mathcal{Y}}', q$)
     
     \RETURN $\tilde{\mathcal{Y}}$
+    \end{algorithmic}
+\end{algorithm}
+
+\subsection{Orthogonal Procrustes Transformations}
+
+Our problem of aligning the partitions' embeddings is known in the literature as the Procustes Problem (\cite{Borg2005}). Depending on the kind of alignment desired, many solutions can be found. Orthogonal transformations consist of arbitrary rotations and reflections, but one may desire dilations and shifts too. In fact, the transormation could be any linear distortion.
+
+That being said, in order to preserve the structure of every partitions' embedding, we considered best to narrow the problem to rigid motions: rotations and reflections. Now, let $\mathbf{A} \in \mathbb{R}^{c \times q}$ be the target configuration ($\tilde{\mathcal{Y}}_{\mathcal{C}}$ in Algorithm \ref{alg:DivideConquer}) and $\mathbf{B} \in \mathbb{R}^{c \times q}$ the corresponding testee ($\tilde{\mathcal{Y}}_{\mathcal{C}^{(i)}}$ in Algorithm \ref{alg:DivideConquer}). We wish to fit \textbf{A} to \textbf{B} by rigid motions. That is, we want to find the best orthogonal matrix \textbf{T} such that $\mathbf{A} \simeq \mathbf{BT}$.
+
+In order to obtain \textbf{T}, we follow a common strategy and minimize the sum of squares of $\mathbf{A} - \mathbf{BT}$. Hence, in matrix notation, our problem is
+$$
+\min_{\mathbf{T} \in \text{O}(q)} L(\mathbf{T}) = \min_{\mathbf{T} \in \text{O}(q)} \text{tr}(\mathbf{A}-\mathbf{BT})(\mathbf{A}-\mathbf{BT})',
+$$
+where O($q$) is the orthogonal group in dimension $q$.
+
+(\textit{POSSIBLE ANNEX})
+
+By expanding the expression of $L(\mathbf{T})$ and applying a lower bound inequality on traces derived by \cite{Kristof1970}, \cite{Borg2005} found a global solution to the minimization problem. Let $\mathbf{P} \boldsymbol{\Phi} \mathbf{Q}^{\prime}$ be the singular value decomposition of $\mathbf{A}' \mathbf{B}$, where $\mathbf{P}' \mathbf{P}=\mathbf{I}, \mathbf{Q}' \mathbf{Q}=\mathbf{I}$, and $\boldsymbol{\Phi}$ is the diagonal matrix with the singular values. Then, $L(\mathbf{T})$ is minimal if
+$$
+\mathbf{T} = \mathbf{QP}'.
+$$
+
+Therefore, the Procrustes procedure we used would be as follows:
+
+\begin{algorithm}
+    \caption{Procrustes Procedure}
+    \label{alg:Procrustes}
+    
+    \begin{algorithmic}[1]
+        \REQUIRE $\mathbf{A} \in \mathbb{R}^{c \times q}$, the target matrix; $\mathbf{B} \in \mathbb{R}^{c \times q}$, the testee matrix; and $\mathbf{C} \in \mathbb{R}^{m \times q}$, the matrix to transform.
+        \ENSURE $\mathbf{C}'$, the matrix $\mathbf{C}$ after alignment.
+        \STATE Multiply $\mathbf{M} = \mathbf{A}^T \mathbf{B}$
+        \STATE Compute singular value decomposition: $\mathbf{U}, \boldsymbol{\Sigma}, \mathbf{V}' = \text{SVD}(\mathbf{M})$
+        \STATE Construct orthogonal matrix: $\mathbf{T} = \mathbf{V}' \mathbf{U}'$
+        \STATE Align $\mathbf{C}$: $\mathbf{C}' = \mathbf{CT}$
+        \RETURN $\mathbf{C}'$
     \end{algorithmic}
 \end{algorithm}
