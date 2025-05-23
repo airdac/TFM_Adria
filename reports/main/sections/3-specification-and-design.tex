@@ -56,9 +56,9 @@ where O($q$) is the orthogonal group in dimension $q$.
 
 (\textit{POSSIBLE ANNEX})
 
-By expanding the expression of $L(\mathbf{T})$ and applying a lower bound inequality on traces derived by \cite{Kristof1970}, \cite{Borg2005} found a global solution to the minimization problem. Let $\mathbf{P} \boldsymbol{\Phi} \mathbf{Q}^{\prime}$ be the singular value decomposition of $\mathbf{A}' \mathbf{B}$, where $\mathbf{P}' \mathbf{P}=\mathbf{I}, \mathbf{Q}' \mathbf{Q}=\mathbf{I}$, and $\boldsymbol{\Phi}$ is the diagonal matrix with the singular values. Then, $L(\mathbf{T})$ is minimal if
+By expanding the expression of $L(\mathbf{T})$ and applying a lower bound inequality on traces derived by \cite{Kristof1970}, \cite{Borg2005} found a global solution to the minimization problem. Let $\mathbf{U}\boldsymbol{\Sigma}\mathbf{V}'$ be the singular value decomposition of $\mathbf{A}' \mathbf{B}$, where $\mathbf{U}' \mathbf{U}=\mathbf{I}, \mathbf{V}' \mathbf{V}=\mathbf{I}$, and $\boldsymbol{\Sigma}$ is the diagonal matrix with the singular values. Then, $L(\mathbf{T})$ is minimal if
 $$
-\mathbf{T} = \mathbf{QP}'.
+\mathbf{V} \mathbf{U}'.
 $$
 
 Therefore, the Procrustes procedure we used would be as follows:
@@ -70,9 +70,9 @@ Therefore, the Procrustes procedure we used would be as follows:
     \begin{algorithmic}[1]
         \REQUIRE $\mathbf{A} \in \mathbb{R}^{c \times q}$, the target matrix; $\mathbf{B} \in \mathbb{R}^{c \times q}$, the testee matrix; and $\mathbf{C} \in \mathbb{R}^{m \times q}$, the matrix to transform.
         \ENSURE $\mathbf{C}'$, the matrix $\mathbf{C}$ after alignment.
-        \STATE Multiply $\mathbf{M} = \mathbf{A}^T \mathbf{B}$
+        \STATE Multiply $\mathbf{M} = \mathbf{A}' \mathbf{B}$
         \STATE Compute singular value decomposition: $\mathbf{U}, \boldsymbol{\Sigma}, \mathbf{V}' = \text{SVD}(\mathbf{M})$
-        \STATE Construct orthogonal matrix: $\mathbf{T} = \mathbf{V}' \mathbf{U}'$
+        \STATE Construct orthogonal matrix: $\mathbf{T} = \mathbf{V} \mathbf{U}'$
         \STATE Align $\mathbf{C}$: $\mathbf{C}' = \mathbf{CT}$
         \RETURN $\mathbf{C}'$
     \end{algorithmic}
