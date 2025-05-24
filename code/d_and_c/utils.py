@@ -27,7 +27,7 @@ def runif_in_tetrahedron(n, vertices):
 
 def apply_principal_components(embedding):
     '''
-    Apply Principal Components to an embedding
+    Apply Principal Components to an embedding.
     '''
     embedding = embedding - \
         np.mean(embedding, axis=0)
