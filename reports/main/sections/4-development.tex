@@ -1,12 +1,12 @@
-\section{Development of the Proposal}
+\section{Development of the proposal}
 
 \begin{itemize}
     \item DR methods implementations: packages used, problems found during development, tuning of parameters, experiments' methodology
 \end{itemize}
 
-\subsection{Python implementation of Divide-and-conquer for DR}
+\subsection{Python implementation of divide-and-conquer DR}
 
-Given that R and Python are the standard programming languages in the Data Science field, we chose them as appropriate to implement the divide-and-conquer for DR algorithm. Initially, we aimed to depelop and publish an R library because the thesis directors already had experience with it. However, after reviewing the literature on DR for Big Data \cite{Reichmann2024}, we realized that many solutions were implemented in Python instead. So, in order to leverage the existing coding ecosystem, we switched to Python.
+Given that R and Python are the standard programming languages in the Data Science field, we chose them as appropriate to implement the divide-and-conquer  DR algorithm. Initially, we aimed to depelop and publish an R library because the thesis directors already had experience with it. However, after reviewing the literature on DR for Big Data \cite{Reichmann2024}, we realized that many solutions were implemented in Python instead. So, in order to leverage the existing coding ecosystem, we switched to Python.
 
 Our code, then, as well as the whole thesis, was documented on an open-source GitHub repository (\href{https://github.com/airdac/TFM_Adria}{https://github.com/airdac/TFM\_Adria}). This system will also allow us to update and share our implementations and experiments easily.
 
@@ -14,7 +14,7 @@ With time, python modules have been structured in a directory tree as a library.
 
 We have implemented four DR techniques: SMACOF, Local MDS, Isomap and t-SNE. All but Local MDS are wrappers to methods in other Python libraries, which are efficient and parallelized. Specifically, we make us of the \verb|sklearn.manifold| module \cite{Pedregosa2011} for Isomap and SMACOF and \verb|openTSNE| \cite{Poličar2023} for t-SNE. Local MDS, on the other hand, is a less popular method and has no public Python implementation at the moment. However, the R library \verb|smacofx| (\textit{CITAR}) does. Therefore, we translated it to Python and adapted it to our framework. This also allowed us to optimize it with the \verb|numba| jit compitler (\textit{CITAR}).
 
-\subsection{Python Packages Used}
+\subsection{Python packages used}
 
 \begin{itemize}
     \item \textbf{In general and for experiments}: \begin{itemize}

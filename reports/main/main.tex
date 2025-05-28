@@ -3,12 +3,14 @@
 \usepackage{pdfpages}
 \usepackage{amssymb}
 \usepackage{amsmath}
+\usepackage{bm}
 \usepackage{float}
 \usepackage{csquotes}
 \usepackage{subcaption}
 \usepackage[
 	style=authoryear,
-	maxbibnames=100
+	maxbibnames=100,
+  natbib
 ]{biblatex}
 \addbibresource{../bibliography.bib}
 
@@ -78,7 +80,7 @@
 \includepdf{front_cover.pdf}
 
 \begin{abstract}
-    Dimensionality reduction aims to project a data set into a low-dimensional space. Many techniques have been proposed, most of them based on the inter-individual distance matrix. When the number of individuals is really large, the use of distance matrices is prohibitive. There are algorithms that extend MDS (a classical dimensionality reduction method based on distances) to the big data setting. In this TFM, we adapt these algorithms to any generic distance-based dimensionality reduction method.
+    Dimensionality reduction aims to project a data set into a low-dimensional space. Many techniques have been proposed, most of them based on the inter-individual distance matrix. When the number of individuals is really large, the use of full distance matrices is prohibitive because of their quadratic memory complexity. There are algorithms that extend classical multidimensional scaling (a long-established dimensionality reduction method based on distances) to the big data setting. In this TFM, we adapt these algorithms to any generic distance-based dimensionality reduction method.
 \end{abstract}
 \pagebreak
 

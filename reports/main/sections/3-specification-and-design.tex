@@ -1,52 +1,52 @@
-\section{Specification and Design of the Solution}
+\section{Specification and design of the solution}
 
-Our solution to the problem of applying dimensionality reduction techniques to large datasets consists in dividing the data into partitions small enough for the computer to process and then merge their embeddings. As stated earlier, we follow the same approach as in \cite{Delicado2024}. By means of an efficient alignment procedure named \textit{Procustes transformation}, we manage to orient every embedding to a specific alignment, with the goal that the final embedding will be coherent. Therefore, even though partitioning the data might induce errors in the embedding's structure, our approach allows any system to tackle arbitrarily large datasets and leverage parallelization.
+Our solution to the problem of applying dimensionality reduction techniques to large datasets consists in dividing the data into partitions small enough for the computer to process and then merge their embeddings. As stated earlier, we follow the same approach as \citet{Delicado2024}. By means of an efficient alignment procedure named \textit{Procustes transformation}, we manage to orient every embedding to a specific alignment, with the goal that the final embedding will be coherent. Therefore, even though partitioning the data might induce errors in the embedding's structure, our approach allows any system to tackle arbitrarily large datasets and leverage parallelization.
 
-In order to preserve the topology of the partition's embedding, we narrow Procustes transformations to rigid motions; that is, rotations and reflections. Moreover, we diminish the overhead computation of merging the embeddings by computing the transformation matrix with only a few datapoints. Specifically, if partitions have $l$ (or $l-1$) observations, we sample $c \ll l$ points from the first partition and stack them temporarily to every other partition. Later, we embed the first partition and extract the result of the $c$ sampled points, $\tilde{\mathcal{Y}}_{\mathcal{C}}$. Afterward, for every remaining partition, we project the stacked data with the chosen DR method and separate the $c$ points corresponding to the first partition, $\tilde{\mathcal{Y}}_{\mathcal{C}}^{(i)}$, from those of the current partition, $\tilde{\mathcal{Y}}_{i}$. This way, we can compute the optimal Procustes transformation between $\tilde{\mathcal{Y}}_{\mathcal{C}}$ and $\tilde{\mathcal{Y}}_{\mathcal{C}}^{(i)}$ and apply it to the larger matrix $\tilde{\mathcal{Y}}_i$, all without needing to process two full partitions.
+In order to preserve the topology of the partition's embedding, we narrow Procustes transformations to rigid motions; that is, rotations and reflections. Moreover, we diminish the overhead computation of merging the embeddings by computing the transformation matrix with only a few datapoints. Specifically, if partitions have $l$ (or $l-1$) points, we sample $c < l$ from the first partition and stack them temporarily to every other partition. Later, we embed the first partition and extract the result of the $c$ sampled points, $\mathbf{\tilde{Y}}_{\mathcal{C}}$. Afterward, for every remaining partition, we project the stacked data with the chosen DR method and separate the $c$ points corresponding to the first partition, $\mathbf{\tilde{Y}}_{\mathcal{C}}^{(i)}$, from those of the current partition, $\mathbf{\tilde{Y}}_{i}$. This way, we can compute the optimal Procustes transformation between $\mathbf{\tilde{Y}}_{\mathcal{C}}$ and $\mathbf{\tilde{Y}}_{\mathcal{C}}^{(i)}$ and apply it to the larger matrix $\mathbf{\tilde{Y}}_i$, all without needing to process two full partitions.
 
-For a more detailed specification of our solution, see Algorithm \ref{alg:DivideConquer}, which depicts the Divide-and-conquer for Dimensionality Reduction algorithm, and section \ref{sec:Procrustes}, which shows how the Procrustes transformation can be obtained.
+For a more detailed specification of our solution, see Algorithm \ref{alg:DivideConquer}, which depicts the divide-and-conquer dimensionality reduction algorithm, and section \ref{sec:Procrustes}, which shows how the Procrustes transformation can be obtained.
 
 \begin{algorithm}
-    \caption{Divide-and-Conquer for Dimensionality Reduction}
+    \caption{Divide-and-conquer dimensionality reduction}
     \label{alg:DivideConquer}
     
     \begin{algorithmic}[1]
-    \REQUIRE $\mathcal{X} \in \mathbb{R}^{n \times p}$, the high-dimensional data; $\mathcal{M}$, the DR method; $l$, the partition size; $c$, the amount of connecting points; $q$, the embedding's dimensionality; and $arg$, the $\mathcal{M}$'s specific parameters.
-    \ENSURE $\tilde{\mathcal{Y}}$, a configuration in a $q$-dimensional space.
+    \REQUIRE $\mathbf{X} \in \mathbb{R}^{n \times p}$, the high-dimensional data; $\mathcal{M}$, the DR method; $l$, the partition size; $c$, the amount of connecting points; $q$, the embedding's dimensionality; and $arg$, $\mathcal{M}$'s specific parameters.
+    \ENSURE $\mathbf{\tilde{Y}}$, a configuration in a $q$-dimensional space.
     
     \IF{$n \leq l$}
-        \RETURN $\mathcal{M}(\mathcal{X}, q, arg)$
+        \RETURN $\mathcal{M}(\mathbf{X}, q, arg)$
     \ENDIF
     
     \STATE Partition data into $k$ subsets: $\mathcal{P} = \{\mathcal{P}_1, \mathcal{P}_2, \ldots, \mathcal{P}_k\}$ where $|\mathcal{P}_i| \leq l$ for all $i$
     
     \STATE Sample $c$ connecting points from $\mathcal{P}_1$: $\mathcal{C} \subset \mathcal{P}_1$ with $|\mathcal{C}| = c$
     
-    \STATE Apply DR method to first partition: $\tilde{\mathcal{Y}}_1 = \mathcal{M}(\mathcal{X}_{\mathcal{P}_1}, q, arg)$
+    \STATE Apply DR method to first partition: $\mathbf{\tilde{Y}}_1 = \mathcal{M}(\mathbf{X}_{\mathcal{P}_1}, q, arg)$
 
-    \STATE Extract embedding of $\mathcal{C}$: $\tilde{\mathcal{Y}}_\mathcal{C} = \tilde{\mathcal{Y}}_1[{\mathcal{C}},:]$
+    \STATE Extract embedding of $\mathcal{C}$: $\mathbf{\tilde{Y}}_\mathcal{C} = \mathbf{\tilde{Y}}_1[{\mathcal{C}},:]$
     
     \FOR{$i = 2$ to $k$}
-        \STATE Stack connecting points to current partition: $\mathcal{X}_{\text{stack}} = [\mathcal{X}_{\mathcal{C}}; \mathcal{X}_{\mathcal{P}_i}]$
-        \STATE Project stacked data: $\tilde{\mathcal{Y}}_{\text{stack}} = \mathcal{M}(\mathcal{X}_{\text{stack}}, q, arg)$
-        \STATE Separate embedding of $\mathcal{X}_{\mathcal{C}}$: $\tilde{\mathcal{Y}}_{\mathcal{C}}^{(i)} = \tilde{\mathcal{Y}}_{\text{stack}}[1:c,:]$ and $\tilde{\mathcal{Y}}_i = \tilde{\mathcal{Y}}_{\text{stack}}[(c+1):,:]$
-        \STATE Align projection using Procrustes: $\tilde{\mathcal{Y}}_i = \text{Procrustes}(\tilde{\mathcal{Y}}_\mathcal{C}, \tilde{\mathcal{Y}}_{\mathcal{C}}^{(i)}, \tilde{\mathcal{Y}}_i)$
+        \STATE Stack connecting points to current partition: $\mathbf{X}_{\text{stack}} = [\mathbf{X}_{\mathcal{C}}; \mathbf{X}_{\mathcal{P}_i}]$
+        \STATE Project stacked data: $\mathbf{\tilde{Y}}_{\text{stack}} = \mathcal{M}(\mathbf{X}_{\text{stack}}, q, arg)$
+        \STATE Separate embedding of $\mathbf{X}_{\mathcal{C}}$: $\mathbf{\tilde{Y}}_{\mathcal{C}}^{(i)} = \mathbf{\tilde{Y}}_{\text{stack}}[1:c,:]$ and $\mathbf{\tilde{Y}}_i = \mathbf{\tilde{Y}}_{\text{stack}}[(c+1):,:]$
+        \STATE Align projection using Procrustes: $\mathbf{\tilde{Y}}_i = \text{Procrustes}(\mathbf{\tilde{Y}}_\mathcal{C}, \mathbf{\tilde{Y}}_{\mathcal{C}}^{(i)}, \mathbf{\tilde{Y}}_i)$
     \ENDFOR
     
-    \STATE Combine all projections: $\tilde{\mathcal{Y}}' = [\tilde{\mathcal{Y}}_1; \tilde{\mathcal{Y}}_2; \ldots; \tilde{\mathcal{Y}}_k]$
-    \STATE Reorder rows to match original ordering: $\tilde{\mathcal{Y}}' = \tilde{\mathcal{Y}}'[\text{order},:]$
-    \STATE Apply PCA to center and rotate for maximum variance: $\tilde{\mathcal{Y}}$ = PCA($\tilde{\mathcal{Y}}', q$)
+    \STATE Combine all projections: $\mathbf{\tilde{Y}}' = [\mathbf{\tilde{Y}}_1; \mathbf{\tilde{Y}}_2; \ldots; \mathbf{\tilde{Y}}_k]$
+    \STATE Reorder rows to match original ordering: $\mathbf{\tilde{Y}}' = \mathbf{\tilde{Y}}'[\text{order},:]$
+    \STATE Apply PCA to center and rotate for maximum variance: $\mathbf{\tilde{Y}}$ = PCA($\mathbf{\tilde{Y}}', q$)
     
-    \RETURN $\tilde{\mathcal{Y}}$
+    \RETURN $\mathbf{\tilde{Y}}$
     \end{algorithmic}
 \end{algorithm}
 
-\subsection{Orthogonal Procrustes Transformation}
+\subsection{Orthogonal Procrustes transformation}
 \label{sec:Procrustes}
 
-Our problem of aligning the partitions' embeddings is known in the literature as the \textit{Procustes Problem} (\cite{Borg2005}). Depending on the kind of fitting desired, many solutions can be found. For example, orthogonal transformations consist of rotations and reflections, but one may also desire dilations and shifts. In fact, the transformation could be any linear distortion.
+Our problem of aligning the partitions' embeddings is known in the literature as the \textit{Procustes problem} (\cite{Borg2005}). Depending on the kind of fitting desired, many solutions can be found. For example, orthogonal transformations consist of rotations and reflections, but one may also desire dilations and shifts. In fact, the transformation could be any linear distortion.
 
-That being said, in order to preserve the structure of every partitions' embedding, we considered best to narrow the problem down to rigid motions, or in other words, rotations and reflections. Now, let $\mathbf{A} \in \mathbb{R}^{c \times q}$ be the target configuration ($\tilde{\mathcal{Y}}_{\mathcal{C}}$ in Algorithm \ref{alg:DivideConquer}) and $\mathbf{B} \in \mathbb{R}^{c \times q}$ the corresponding testee ($\tilde{\mathcal{Y}}_{\mathcal{C}}^{(i)}$ in Algorithm \ref{alg:DivideConquer}). We wish to fit \textbf{B} to \textbf{A} by rigid motions. That is, we want to find the best orthogonal matrix \textbf{T} such that $\mathbf{A} \simeq \mathbf{BT}$.
+That being said, in order to preserve the structure of every partitions' embedding, we considered best to narrow the problem down to rigid motions, or in other words, rotations and reflections. Now, let $\mathbf{A} \in \mathbb{R}^{c \times q}$ be the target configuration ($\mathbf{\tilde{Y}}_{\mathcal{C}}$ in Algorithm \ref{alg:DivideConquer}) and $\mathbf{B} \in \mathbb{R}^{c \times q}$ the corresponding testee ($\mathbf{\tilde{Y}}_{\mathcal{C}}^{(i)}$ in Algorithm \ref{alg:DivideConquer}). We wish to fit \textbf{B} to \textbf{A} by rigid motions. That is, we want to find the best orthogonal matrix \textbf{T} such that $\mathbf{A} \simeq \mathbf{BT}$.
 
 To measure the $\simeq$ relation, we may use the sum-of-squares criterion $L$. Then, the transformation $\mathbf{T}$ should be chosen to minimize $L$. Expressed in matrix notation, our problem is
 $$
@@ -64,7 +64,7 @@ $$
 Therefore, the Procrustes procedure we used would be as follows:
 
 \begin{algorithm}
-    \caption{Procrustes Procedure}
+    \caption{Procrustes procedure}
     \label{alg:Procrustes}
     
     \begin{algorithmic}[1]
