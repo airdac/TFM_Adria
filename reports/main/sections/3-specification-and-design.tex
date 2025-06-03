@@ -1,4 +1,5 @@
 \section{Specification and design of the solution}
+\label{sec:specification-and-design-of-the-solution}
 
 Our solution to the problem of applying dimensionality reduction techniques to large datasets consists in dividing the data into partitions small enough for the computer to process and then merge their embeddings. As stated earlier, we follow the same approach as \citet{Delicado2024}. By means of an efficient alignment procedure named \textit{Procustes transformation}, we manage to orient every embedding to a specific alignment, with the goal that the final embedding will be coherent. Therefore, even though partitioning the data might induce errors in the embedding's structure, our approach allows any system to tackle arbitrarily large datasets and leverage parallelization.
 

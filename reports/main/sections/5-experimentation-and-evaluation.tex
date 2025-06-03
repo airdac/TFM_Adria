@@ -1,67 +1,68 @@
 \section{Experimentation and evaluation of the proposal}
 \label{sec:experimentation-and-evaluation}
 
-\begin{itemize}
-    \item plot\_benchmark.ipynb
-    \item dc\_bottlenecks.ipynb
-    \item SMACOF/SMACOF\_examples.ipynb
-    \item LMDS/LMDS\_examples.ipynb
-    \item (maybe) LMDS/plots/
-    \item Isomap/Isomap\_examples.ipynb
-    \item (maybe) old\_figures/ and results/ for Isomap and LMDS
-    \item t-SNE/tSNE\_examples.ipynb
-\end{itemize}
+The goal of this section is to present the experiments we have conducted on the divide-and-conquer DR algorithm to assess its quality and performance. Following the methodology described in section \ref{sec:experiment-methodology-parameter-tuning}, we were able to corroborate the space and time complexity of the procedure and understand better it's embedding mechanism. We chose the swiss roll and MNIST datasets for the tests because of their popularity, which makes it easier to compare our method with others in the literature, and because of how well Isomap and t-SNE embedded them. That allowed us to go even further and succesfully unfold a $10^8$ points swiss roll with divide-and-conquer Isomap. On the other hand, the classification task in the MNIST dataset proved more complicated to our algorithm, which was slower and separated digits worse than \verb|openTSNE|'s implementation of t-SNE.
 
-We first showcase a benchmark on the swiss roll dataset with different sizes. The goal is to show time complexity is linear.
+The experimentation and evaluation process also provided us some insights on the standard SMACOF, LMDS, Isomap and t-SNE techniques. For example, we realized that LMDS, a nonlinear method intended to overcome the limitations of the SMACOF algorithm \citep{Chen2009}, was not able to unfold the swiss roll dataset. Even after having tuned the $k$ and $\tau$ parameters (see Algorithm \ref{alg:LMDS}), its embedding was porous and irregular instead of uniform and rectangular (see Figure \ref{fig:LMDS-swiss-roll}). Further research on this problem might lead to the development of a variation of LMDS that reduces the dimensionality of the swiss roll better.
 
-\subsection{Initial benchmark}
+Finally, we will describe the computer system we perfomed the tests on. Even though our main development computer was a  Macbook Pro (14-inc, Nov 2023) with 16 GB of RAM and the Apple M3 chip, we noticed that the \verb|concurrent.futures| module, which parallelized the execution of Algorithm \ref{alg:DivideConquer}, did not work in Mac computers with ARM chipsets. Therefore, we ended up using a Windows system. Specifically, our PC was an Asus ROG G513QM-HF026 laptop with the AMD Ryzen 7 5800H CPU, 16 GB of DDR4-3200MHz RAM, an SSD M.2 NVMe PCIe 3.0 and an NVIDIA RTX 3060 GPU.
 
-Our main development computer was a  Macbook Pro (14-inc, Nov 2023) with
-16 GB of RAM and the Apple M3 chip. However, we noticed that the \verb|concurrent.futures| module used for parallelizaiton does not work in Mac computers with ARM chipsets, so we used a Windows system in tests if not said otherwise. Specifically, our PC was an Asus ROG G513QM-HF026 laptop with the AMD Ryzen 7 5800H CPU, 16 GB of DDR4-3200MHz RAM, an SSD M.2 NVMe PCIe 3.0 secondary memory and an NVIDIA RTX 3060 GPU.
+\subsection{Initial runtime benchmark}
 
-We tested divide-and-conquer Isomap on the swiss roll dataset with different parameter combinations and compared parallel execution against serial. The number of connecting points for the Procrustes transformation is 100. We chose this number in all tests because, based on the thesis director's experience on big data MDS \citep{Delicado2024}, it guaranteed good links between partitions' embeddings and efficient computations. Figure \ref{fig:Isomap-benchmark} shows the average runtime of 20 experiments for every set of parameters and dataset size. Parameters were previously chosen to ensure embeddings that preserve the structure of the data as described in section \ref{sec:experiment-methodology-parameter-tuning} applying bare Isomap to swiss rolls of $1,000$, $3,162$ and $10,000$ points, following a logarithmic sequence. Notice that the number of neighbors increases with the size of the dataset, since it becomes more dense when adding points. We performed more tests with $l=3162$ and 10 neighbors because the obtained embedding was very good (see Figure \ref{fig:Isomap-huge}) and time was significantly lower than with $l=10,000$ and 15 neighbors. Color represents the angle of rotation of the rollito suizo.
+Isomap was the first DR method we implemented into our divide-and-conquer framework, so it also was the first method we benchmarked. We tested divide-and-conquer Isomap on the swiss roll dataset with different parameter combinations and with parallel and serial computation. However, in all tests the number of connecting points for the Procrustes transformation was 100. We chose this number because, based on the thesis directors' experience on big data MDS \citep{Delicado2024}, it guaranteed good links between partitions' embeddings and efficient computations when $1,000 \leq l \leq 10,000$. Figure \ref{fig:Isomap-benchmark} shows the average runtimes of 20 experiments with different sets of parameters and dataset sizes. Parameters were previously tuned to ensure embeddings would preserve the structure of the data. As described in section \ref{sec:experiment-methodology-parameter-tuning}, we applied bare Isomap to swiss rolls of 1,000, 3,162 and 10,000 points, following a logarithmic sequence. Notice that we increased the number of neighbors $k$ for larger values of $l$ because partitions were denser.
+
+After some experimentatiton, we realized that if $l=3162$ and $k=10$, the embedding was nearly perfect no matter the amount of individuals (see Figure \ref{fig:Isomap-huge}). Meanwhile, when $l=10,000$ and $k=15$, quality was similar and time was significantly larger, so we used $l=3162$ and $k=10$ for the largest datasets. This way, we managed to embed $10^8$ three-dimensional points into the Euclidean plane in about 3 hours. Hence, we showed that divide-and-conquer Isomap is capable of handling arbitrarily large datasets on a standard computer while maintaining the quality of the embedding.
+
+Regarding parallelization, we can observe in Figure \ref{fig:Isomap-benchmark} that it effectively reduces the time complexity of divide-and-conquer DR, although its overhead slows down the algorithm when $n \leq 10^4$. Overall, results show that divide-and-conquer Isomap is linear in time with respect to $n$.
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{figures/Isomap-benchmark.png}
-    \caption{Isomap benchmark.}
+    \caption{Runtime (s) of divide-and-conquer Isomap averaged over 20 experiments. Tests were performed on datasets generated on the swiss roll manifold \citep{Spiwokv2007} with sizes ranging from $10^3$ to $10^8$. Data was embedded into $\mathbb{R}^2$ with different parameter combinations and $c=100$. Runtime in parallel and serial execution is also compared.}
     \label{fig:Isomap-benchmark}
 \end{figure}
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{figures/Isomap-huge.png}
-    \caption{Isomap huge.}
+    \caption{Bidimensional embedding of a $10^8$ points swiss roll dataset \citep{Spiwokv2007} computed by divide-and-conquer Isomap with $l=3,162, \, c=100$ and $k=10$. Color represents the angle of rotation along the swiss roll spiral.}
     \label{fig:Isomap-huge}
 \end{figure}
 
-In Figure \ref{fig:Isomap-benchmark}, we can see how divide-and-conquer Isomap can effectively handle arbitrary large datasets in a standard computer (up to $10^8$ points in about 3 hours). It is efficient too, since, to give an example, it can embed a 1 million points swiss roll into $\mathbb{R}^2$ in about two minutes. We can also observe that parallelizaiton decreases the time complexity of divide-and-conquer Isomap significantly. Overall, the experiment shows a linear time complexity os divide-and-conquer Isomap.
+Afterwards, we tested divide-and-conquer t-SNE on the same datasets (see Figure \ref{fig:t-SNE-benchmark}). However, t-SNE performed notably slower than Isomap on the swiss roll, so we only run its divide-and-conquer variation with one parameter combination, $c = 100, \, l=1,000, \, Perp=30, \, n\_iter=250$. $n\_iter$ is the number of iterations carried out to minimize the Kullback-Leibler divergence \citep{Kullback1951}.
 
-Next, we performed the same test on t-SNE (see Figure \ref{fig:t-SNE-benchmark}). However, t-SNE was way slower on this dataset, so we only tested divide-and-conquer t-SNE with one parameter combination, $c = 100, \, l=1,000, \, Perp=30, \, n\_iter=250$, where $n\_iter$ is the number of iterations in the minimization of the Kullback-Leibler divergence in the t-SNE algorithm.
+Even though divide-and-conquer t-SNE is about two orders of magnitud slower than divide-and-conquer Isomap, time complexity is linear as well, proving the expected results. The quality of the embedding, on the other hand, is very low. See Figure \ref{fig:t-SNE-huge} to observe that the structure of the data is broken into separate parts and the spiral shape is not unfolded.
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{figures/tSNE-benchmark.png}
-    \caption{t-SNE benchmark.}
+    \caption{Runtime (s) of divide-and-conquer Isomap and divide-and-conquer t-SNE averaged over 20 experiments. Tests were performed on datasets generated on the swiss roll manifold \citep{Spiwokv2007} with sizes ranging from $10^3$ to $10^8$. Data was embedded into $\mathbb{R}^2$ with different parameter combinations and $c=100$.}
     \label{fig:t-SNE-benchmark}
 \end{figure}
 
-Even though divide-and-conquer t-SNE is about two orders of magnitude (100x) slower than divide-and-conquer Isomap, complexity is again linear, proving the expected results.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/t-SNE-swiss-roll-huge.png}
+    \caption{Bidimensional embedding of a $10^6$ points swiss roll dataset \citep{Spiwokv2007} computed by divide-and-conquer t-SNE with $l=1,000, \, c=100, \, Perp=30$ and $n\_iter=250$. Color represents the angle of rotation along the swiss roll spiral.}
+    \label{fig:t-SNE-huge}
+\end{figure}
 
-\subsection{No overhead in divide-and-conquer DR}
+\subsection{Analysis of possible overheads in divide-and-conquer DR}
 
-Yeah, like Table \ref{tab:dc-overhead} shows that with a 5000 points subset of numerical EMNIST, dividing the dataset and merging adds a minimal overhead to Algorithm \ref{alg:DivideConquer}. Specifically, in this test, the overhead per partition was 10,000 times faster than the embedding procedure.
+One reasonable question to formulate about the divide-and-conquer approach is whether splitting the data and merging the resulting embeddings constitue a significant computational cost in comparison to reducing each partition's dimensionality. Theoretically, fractionating the data should be rapid. As for the merging of partitions' embeddings, in section \ref{sec:specification-and-design-of-the-solution} we depicted how we align and overlap them with Procustes transformations between each embedding and one in specific (the first one). We intentionally find a rigid transformation only with a random subset of $c < l$ points to accelerate its computation, and then multiply the full partition's embedding with the $q\times q$ matrix of the transformation. Therefore, the overhead of merging embeddings should be insignificant.
+
+Table \ref{tab:dc-overhead} shows the results of an experiment where each part of the divide-and-conquer DR algorithm was independently timed. We uniformly sampled 5,000 points from the MNIST dataset and embedded them into the Euclidean plane with divide-and-conquer SMACOF. The arguments used were $l=1000,\, c=100,\, n\_iter = 300,\, \varepsilon = 0.001$. As it was expected, neither partitioning the dataset nor aligning the partial embeddings entail a noteworthy overhead in divide-and-conquer DR. Indeed, the prior and the latter were about 5,506 times and 50,710 times swifter than embedding all partitions with SMACOF, respectively.
 
 \begin{table}[ht]
     \centering
     \begin{tabular}{lccc}
         \toprule
-        Operation    & Divide & Project & Merge \\
+        Operation    & Divide & Embed & Merge \\
         \midrule
         Duration (s) & $6.88 \times 10^{-3}$ & 37.88 & $7.47 \times 10^{-4}$ \\
         \bottomrule
     \end{tabular}
-    \caption{Execution time (in seconds) for each step of the divide-and-conquer algorithm on a 5000-point subset of numerical EMNIST.}
+    \caption{Runtime (s) of each step of divide-and-conquer SMACOF on a 5000-point random subset of MNIST. The arguments used were $l=1000,\, c=100,\, n\_iter = 300,\, \varepsilon = 0.001$.}
     \label{tab:dc-overhead}
 \end{table}
 
@@ -120,7 +121,7 @@ Consider a swiss roll of 1,000 points. Well, LMDS makes trash out of it. Figure 
 
 \subsubsection{What abou MNIST tough? WHAT ABOUT IT???}
 
-Same 5000 points numeric EMNIST subset, mate. Oh, but this is very bad... Like, worse than SMACOF HAHAHAHAHA.
+Same 5000 points MNIST subset, mate. Oh, but this is very bad... Like, worse than SMACOF HAHAHAHAHA.
 
 \begin{figure}[ht]
     \centering
@@ -152,14 +153,7 @@ There you go, Figure \ref{fig:Isomap-MNIST}. It's just so bad HAHAHAHAHAH I can'
 
 \subsection{Swiss roll o, com a mi m'agrada nombrar-lo, volteret suís}
 
-t-SNE is specially useful for visualization, so we will focus on numerical EMNIST. Nonetheless, here's the swiss roll. Figure \ref{fig:t-SNE-swiss-roll}.
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{figures/t-SNE-swiss-roll.png}
-    \caption{t-SNE on the rollet suís, germà.}
-    \label{fig:t-SNE-swiss-roll}
-\end{figure}
+t-SNE is specially useful for visualization, so we will focus on MNIST. Nonetheless, here's the swiss roll. Figure \ref{fig:t-SNE-huge}.
 
 \subsubsection{t-SNE MNIST-TSINM, daddy, daddy, oh -!- ooooooooooh}
 
