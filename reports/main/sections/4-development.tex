@@ -1,49 +1,23 @@
 \section{Development of the proposal}
 
-\begin{itemize}
-    \item DR methods implementations: packages used, problems found during development, tuning of parameters, experiments' methodology
-\end{itemize}
-
 \subsection{Python implementation of divide-and-conquer DR}
 
-Given that R and Python are the standard programming languages in the data science field, we chose them as appropriate to implement the divide-and-conquer  DR algorithm. Initially, we aimed to depelop and publish an R library because the thesis directors already had experience with it. However, after reviewing the literature on DR for big data \citep{Reichmann2024}, we realized that many solutions were implemented in Python instead. So, in order to leverage the existing coding ecosystem, we switched to Python.
+Given that R and Python are the standard programming languages in the data science field, we chose them as appropriate to implement the divide-and-conquer  DR algorithm. Initially, we aimed to develop and publish an R library because the thesis directors already had experience with the language. However, after reviewing the literature on DR for big data, we realized that many solutions were implemented in Python instead \citep{Reichmann2024}. So, in order to leverage the existing coding ecosystem, we switched to Python. From that moment onward, we documented the code development on an open-source GitHub repository (\href{https://github.com/airdac/TFM_Adria}{https://github.com/airdac/TFM\_Adria}). This system allowed us to easily update and share our implementations and experiments.
 
-Our code, then, as well as the whole thesis, was documented on an open-source GitHub repository (\href{https://github.com/airdac/TFM_Adria}{https://github.com/airdac/TFM\_Adria}). This system will also allow us to update and share our implementations and experiments easily.
+With time, the Pyhton functions and classes we have written in different modules have become structured in a directory tree, hence taking the form of a package. Even though our project has not been published in any Python package index yet, it effectively works as a library. The main function is \verb|divide_conquer|, which implements Algorithm \ref{alg:DivideConquer} in parallel through the \verb|concurrent.futures| module. \verb|divide_conquer| also depends on private methods and requires a \verb|DRMethod| object as one of its arguments. This class, inherited from \verb|enum.Enum|, lists the supported DR methods in our package, which can be called through the \verb|get_method_function| method.
 
-With time, Python modules have been structured in a directory tree as a library. Therefore, even though our project has not been published in any Python package index, it effectively works as a library with specific classes and methods. The main function is \verb|divide_conquer|, which implements Algorithm \ref{alg:DivideConquer} in parallel through the \verb|concurrent.futures| module. \verb|divide_conquer| also depends on private methods and requires a \verb|DRMethod| object as one of its arguments. This class, inherited from \verb|enum.Enum|, lists the supported DR methods in our package, which can be called through the \verb|get_method_function| method.
+We have implemented and tested four DR algorithms: SMACOF, LMDS, Isomap and t-SNE. All but LMDS are wrappers to methods coded in other efficient and parallelized Python libraries. Specifically, we used the \verb|sklearn.manifold| module \citep{Pedregosa2011} for Isomap and SMACOF and \verb|openTSNE| \citep{Poličar2023} for t-SNE. LMDS, on the other hand, is a less popular method and, up to our knowledge, it has no public Python implementation at the moment. However, the R library \verb|smacofx| \citep{Leeuw2009} does, so we translated it to Python with the help of the \verb|scipy.spatial.distance| and \verb|sklearn.neighbors| modules. This also allowed us to optimize the LMDS runtime with the \verb|numba| just-in-time compiler \citep{Lam2015, Aycock2003}.
 
-We have implemented four DR techniques: SMACOF, local MDS, Isomap and t-SNE. All but local MDS are wrappers to methods in other Python libraries, which are efficient and parallelized. Specifically, we make us of the \verb|sklearn.manifold| module \citep{Pedregosa2011} for Isomap and SMACOF and \verb|openTSNE| \citep{Poličar2023} for t-SNE. Local MDS, on the other hand, is a less popular method and has no public Python implementation at the moment. However, the R library \verb|smacofx| \citep{Leeuw2009} does. Therefore, we translated it to Python and adapted it to our framework. This also allowed us to optimize it with the \verb|numba| jit compitler \citep{Lam2015}.
+As shown in section \ref{sec:experimentation-and-evaluation}, our implementation does not add a significant computation overhead when compared to standard DR techniques. In fact, divide-and-conquer DR leverages parallelization and provides a significant speed up to standard DR methods. Most DR techniques have quadratic time complexity \citep{Kruskal1964a,Kruskal1964b,Chen2009, Vandermaaten2008}, except for Isomap, whose computation time is $\mathcal{O}(n^2\log(n))$ \citep{Tenenbaum2000}. Meanwhile, divide-and-conquer DR applies a DR method on $n/l$ partitions of $l$ individuals, resulting in linear time complexity: $\mathcal{O}(nl)$ in general and $\mathcal{O}(nl\log(l))$ for Isomap. The only exception is t-SNE, given that it has been thouroughly optimized in the \verb|openTSNE| library \citep{Policar2024}. Finally, since we only keep in memory the inter-individual distance matrix of the partitions being embedded at each moment, our DR framework reduces space complexity from $\mathcal{O}(n^2)$ to $\mathcal{O}(l^2)$.
 
-\subsection{Python packages used}
 
-\begin{itemize}
-    \item \textbf{In general and for experiments}: \begin{itemize}
-        \item numpy
-        \item pandas
-        \item matplotlib.pyplot
-        \item os
-        \item time
-        \item sys
-        \item logging
-        \item warnings
-        \item typing
-        \item shutil
-    \end{itemize}
-    \item \textbf{In D\&C}: \begin{itemize}
-        \item concurrent.futures for parallelization
-    \end{itemize}
+\subsection{Experiment's methodology and parameter tuning}
+\label{sec:experiment-methodology-parameter-tuning}
 
-    \item \textbf{For DR methods}: \begin{itemize}
-        \item enum
-        \item scipy.spatial.distance
-        \item sklearn.manifold.Isomap, sklearn.manifold.smacof
-        \item openTSNE.TSNE
-        \item numba, sklearn.neighbors and stops (from R translated to Python) for Local MDS
-    \end{itemize}
-\end{itemize}
+Once our framework was developed and we had implemented a few DR methods to test it, we run a series of experiments on the numerical EMNIST \citep{Cohen2017} and the swiss roll \citep{Tenenbaum2000} datasets. We downloaded the EMNIST dataset from the NIST webpage \citep{NIST2024} and generated points in the swiss roll manifold with the \verb|sklearn.datasets.make_swiss_roll| function \citep{Pedregosa2011}. All these experiments were executed, logged, plotted and dicussed on Jupyter notebooks \citep{Kluyver2016} with the Python packages \verb|numpy| \citep{Harris2020}, \verb|pandas| \citep{Mckinney2010}, \verb|matplotlib.pyplot| \citep{Hunter2007}, \verb|os|, \verb|time|, \verb|sys|, \verb|shutil|, \verb|logging| and \verb|warnings|. Furthemore, results were serialized with the \verb|pickle| module in final tests.
 
-\subsection{Experiment's methodology and tuning of parameters}
+The general experimental methodology we used consisted in a series of steps. Given that working with big datasets is costly, we randomly sampled a subset of 1000 points and embedded them into $\mathbb{R}^2$ with a traditional DR technique. To distinguish it from its divide-and-conquer variation, we called it a \textit{bare} technique. Then, before increasing the size of the dataset, we tuned the parameters of the method by applying it to the same dataset with different combinations of the parameters' values. We measured their runtime and qualitatively assessed the embeddings' plots. Our goal was to find parameter values that provided a good trade-off between speed and preserving the structure of the data. In section \ref{sec:experimentation-and-evaluation} we enter in more detail on the qualitative assesment of embeddings.
 
-Experiments' methodology.
+Once parameters were tuned with a small enough subset of the data for our system to handle, we applied divide-and-conquer DR to larger datasets with partitions of $l=1000$ points. In comparison, when we applied the \textit{bare} techniques to big datasets, execution would crash because of a lack of main memory. Hence, as shown in section \ref{sec:experimentation-and-evaluation}, we managed to extend the functionality of DR techniques to arbitrarily large datasets.
 
-Tuning of parameters. A few cases.
+The numerical EMNIST dataset consisted of 345035 images represented in $\mathbb{R}^{784}$. On the other hand, the swiss roll dataset was sampled from a bidimensional object in $\mathbb{R}^3$. In order to measure the time complexity of divide-and-conquer DR, we randomly generated datasets with sizes ranging between $10^3$ and $10^8$ points. A good embedding of the swiss roll into $\mathbb{R}^2$ should intuitively be a rectangle, as if the swiss roll were unfolded. In numerical EMNIST, we would like to obtain 10 clearly distinct clusters that would separate all digits. 

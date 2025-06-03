@@ -1,8 +1,191 @@
 \section{Experimentation and evaluation of the proposal}
+\label{sec:experimentation-and-evaluation}
 
 \begin{itemize}
-    \item Swiss Roll.
-    \item MNIST.
-    \item Time complexity measurements (including MDS).
-    \item Evaluation and comparison with state of the art.
+    \item plot\_benchmark.ipynb
+    \item dc\_bottlenecks.ipynb
+    \item SMACOF/SMACOF\_examples.ipynb
+    \item LMDS/LMDS\_examples.ipynb
+    \item (maybe) LMDS/plots/
+    \item Isomap/Isomap\_examples.ipynb
+    \item (maybe) old\_figures/ and results/ for Isomap and LMDS
+    \item t-SNE/tSNE\_examples.ipynb
 \end{itemize}
+
+We first showcase a benchmark on the swiss roll dataset with different sizes. The goal is to show time complexity is linear.
+
+\subsection{Initial benchmark}
+
+Our main development computer was a  Macbook Pro (14-inc, Nov 2023) with
+16 GB of RAM and the Apple M3 chip. However, we noticed that the \verb|concurrent.futures| module used for parallelizaiton does not work in Mac computers with ARM chipsets, so we used a Windows system in tests if not said otherwise. Specifically, our PC was an Asus ROG G513QM-HF026 laptop with the AMD Ryzen 7 5800H CPU, 16 GB of DDR4-3200MHz RAM, an SSD M.2 NVMe PCIe 3.0 secondary memory and an NVIDIA RTX 3060 GPU.
+
+We tested divide-and-conquer Isomap on the swiss roll dataset with different parameter combinations and compared parallel execution against serial. The number of connecting points for the Procrustes transformation is 100. We chose this number in all tests because, based on the thesis director's experience on big data MDS \citep{Delicado2024}, it guaranteed good links between partitions' embeddings and efficient computations. Figure \ref{fig:Isomap-benchmark} shows the average runtime of 20 experiments for every set of parameters and dataset size. Parameters were previously chosen to ensure embeddings that preserve the structure of the data as described in section \ref{sec:experiment-methodology-parameter-tuning} applying bare Isomap to swiss rolls of $1,000$, $3,162$ and $10,000$ points, following a logarithmic sequence. Notice that the number of neighbors increases with the size of the dataset, since it becomes more dense when adding points. We performed more tests with $l=3162$ and 10 neighbors because the obtained embedding was very good (see Figure \ref{fig:Isomap-huge}) and time was significantly lower than with $l=10,000$ and 15 neighbors. Color represents the angle of rotation of the rollito suizo.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/Isomap-benchmark.png}
+    \caption{Isomap benchmark.}
+    \label{fig:Isomap-benchmark}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/Isomap-huge.png}
+    \caption{Isomap huge.}
+    \label{fig:Isomap-huge}
+\end{figure}
+
+In Figure \ref{fig:Isomap-benchmark}, we can see how divide-and-conquer Isomap can effectively handle arbitrary large datasets in a standard computer (up to $10^8$ points in about 3 hours). It is efficient too, since, to give an example, it can embed a 1 million points swiss roll into $\mathbb{R}^2$ in about two minutes. We can also observe that parallelizaiton decreases the time complexity of divide-and-conquer Isomap significantly. Overall, the experiment shows a linear time complexity os divide-and-conquer Isomap.
+
+Next, we performed the same test on t-SNE (see Figure \ref{fig:t-SNE-benchmark}). However, t-SNE was way slower on this dataset, so we only tested divide-and-conquer t-SNE with one parameter combination, $c = 100, \, l=1,000, \, Perp=30, \, n\_iter=250$, where $n\_iter$ is the number of iterations in the minimization of the Kullback-Leibler divergence in the t-SNE algorithm.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/tSNE-benchmark.png}
+    \caption{t-SNE benchmark.}
+    \label{fig:t-SNE-benchmark}
+\end{figure}
+
+Even though divide-and-conquer t-SNE is about two orders of magnitude (100x) slower than divide-and-conquer Isomap, complexity is again linear, proving the expected results.
+
+\subsection{No overhead in divide-and-conquer DR}
+
+Yeah, like Table \ref{tab:dc-overhead} shows that with a 5000 points subset of numerical EMNIST, dividing the dataset and merging adds a minimal overhead to Algorithm \ref{alg:DivideConquer}. Specifically, in this test, the overhead per partition was 10,000 times faster than the embedding procedure.
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{lccc}
+        \toprule
+        Operation    & Divide & Project & Merge \\
+        \midrule
+        Duration (s) & $6.88 \times 10^{-3}$ & 37.88 & $7.47 \times 10^{-4}$ \\
+        \bottomrule
+    \end{tabular}
+    \caption{Execution time (in seconds) for each step of the divide-and-conquer algorithm on a 5000-point subset of numerical EMNIST.}
+    \label{tab:dc-overhead}
+\end{table}
+
+\subsection{Experiments on SMACOF}
+
+\subsubsection{Swiss roll let's goooooo}
+
+SMACOF is not able to unfold a 3000 points swiss roll. This is what we can extract from Figure \ref{fig:SMACOF-swiss-roll-3000}. With 10,000 points, bare SMACOF crashed. But with 7,500 points the same as with 3000 points happens (see Figure \ref{fig:SMACOF-swiss-roll-7500})
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/SMACOF-swiss-roll-3000.png}
+    \caption{SMACOF vs 3000 swiss roll muahahahaha.}
+    \label{fig:SMACOF-swiss-roll-3000}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/SMACOF-swiss-roll-7500.png}
+    \caption{SMACOF vs 7500 swiss roll muahahahaha.}
+    \label{fig:SMACOF-swiss-roll-7500}
+\end{figure}
+
+To conclude, even though the SMACOF algorithm is not capable to properly embedd the swiss roll, we can see a clear advantage in using it with our divide-and-conquer approach. Indeed, divide-and-conquer is about 22x faster than the bare method and the embedding obtained is very similar for all number of datapoints. The only visual differences are noisier edges and wider shapes in the divide-and-conquer embedding.
+
+Finally, bare SMACOF is not capable of embedding a 10000 points swiss roll on a system with 16 GB of RAM and takes about 17 min to embed a swiss roll of 75000 points. On the other hand, divide-and-conquer can easily and performantly handle larger datasets.
+
+\subsubsection{MNIST time, COME. ON. !!!}
+
+After trying to run bare SMACOF on the whole partition 1 (with 172518 images) for 12 min, we stopped its execution because no message was being printed (which might mean that the Kernel would eventually crash). Next, we try with a subpartition of 5000 images, since that worked properly with the swiss roll. We tried a few parameter combinations and obtained the best for ... Figure \ref{fig:SMACOF-MNIST-kde} shows it is not bad, although 4, 7 and 9 are expectedly mixed. 5 could also be confused by 2 and 8 and viceversa. All normal here, their shapes are indeed similar.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/SMACOF-MNIST-kde.png}
+    \caption{SMACOF vs 5000 MNIST. kde rocks.}
+    \label{fig:SMACOF-MNIST-kde}
+\end{figure}
+
+Maybe I should talk about dimension correlation between SMACOF and divide-and-conquer SMACOF. The point of this is the framework, not the DR method, you know?
+
+Merda, i falta el temps.
+
+
+\subsection{LMDS now}
+
+\subsubsection{Oh girl, LMDS is so bad on the swiss roll...}
+
+Consider a swiss roll of 1,000 points. Well, LMDS makes trash out of it. Figure \ref{fig:LMDS-swiss-roll}.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/LMDS-swiss-roll.png}
+    \caption{LMDS devorant rollito de suís sionista, 1954.}
+    \label{fig:LMDS-swiss-roll}
+\end{figure}
+
+\subsubsection{What abou MNIST tough? WHAT ABOUT IT???}
+
+Same 5000 points numeric EMNIST subset, mate. Oh, but this is very bad... Like, worse than SMACOF HAHAHAHAHA.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/LMDS-MNIST.png}
+    \caption{L'LMDS es menja el 4.}
+    \label{fig:LMDS-MNIST}
+\end{figure}
+
+Parla del temps i la correlació dimensionaaaaaaal.
+
+\subsection{Isomap, the sionist swiss killer queen}
+
+\subsection{Swiss roll}
+
+Aaaaah... I don't have the same here. Gotta get those damn plots. Well we've seen this before, in the initial benchmark. Just go see Figure \ref{fig:Isomap-huge}.
+
+\subsubsection{MNIST}
+
+There you go, Figure \ref{fig:Isomap-MNIST}. It's just so bad HAHAHAHAHAH I can't handle this anymore.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/Isomap-MNIST.png}
+    \caption{Isomap, babyyyyyy.}
+    \label{fig:Isomap-MNIST}
+\end{figure}
+
+\subsection{t-SNE}
+
+\subsection{Swiss roll o, com a mi m'agrada nombrar-lo, volteret suís}
+
+t-SNE is specially useful for visualization, so we will focus on numerical EMNIST. Nonetheless, here's the swiss roll. Figure \ref{fig:t-SNE-swiss-roll}.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/t-SNE-swiss-roll.png}
+    \caption{t-SNE on the rollet suís, germà.}
+    \label{fig:t-SNE-swiss-roll}
+\end{figure}
+
+\subsubsection{t-SNE MNIST-TSINM, daddy, daddy, oh -!- ooooooooooh}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/t-SNE-MNIST-5000.png}
+    \caption{t-SNE on the numerets, germà gran.}
+    \label{fig:t-SNE-MNIST}
+\end{figure}
+
+AAAAAAAAra bé, l'original no només és millor; també és més ràpid! Va, mira què passa quan busquem una combinació de paràmetres pel t-SNE que funcioni bé amb 1000 dibuixets de números. Figure \ref{fig:t-SNE-MNIST-dc}. Però és que mira el bare hahahahahahah Figure \ref{fig:t-SNE-MNIST-bare}.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/t-SNE-MNIST-dc.png}
+    \caption{t-SNE on the tots numerets, germà gran, i dividint i conquerint!}
+    \label{fig:t-SNE-MNIST-dc}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/t-SNE-MNIST-bare.png}
+    \caption{t-SNE on the tots numerets, germà gran, openTSNE!}
+    \label{fig:t-SNE-MNIST-bare}
+\end{figure}
+
+Conclusió: no hem guanyat aquesta batalla perquè la competència és un F1 i el nostre és un turisme. Però oi que no t'emportaries un F1 a la muntanya? Aaaaah-mic!
+
+I ja estaria, xd. Anem bé de pàgines, béeeeeeeee.

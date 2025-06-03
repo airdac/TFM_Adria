@@ -40,13 +40,13 @@ SMACOF (see Algorithm \ref{alg:SMACOF}) is faster for this problem than general 
     \end{algorithmic}
 \end{algorithm}
 
-\subsubsection{Local MDS}
+\subsubsection{LMDS}
 
-Local MDS \citep{Chen2009} is a variant of non-classical multidimensional scaling that differs in how large distances are treated. Specifically, a repulsive term between distant points is added to the stress function to further separate points in the low-dimensional configuration (see Algorithm \ref{alg:localMDS}). Parameters $\tau$ (which must be in the unit interval) and $k$ may be tuned with $k'$-cross validation thanks to the LC (Local Continuity) meta-criteria \citep{Chen2009}. (\textit{POSSIBLE ANNEX})
+Local multidimensional scaling (LMDS) is a variant of non-classical multidimensional scaling that differs in how large distances are treated \citep{Chen2009}. Specifically, a repulsive term between distant points is added to the stress function to further separate points in the low-dimensional configuration (see Algorithm \ref{alg:LMDS}). Parameters $\tau$ (which must be in the unit interval) and $k$ may be tuned with $k'$-cross validation thanks to the LC (Local Continuity) meta-criteria \citep{Chen2009}. (\textit{POSSIBLE ANNEX})
 
 \begin{algorithm}[ht]
-    \caption{Local MDS}
-    \label{alg:localMDS}
+    \caption{LMDS}
+    \label{alg:LMDS}
     
     \begin{algorithmic}[1]
     \REQUIRE $\mathbf{D_X} = (\delta_{ij})$, the $n \times n$ matrix of observed distances; $q$, the embedding's dimensionality; $k$, the size of neighborhoods; and $\tau$, the weight of the repulsive term.
@@ -74,7 +74,7 @@ The only tuning parameter of Isomap is the bandwidth, which can be interpreted a
     \begin{algorithmic}[1]
     \REQUIRE $\mathbf{D_X}$, the $n \times n$ matrix of observed distances; $q$, the embedding's dimensionality; and $\varepsilon$, the limiting distance of nearest neighbors, or $k$, the amount of nearest neighbors per point.
     \ENSURE $\mathbf{\tilde{Y}}$, a configuration in a $q$-dimensional space.
-    \STATE Find the $\varepsilon$-NN or $k$-NN graph of $\mathbf{D_X}$, $\mathcal{N}$
+    \STATE Find the graph $\mathcal{N}$ given by the radius $\varepsilon>0$ or the $k$-NN
     \STATE Compute the distance matrix of $\mathcal{N}$, $\mathbf{D}_{\mathcal{N}}$
     \STATE Apply classical MDS to $\mathbf{D}_{\mathcal{N}}$: $\mathbf{\tilde{Y}} = \operatorname{MDS}(\mathbf{D}_{\mathcal{N}}, q)$
     \RETURN $\mathbf{\tilde{Y}}$
