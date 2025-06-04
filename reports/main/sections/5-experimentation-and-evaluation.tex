@@ -7,7 +7,7 @@ The experimentation and evaluation process also provided us some insights on the
 
 Finally, we will describe the computer system we perfomed the tests on. Even though our main development computer was a  Macbook Pro (14-inc, Nov 2023) with 16 GB of RAM and the Apple M3 chip, we noticed that the \verb|concurrent.futures| module, which parallelized the execution of Algorithm \ref{alg:DivideConquer}, did not work in Mac computers with ARM chipsets. Therefore, we ended up using a Windows system. Specifically, our PC was an Asus ROG G513QM-HF026 laptop with the AMD Ryzen 7 5800H CPU, 16 GB of DDR4-3200MHz RAM, an SSD M.2 NVMe PCIe 3.0 and an NVIDIA RTX 3060 GPU.
 
-\subsection{Initial runtime benchmark}
+\subsection{Initial runtime benchmarks}
 
 Isomap was the first DR method we implemented into our divide-and-conquer framework, so it also was the first method we benchmarked. We tested divide-and-conquer Isomap on the swiss roll dataset with different parameter combinations and with parallel and serial computation. However, in all tests the number of connecting points for the Procrustes transformation was 100. We chose this number because, based on the thesis directors' experience on big data MDS \citep{Delicado2024}, it guaranteed good links between partitions' embeddings and efficient computations when $1,000 \leq l \leq 10,000$. Figure \ref{fig:Isomap-benchmark} shows the average runtimes of 20 experiments with different sets of parameters and dataset sizes. Parameters were previously tuned to ensure embeddings would preserve the structure of the data. As described in section \ref{sec:experiment-methodology-parameter-tuning}, we applied bare Isomap to swiss rolls of 1,000, 3,162 and 10,000 points, following a logarithmic sequence. Notice that we increased the number of neighbors $k$ for larger values of $l$ because partitions were denser.
 
@@ -17,14 +17,14 @@ Regarding parallelization, we can observe in Figure \ref{fig:Isomap-benchmark} t
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/Isomap-benchmark.png}
+    \includegraphics[width=0.8\textwidth]{figures/Isomap-benchmark.png}
     \caption{Runtime (s) of divide-and-conquer Isomap averaged over 20 experiments. Tests were performed on datasets generated on the swiss roll manifold \citep{Spiwokv2007} with sizes ranging from $10^3$ to $10^8$. Data was embedded into $\mathbb{R}^2$ with different parameter combinations and $c=100$. Runtime in parallel and serial execution is also compared.}
     \label{fig:Isomap-benchmark}
 \end{figure}
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/Isomap-huge.png}
+    \includegraphics[width=0.8\textwidth]{figures/Isomap-huge.png}
     \caption{Bidimensional embedding of a $10^8$ points swiss roll dataset \citep{Spiwokv2007} computed by divide-and-conquer Isomap with $l=3,162, \, c=100$ and $k=10$. Color represents the angle of rotation along the swiss roll spiral.}
     \label{fig:Isomap-huge}
 \end{figure}
@@ -35,14 +35,14 @@ Even though divide-and-conquer t-SNE is about two orders of magnitud slower than
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/tSNE-benchmark.png}
+    \includegraphics[width=0.8\textwidth]{figures/tSNE-benchmark.png}
     \caption{Runtime (s) of divide-and-conquer Isomap and divide-and-conquer t-SNE averaged over 20 experiments. Tests were performed on datasets generated on the swiss roll manifold \citep{Spiwokv2007} with sizes ranging from $10^3$ to $10^8$. Data was embedded into $\mathbb{R}^2$ with different parameter combinations and $c=100$.}
     \label{fig:t-SNE-benchmark}
 \end{figure}
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/t-SNE-swiss-roll-huge.png}
+    \includegraphics[width=0.8\textwidth]{figures/t-SNE-swiss-roll-huge.png}
     \caption{Bidimensional embedding of a $10^6$ points swiss roll dataset \citep{Spiwokv2007} computed by divide-and-conquer t-SNE with $l=1,000, \, c=100, \, Perp=30$ and $n\_iter=250$. Color represents the angle of rotation along the swiss roll spiral.}
     \label{fig:t-SNE-huge}
 \end{figure}
@@ -59,82 +59,102 @@ Table \ref{tab:dc-overhead} shows the results of an experiment where each part o
         \toprule
         Operation    & Divide & Embed & Merge \\
         \midrule
-        Duration (s) & $6.88 \times 10^{-3}$ & 37.88 & $7.47 \times 10^{-4}$ \\
+        Duration (s) & $6.88 \times 10^{-3}$ & 37.9 & $7.47 \times 10^{-4}$ \\
         \bottomrule
     \end{tabular}
     \caption{Runtime (s) of each step of divide-and-conquer SMACOF on a 5000-point random subset of MNIST. The arguments used were $l=1000,\, c=100,\, n\_iter = 300,\, \varepsilon = 0.001$.}
     \label{tab:dc-overhead}
 \end{table}
 
-\subsection{Experiments on SMACOF}
+\subsection{Divide-and-conquer SMACOF}
 
-\subsubsection{Swiss roll let's goooooo}
+\subsubsection{Swiss roll}
 
-SMACOF is not able to unfold a 3000 points swiss roll. This is what we can extract from Figure \ref{fig:SMACOF-swiss-roll-3000}. With 10,000 points, bare SMACOF crashed. But with 7,500 points the same as with 3000 points happens (see Figure \ref{fig:SMACOF-swiss-roll-7500})
+In this experiment, we applied bare and divide-and-conquer SMACOF to swiss rolls of different sizes. The largest dataset the standard method could handle ended up having 7,500 individuals and taking about 16 minutes to calculate. When we applied bare SMACOF to a 10,000 points swiss roll, the system crashed because it lacked main memory. Therefore, we show in Figure \ref{fig:SMACOF-swiss-roll-7500} the results of the test with 7,500 points.
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{figures/SMACOF-swiss-roll-3000.png}
-    \caption{SMACOF vs 3000 swiss roll muahahahaha.}
-    \label{fig:SMACOF-swiss-roll-3000}
-\end{figure}
+The spiraled shape of both embeddings suggest that SMACOF cannot identify the intrinsic dimensionality of the swiss roll. Moreover, SMACOF condenses more the outer part of the manifold than the inner one and presents rugged edges. Regarding the qualitative differences between the bare and the divide-and-conquer versions, there is not much to be said. Divide-and-conquer SMACOF makes a good job aligning the partial configurations and obtains a similar embedding than bare SMACOF up to a 180º rotation.
+
+To conclude, even though the SMACOF algorithm is not capable of properly embedding the swiss roll, we can see a clear advantage in using it on other datasets with the divide-and-conquer framework. Indeed, divide-and-conquer SMACOF is about 22 times faster than the bare method while returning a similar low-dimensional configuration.
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/SMACOF-swiss-roll-7500.png}
-    \caption{SMACOF vs 7500 swiss roll muahahahaha.}
+    \includegraphics[width=0.95\textwidth]{figures/SMACOF-swiss-roll-7500.png}
+    \caption{Comparison of the bidimensional embeddings of a 7,500 points swiss roll dataset \citep{Spiwokv2007} by bare (left) and divide-and-conquer (right) SMACOF. The arguments used were $n\_iter = 300,\, \varepsilon = 0.001$ and in divide-and-conquer there also were $l=1000$ and $c=100$. Color represents the angle of rotation along the swiss roll spiral.}
     \label{fig:SMACOF-swiss-roll-7500}
 \end{figure}
 
-To conclude, even though the SMACOF algorithm is not capable to properly embedd the swiss roll, we can see a clear advantage in using it with our divide-and-conquer approach. Indeed, divide-and-conquer is about 22x faster than the bare method and the embedding obtained is very similar for all number of datapoints. The only visual differences are noisier edges and wider shapes in the divide-and-conquer embedding.
 
-Finally, bare SMACOF is not capable of embedding a 10000 points swiss roll on a system with 16 GB of RAM and takes about 17 min to embed a swiss roll of 75000 points. On the other hand, divide-and-conquer can easily and performantly handle larger datasets.
+\subsubsection{MNIST}
 
-\subsubsection{MNIST time, COME. ON. !!!}
-
-After trying to run bare SMACOF on the whole partition 1 (with 172518 images) for 12 min, we stopped its execution because no message was being printed (which might mean that the Kernel would eventually crash). Next, we try with a subpartition of 5000 images, since that worked properly with the swiss roll. We tried a few parameter combinations and obtained the best for ... Figure \ref{fig:SMACOF-MNIST-kde} shows it is not bad, although 4, 7 and 9 are expectedly mixed. 5 could also be confused by 2 and 8 and viceversa. All normal here, their shapes are indeed similar.
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{figures/SMACOF-MNIST-kde.png}
-    \caption{SMACOF vs 5000 MNIST. kde rocks.}
-    \label{fig:SMACOF-MNIST-kde}
-\end{figure}
+Next, we try with a subpartition of 5000 images, since that worked properly with the swiss roll. We tried a few parameter combinations and obtained the best one for ... Figure \ref{fig:SMACOF-MNIST-kde} shows it is not bad, although 4, 7 and 9 are expectedly mixed. 5 could also be confused by 2 and 8 and viceversa. All normal here, their shapes are indeed similar.
 
 Maybe I should talk about dimension correlation between SMACOF and divide-and-conquer SMACOF. The point of this is the framework, not the DR method, you know?
 
+Total correlation of dim1: -0.8996107183598692
+Total correlation of dim2: 0.8785425518794896
+
 Merda, i falta el temps.
 
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/SMACOF-MNIST-kde.png}
+    \caption{SMACOF-MNIST-kde}
+    \label{fig:SMACOF-MNIST-kde}
+\end{figure}
 
-\subsection{LMDS now}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/SMACOF-MNIST-coords.png}
+    \caption{SMACOF-MNIST-coords}
+    \label{fig:SMACOF-MNIST-coords}
+\end{figure}
 
-\subsubsection{Oh girl, LMDS is so bad on the swiss roll...}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/SMACOF-MNIST-huge.png}
+    \caption{SMACOF-MNIST-huge}
+    \label{fig:SMACOF-MNIST-huge}
+\end{figure}
+
+\subsection{Divide-and-conquer LMDS}
+
+\subsubsection{Swiss roll}
 
 Consider a swiss roll of 1,000 points. Well, LMDS makes trash out of it. Figure \ref{fig:LMDS-swiss-roll}.
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/LMDS-swiss-roll.png}
+    \includegraphics[width=0.8\textwidth]{figures/LMDS-swiss-roll.png}
     \caption{LMDS devorant rollito de suís sionista, 1954.}
     \label{fig:LMDS-swiss-roll}
 \end{figure}
 
-\subsubsection{What abou MNIST tough? WHAT ABOUT IT???}
+\subsubsection{MNIST}
 
 Same 5000 points MNIST subset, mate. Oh, but this is very bad... Like, worse than SMACOF HAHAHAHAHA.
 
+Parla del temps i la correlació dimensionaaaaaaal.
+
+Total correlation of dim1: 0.9489962757561992
+Total correlation of dim2: -0.8206029210441554
+
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/LMDS-MNIST.png}
+    \includegraphics[width=0.95\textwidth]{figures/LMDS-MNIST.png}
     \caption{L'LMDS es menja el 4.}
     \label{fig:LMDS-MNIST}
 \end{figure}
 
-Parla del temps i la correlació dimensionaaaaaaal.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/LMDS-MNIST-huge.png}
+    \caption{LMDS-MNIST-huge}
+    \label{fig:LMDS-MNIST-huge}
+\end{figure}
 
-\subsection{Isomap, the sionist swiss killer queen}
+\subsection{Divide-and-conquer Isomap}
 
-\subsection{Swiss roll}
+\subsubsection{Swiss roll}
 
 Aaaaah... I don't have the same here. Gotta get those damn plots. Well we've seen this before, in the initial benchmark. Just go see Figure \ref{fig:Isomap-huge}.
 
@@ -142,24 +162,46 @@ Aaaaah... I don't have the same here. Gotta get those damn plots. Well we've see
 
 There you go, Figure \ref{fig:Isomap-MNIST}. It's just so bad HAHAHAHAHAH I can't handle this anymore.
 
+Total correlation of dim1: 0.9195527127381181
+Total correlation of dim2: -0.8623571714329816
+
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/Isomap-MNIST.png}
+    \includegraphics[width=0.95\textwidth]{figures/Isomap-MNIST.png}
     \caption{Isomap, babyyyyyy.}
     \label{fig:Isomap-MNIST}
 \end{figure}
 
-\subsection{t-SNE}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/Isomap-MNIST-huge.png}
+    \caption{Isomap-MNIST-huge}
+    \label{fig:Isomap-MNIST-huge}
+\end{figure}
 
-\subsection{Swiss roll o, com a mi m'agrada nombrar-lo, volteret suís}
+\subsection{Divide-and-conquer t-SNE}
+
+\subsubsection{Swiss roll}
 
 t-SNE is specially useful for visualization, so we will focus on MNIST. Nonetheless, here's the swiss roll. Figure \ref{fig:t-SNE-huge}.
 
-\subsubsection{t-SNE MNIST-TSINM, daddy, daddy, oh -!- ooooooooooh}
+\subsubsection{MNIST}
+
+EXPLICAR EXEMPLE DUES PARTICIONS: LA QUALITAT POT SER DOLENTA PERQUÈ ELS CLUSTERS TENEN UNA TOPOLOGIA DIFERENT
+
+Total correlation of dim1: 0.8170763484715383
+Total correlation of dim2: 0.32817864544487557
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/t-SNE-MNIST-5000.png}
+    \includegraphics[width=0.95\textwidth]{figures/t-SNE-MNIST-partitions.png}
+    \caption{t-SNE on the numerets, germà gran.}
+    \label{fig:t-SNE-MNIST-partitions}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/t-SNE-MNIST-5000.png}
     \caption{t-SNE on the numerets, germà gran.}
     \label{fig:t-SNE-MNIST}
 \end{figure}
@@ -168,14 +210,14 @@ AAAAAAAAra bé, l'original no només és millor; també és més ràpid! Va, mir
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/t-SNE-MNIST-dc.png}
+    \includegraphics[width=0.8\textwidth]{figures/t-SNE-MNIST-dc.png}
     \caption{t-SNE on the tots numerets, germà gran, i dividint i conquerint!}
     \label{fig:t-SNE-MNIST-dc}
 \end{figure}
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/t-SNE-MNIST-bare.png}
+    \includegraphics[width=0.8\textwidth]{figures/t-SNE-MNIST-bare.png}
     \caption{t-SNE on the tots numerets, germà gran, openTSNE!}
     \label{fig:t-SNE-MNIST-bare}
 \end{figure}
