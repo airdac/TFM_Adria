@@ -59,7 +59,7 @@ Table \ref{tab:dc-overhead} shows the results of an experiment where each part o
         \toprule
         Operation    & Divide & Embed & Merge \\
         \midrule
-        Duration (s) & $6.88 \times 10^{-3}$ & 37.9 & $7.47 \times 10^{-4}$ \\
+        Duration (s) & $6.88 \times 10^{-3}$ & 37.89 & $7.47 \times 10^{-4}$ \\
         \bottomrule
     \end{tabular}
     \caption{Runtime (s) of each step of divide-and-conquer SMACOF on a 5000-point random subset of MNIST. The arguments used were $l=1000,\, c=100,\, n\_iter = 300,\, \varepsilon = 0.001$.}
@@ -72,9 +72,9 @@ Table \ref{tab:dc-overhead} shows the results of an experiment where each part o
 
 In this experiment, we applied bare and divide-and-conquer SMACOF to swiss rolls of different sizes. The largest dataset the standard method could handle ended up having 7,500 individuals and taking about 16 minutes to calculate. When we applied bare SMACOF to a 10,000 points swiss roll, the system crashed because it lacked main memory. Therefore, we show in Figure \ref{fig:SMACOF-swiss-roll-7500} the results of the test with 7,500 points.
 
-The spiraled shape of both embeddings suggest that SMACOF cannot identify the intrinsic dimensionality of the swiss roll. Moreover, SMACOF condenses more the outer part of the manifold than the inner one and presents rugged edges. Regarding the qualitative differences between the bare and the divide-and-conquer versions, there is not much to be said. Divide-and-conquer SMACOF makes a good job aligning the partial configurations and obtains a similar embedding than bare SMACOF up to a 180º rotation.
+The spiraled shape of both embeddings suggest that SMACOF cannot identify the intrinsic bidimensionality of the swiss roll. Moreover, SMACOF condenses more the outer part of the manifold than the inner one and presents rugged edges. Regarding the qualitative differences between bare and divide-and-conquer versions, there is not much to be said. Divide-and-conquer SMACOF makes a good job aligning the partial configurations and obtains a similar embedding than bare SMACOF up to a 180º rotation.
 
-To conclude, even though the SMACOF algorithm is not capable of properly embedding the swiss roll, we can see a clear advantage in using it on other datasets with the divide-and-conquer framework. Indeed, divide-and-conquer SMACOF is about 22 times faster than the bare method while returning a similar low-dimensional configuration.
+To conclude, even though the SMACOF algorithm is not capable of properly embedding the swiss roll, we can see a clear advantage in using it with the divide-and-conquer framework on other datasets. Indeed, divide-and-conquer SMACOF is about 22 times faster than the bare method while returning a similar low-dimensional configuration.
 
 \begin{figure}[ht]
     \centering
@@ -85,6 +85,8 @@ To conclude, even though the SMACOF algorithm is not capable of properly embeddi
 
 
 \subsubsection{MNIST}
+
+
 
 Next, we try with a subpartition of 5000 images, since that worked properly with the swiss roll. We tried a few parameter combinations and obtained the best one for ... Figure \ref{fig:SMACOF-MNIST-kde} shows it is not bad, although 4, 7 and 9 are expectedly mixed. 5 could also be confused by 2 and 8 and viceversa. All normal here, their shapes are indeed similar.
 
@@ -98,21 +100,21 @@ Merda, i falta el temps.
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.95\textwidth]{figures/SMACOF-MNIST-kde.png}
-    \caption{SMACOF-MNIST-kde}
+    \caption{Kernel density estimation of the bidimensional embeddings of a 5,000 points subset of MNIST \citep{Cohen2017} by bare (left) and divide-and-conquer (right) SMACOF. The arguments we used were $n\_iter = 300,\, \varepsilon = 0.001$ and in divide-and-conquer there also were $l=1000$ and $c=100$. We applied a Procrustes transformation to align both configurations. Countour lines are at 70\% of the maximum estimated density for each digit and embedding.}
     \label{fig:SMACOF-MNIST-kde}
 \end{figure}
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.95\textwidth]{figures/SMACOF-MNIST-coords.png}
-    \caption{SMACOF-MNIST-coords}
+    \caption{Scatter plots of first (left) and second (right) coordinates in the embeddings represented in Figure \ref{fig:SMACOF-MNIST-kde}. SMACOF is compared against divide-and-conquer SMACOF.}
     \label{fig:SMACOF-MNIST-coords}
 \end{figure}
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.8\textwidth]{figures/SMACOF-MNIST-huge.png}
-    \caption{SMACOF-MNIST-huge}
+    \caption{Kernel density estimation of the bidimensional embeddings of the MNIST dataset \citep{Cohen2017} by divide-and-conquer SMACOF. The arguments used were $n\_iter = 300,\, \varepsilon = 0.001, \, l=1000$ and $c=100$. Countour lines are at 70\% of the maximum estimated density for each digit and embedding.}
     \label{fig:SMACOF-MNIST-huge}
 \end{figure}
 
@@ -122,10 +124,12 @@ Merda, i falta el temps.
 
 Consider a swiss roll of 1,000 points. Well, LMDS makes trash out of it. Figure \ref{fig:LMDS-swiss-roll}.
 
+\textit{POSSIBLE ANNEX EXPLICANT EL QUE HEM PROVAT PER MILLORAR LMDS (LMDS\_examples.ipynb)}
+
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.8\textwidth]{figures/LMDS-swiss-roll.png}
-    \caption{LMDS devorant rollito de suís sionista, 1954.}
+    \caption{Bidimensional embedding of a 1,000 points swiss roll dataset \citep{Spiwokv2007} computed by LMDS with $k=10$ and $\tau = 0.1$. Color represents the angle of rotation along the swiss roll spiral.}
     \label{fig:LMDS-swiss-roll}
 \end{figure}
 
@@ -141,14 +145,14 @@ Total correlation of dim2: -0.8206029210441554
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.95\textwidth]{figures/LMDS-MNIST.png}
-    \caption{L'LMDS es menja el 4.}
+    \caption{Kernel density estimation of the bidimensional embeddings of a 5,000 points subset of MNIST \citep{Cohen2017} by bare (left) and divide-and-conquer (right) LMDS. The arguments used were $k=10,\, \tau = 1$ and in divide-and-conquer there also were $l=1000$ and $c=100$. We applied a Procrustes transformation to align both configurations. Countour lines are at 70\% of the maximum estimated density for each digit and embedding.}
     \label{fig:LMDS-MNIST}
 \end{figure}
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.8\textwidth]{figures/LMDS-MNIST-huge.png}
-    \caption{LMDS-MNIST-huge}
+    \caption{Kernel density estimation of the bidimensional embeddings of the MNIST dataset \citep{Cohen2017} by divide-and-conquer LMDS. The arguments used were $k=10,\, \tau = 1, \, l=1000$ and $c=100$. Countour lines are at 70\% of the maximum estimated density for each digit and embedding.}
     \label{fig:LMDS-MNIST-huge}
 \end{figure}
 
@@ -168,14 +172,14 @@ Total correlation of dim2: -0.8623571714329816
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.95\textwidth]{figures/Isomap-MNIST.png}
-    \caption{Isomap, babyyyyyy.}
+    \caption{Kernel density estimation of the bidimensional embeddings of a 5,000 points subset of MNIST \citep{Cohen2017} by bare (left) and divide-and-conquer (right) Isomap. The arguments used were $k=5$ and in divide-and-conquer there also were $l=1000$ and $c=100$. We applied a Procrustes transformation to align both configurations. Countour lines are at 70\% of the maximum estimated density for each digit and embedding.}
     \label{fig:Isomap-MNIST}
 \end{figure}
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.8\textwidth]{figures/Isomap-MNIST-huge.png}
-    \caption{Isomap-MNIST-huge}
+    \caption{Kernel density estimation of the bidimensional embeddings of the MNIST dataset \citep{Cohen2017} by divide-and-conquer Isomap. The arguments used were $k=5, \, l=1000$ and $c=100$. Countour lines are at 70\% of the maximum estimated density for each digit and embedding.}
     \label{fig:Isomap-MNIST-huge}
 \end{figure}
 
@@ -195,32 +199,26 @@ Total correlation of dim2: 0.32817864544487557
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.95\textwidth]{figures/t-SNE-MNIST-partitions.png}
-    \caption{t-SNE on the numerets, germà gran.}
+    \caption{Kernel density estimation of the bidimensional embeddings of two halves of the MNIST dataset \citep{Cohen2017}. Data was randomly ordered before being splitted. The DR method used was divide-and-conquer t-SNE with $Perp=30$. Countour lines are at 70\% of the maximum estimated density for each digit and embedding.}
     \label{fig:t-SNE-MNIST-partitions}
 \end{figure}
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.95\textwidth]{figures/t-SNE-MNIST-5000.png}
-    \caption{t-SNE on the numerets, germà gran.}
+    \caption{Kernel density estimation of the bidimensional embeddings of a 5,000 points subset of MNIST \citep{Cohen2017} by bare (left) and divide-and-conquer (right) t-SNE. The arguments used were $Perp=30$ and in divide-and-conquer there also were $l=1000$ and $c=100$. We applied a Procrustes transformation to align both configurations. Countour lines are at 70\% of the maximum estimated density for each digit and embedding.}
     \label{fig:t-SNE-MNIST}
 \end{figure}
 
-AAAAAAAAra bé, l'original no només és millor; també és més ràpid! Va, mira què passa quan busquem una combinació de paràmetres pel t-SNE que funcioni bé amb 1000 dibuixets de números. Figure \ref{fig:t-SNE-MNIST-dc}. Però és que mira el bare hahahahahahah Figure \ref{fig:t-SNE-MNIST-bare}.
+AAAAAAAAra bé, l'original no només és millor; també és més ràpid! Va, mira què passa quan busquem una combinació de paràmetres pel t-SNE que funcioni bé amb 1000 dibuixets de números. Figure \ref{fig:t-SNE-MNIST-huge}.
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.8\textwidth]{figures/t-SNE-MNIST-dc.png}
-    \caption{t-SNE on the tots numerets, germà gran, i dividint i conquerint!}
-    \label{fig:t-SNE-MNIST-dc}
+    \includegraphics[width=0.95\textwidth]{figures/t-SNE-MNIST-huge.png}
+    \caption{Kernel density estimation of the bidimensional embeddings of the MNIST dataset \citep{Cohen2017} by bare (left) and divide-and-conquer (right) t-SNE. The arguments used were $Perp=20, \, n\_iter=100$ and in divide-and-conquer there also were $l=1000$ and $c=100$. Countour lines are at 70\% of the maximum estimated density for each digit and embedding.}
+    \label{fig:t-SNE-MNIST-huge}
 \end{figure}
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=0.8\textwidth]{figures/t-SNE-MNIST-bare.png}
-    \caption{t-SNE on the tots numerets, germà gran, openTSNE!}
-    \label{fig:t-SNE-MNIST-bare}
-\end{figure}
 
 Conclusió: no hem guanyat aquesta batalla perquè la competència és un F1 i el nostre és un turisme. Però oi que no t'emportaries un F1 a la muntanya? Aaaaah-mic!
 

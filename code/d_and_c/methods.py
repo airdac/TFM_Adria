@@ -91,7 +91,7 @@ def local_mds(x: np.ndarray, r: int = 2,
               principal_components: bool | None = True,
               **kwargs) -> np.ndarray:
     """
-        Perform Local MDS on data matrix x.
+        Perform LMDS on data matrix x.
 
         Parameters:
             x (np.ndarray): Input data matrix.
