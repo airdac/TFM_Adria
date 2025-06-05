@@ -13,7 +13,7 @@ STRESS_M(\mathbf{D}_{\mathbf{X}}, \mathbf{D}_{\mathbf{\tilde{Y}}}) = \sqrt{\frac
 $$
 SMACOF (see Algorithm \ref{alg:SMACOF}) is faster for this problem than general optimization methods, such as gradient descent, and it consists on iterative Guttman transformations \citep{Guttman1968} applied to the embedded data.
 
-\begin{algorithm}[ht]
+\begin{algorithm}
     \caption{SMACOF}
     \label{alg:SMACOF}
     
@@ -44,7 +44,7 @@ SMACOF (see Algorithm \ref{alg:SMACOF}) is faster for this problem than general 
 
 Local multidimensional scaling (LMDS) is a variant of non-classical multidimensional scaling that differs in how large distances are treated \citep{Chen2009}. Specifically, a repulsive term between distant points is added to the stress function to further separate points in the low-dimensional configuration (see Algorithm \ref{alg:LMDS}). Parameters $\tau$ (which must be in the unit interval) and $k$ may be tuned with $k'$-cross validation thanks to the LC (Local Continuity) meta-criteria \citep{Chen2009}. (\textit{POSSIBLE ANNEX})
 
-\begin{algorithm}[ht]
+\begin{algorithm}
     \caption{LMDS}
     \label{alg:LMDS}
     
@@ -67,7 +67,7 @@ Isomap \citep{Tenenbaum2000} is a nonlinear technique that preserves geodesic di
 
 The only tuning parameter of Isomap is the bandwidth, which can be interpreted as the limiting distance of nearest neighbors, $\varepsilon$,  or the amount of nearest neighbors per point, $k$. However, there is no consensus on what is the best method to choose it.
 
-\begin{algorithm}[ht]
+\begin{algorithm}
     \caption{Isomap}
     \label{alg:Isomap}
 
@@ -88,7 +88,7 @@ t-distributed stochastic neighbor embedding (t-SNE) is a nonlinear dimensionalit
 
 t-SNE focuses on retaining the local structure of the data while ensuring that every point $\mathbf{y}_i$ in the low-dimensional space will have the same number of neighbors, making it particularly effective for visualizing clusters. The use of the Student's $t$ distribution with 1 degree of freedom (or Cauchy distribution) in the low-dimensional space addresses the \textit{crowding problem} by allowing dissimilar points to be modeled far apart (\cite{Vandermaaten2008}). The characteristic parameter of t-SNE is the perplexity, which can be interpreted as the average effective number of neighbors of the high-dimensional datapoints $\mathbf{x}_i$. Typical values are between 5 and 50.
 
-\begin{algorithm}[ht]
+\begin{algorithm}
     \caption{t-SNE}
     \label{alg:tSNE}
     
@@ -121,7 +121,7 @@ t-SNE focuses on retaining the local structure of the data while ensuring that e
     \item \textbf{Recursive}: fast MDS is similar in spirit to divide-and-conquer MDS, but it partitions the data recursively. 
 \end{itemize}
 
-\begin{figure}[ht]
+\begin{figure}
     \centering
     \captionsetup[subfigure]{labelformat=empty}
 
@@ -185,7 +185,7 @@ Maybe because of its popularity, t-SNE has been optimized for large data environ
 
 (\textit{POSSIBLE ANNEX})
 
-\begin{figure}[ht]
+\begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{figures/python_tsne_benchmarks.png}
     \caption{Benchmark of the best open-source t-SNE Python implementations by \cite{Poličar2023} (Source: original webpage).}

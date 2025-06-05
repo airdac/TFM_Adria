@@ -1,47 +1,47 @@
 \section{Experimentation and evaluation of the proposal}
 \label{sec:experimentation-and-evaluation}
 
-The goal of this section is to present the experiments we have conducted on the divide-and-conquer DR algorithm to assess its quality and performance. Following the methodology described in section \ref{sec:experiment-methodology-parameter-tuning}, we were able to corroborate the space and time complexity of the procedure and understand better it's embedding mechanism. We chose the swiss roll and MNIST datasets for the tests because of their popularity, which makes it easier to compare our method with others in the literature, and because of how well Isomap and t-SNE embedded them. That allowed us to go even further and succesfully unfold a $10^8$ points swiss roll with divide-and-conquer Isomap. On the other hand, the classification task in the MNIST dataset proved more complicated to our algorithm, which was slower and separated digits worse than \verb|openTSNE|'s implementation of t-SNE.
+The goal of this section is to present the experiments we have conducted on the divide-and-conquer DR algorithm to assess its quality and performance. Following the methodology described in section \ref{sec:experiment-methodology-parameter-tuning}, we were able to corroborate the space and time complexity of the procedure and understand better its embedding mechanism. We chose the swiss roll and MNIST datasets for the tests because of their popularity, which makes it easier to compare our method with others in the literature, and because of how well Isomap and t-SNE embedded them. That allowed us to go even further and successfully unfold a $10^8$ points swiss roll with divide-and-conquer Isomap. On the other hand, the classification task in the MNIST dataset proved more complicated to our algorithm, which was slower and separated digits worse than \verb|openTSNE|'s implementation of t-SNE.
 
 The experimentation and evaluation process also provided us some insights on the standard SMACOF, LMDS, Isomap and t-SNE techniques. For example, we realized that LMDS, a nonlinear method intended to overcome the limitations of the SMACOF algorithm \citep{Chen2009}, was not able to unfold the swiss roll dataset. Even after having tuned the $k$ and $\tau$ parameters (see Algorithm \ref{alg:LMDS}), its embedding was porous and irregular instead of uniform and rectangular (see Figure \ref{fig:LMDS-swiss-roll}). Further research on this problem might lead to the development of a variation of LMDS that reduces the dimensionality of the swiss roll better.
 
-Finally, we will describe the computer system we perfomed the tests on. Even though our main development computer was a  Macbook Pro (14-inc, Nov 2023) with 16 GB of RAM and the Apple M3 chip, we noticed that the \verb|concurrent.futures| module, which parallelized the execution of Algorithm \ref{alg:DivideConquer}, did not work in Mac computers with ARM chipsets. Therefore, we ended up using a Windows system. Specifically, our PC was an Asus ROG G513QM-HF026 laptop with the AMD Ryzen 7 5800H CPU, 16 GB of DDR4-3200MHz RAM, an SSD M.2 NVMe PCIe 3.0 and an NVIDIA RTX 3060 GPU.
+Finally, we will describe the computer system we performed the tests on. Even though our main development computer was a  Macbook Pro (14-inc, Nov 2023) with 16 GB of RAM and the Apple M3 chip, we noticed that the \verb|concurrent.futures| module, which parallelized the execution of Algorithm \ref{alg:DivideConquer}, did not work in Mac computers with ARM chipsets. Therefore, we ended up using a Windows system. Specifically, our PC was an Asus ROG G513QM-HF026 laptop with the AMD Ryzen 7 5800H CPU, 16 GB of DDR4-3200MHz RAM, an SSD M.2 NVMe PCIe 3.0 and an NVIDIA RTX 3060 GPU.
 
 \subsection{Initial runtime benchmarks}
 \label{sec:initial-runtime-benchmarks}
 
 Isomap was the first DR method we implemented into our divide-and-conquer framework, so it also was the first method we benchmarked. We tested divide-and-conquer Isomap on the swiss roll dataset with different parameter combinations and with parallel and serial computation. However, in all tests the number of connecting points for the Procrustes transformation was 100. We chose this number because, based on the thesis directors' experience on big data MDS \citep{Delicado2024}, it guaranteed good links between partitions' embeddings and efficient computations when $1,000 \leq l \leq 10,000$. Figure \ref{fig:Isomap-benchmark} shows the average runtimes of 20 experiments with different sets of parameters and dataset sizes. Parameters were previously tuned to ensure embeddings would preserve the structure of the data. As described in section \ref{sec:experiment-methodology-parameter-tuning}, we applied bare Isomap to swiss rolls of 1,000, 3,162 and 10,000 points, following a logarithmic sequence. Notice that we increased the number of neighbors $k$ for larger values of $l$ because partitions were denser.
 
-After some experimentatiton, we realized that if $l=3162$ and $k=10$, the embedding was nearly perfect no matter the amount of individuals (see Figure \ref{fig:Isomap-huge}). Meanwhile, when $l=10,000$ and $k=15$, quality was similar and time was significantly larger, so we used $l=3162$ and $k=10$ for the largest datasets. This way, we managed to embed $10^8$ three-dimensional points into the Euclidean plane in about 3 hours. Hence, we showed that divide-and-conquer Isomap is capable of handling arbitrarily large datasets on a standard computer while maintaining the quality of the embedding.
+After some experimentation, we realized that if $l=3162$ and $k=10$, the embedding was nearly perfect no matter the amount of individuals (see Figure \ref{fig:Isomap-huge}). Meanwhile, when $l=10,000$ and $k=15$, quality was similar and time was significantly larger, so we used $l=3162$ and $k=10$ for the largest datasets. This way, we managed to embed $10^8$ three-dimensional points into the Euclidean plane in about 3 hours. Hence, we showed that divide-and-conquer Isomap is capable of handling arbitrarily large datasets on a standard computer while maintaining the quality of the embedding.
 
 Regarding parallelization, we can observe in Figure \ref{fig:Isomap-benchmark} that it effectively reduces the time complexity of divide-and-conquer DR, although its overhead slows down the algorithm when $n \leq 10^4$. Overall, results show that divide-and-conquer Isomap is linear in time with respect to $n$.
 
-\begin{figure}[ht]
+\begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{figures/Isomap-benchmark.png}
     \caption{Runtime (s) of divide-and-conquer Isomap averaged over 20 experiments. Tests were performed on datasets generated on the swiss roll manifold \citep{Spiwokv2007} with sizes ranging from $10^3$ to $10^8$. Data was embedded into $\mathbb{R}^2$ with different parameter combinations and $c=100$. Runtime in parallel and serial execution is also compared.}
     \label{fig:Isomap-benchmark}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{figures/Isomap-huge.png}
     \caption{Bidimensional embedding of a $10^8$ points swiss roll dataset \citep{Spiwokv2007} computed by divide-and-conquer Isomap with $k=10, \, l=3,162$ and $c=100$. Color represents the angle of rotation along the swiss roll spiral.}
     \label{fig:Isomap-huge}
 \end{figure}
 
-Afterwards, we tested divide-and-conquer t-SNE on the same datasets (see Figure \ref{fig:t-SNE-benchmark}). However, t-SNE performed notably slower than Isomap on the swiss roll, so we only run its divide-and-conquer variation with one parameter combination, $c = 100, \, l=1,000, \, Perp=30, \, n\_iter=250$. $n\_iter$ is the number of iterations carried out to minimize the Kullback-Leibler divergence \citep{Kullback1951}.
+Afterward, we tested divide-and-conquer t-SNE on the same datasets (see Figure \ref{fig:t-SNE-benchmark}). However, t-SNE performed notably slower than Isomap on the swiss roll, so we only run its divide-and-conquer variation with one parameter combination, $c = 100, \, l=1,000, \, Perp=30, \, n\_iter=250$. $n\_iter$ is the number of iterations carried out to minimize the Kullback-Leibler divergence \citep{Kullback1951}.
 
-Even though divide-and-conquer t-SNE is about two orders of magnitud slower than divide-and-conquer Isomap, time complexity is linear as well, proving the expected results. The quality of the embedding, on the other hand, is very low. See Figure \ref{fig:t-SNE-huge} to observe that the structure of the data is broken into separate parts and the spiral shape is not unfolded.
+Even though divide-and-conquer t-SNE is about two orders of magnitude slower than divide-and-conquer Isomap, time complexity is linear as well, proving the expected results. The quality of the embedding, on the other hand, is very low. See Figure \ref{fig:t-SNE-huge} to observe that the structure of the data is broken into separate parts and the spiral shape is not unfolded.
 
-\begin{figure}[ht]
+\begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{figures/tSNE-benchmark.png}
     \caption{Runtime (s) of divide-and-conquer Isomap and divide-and-conquer t-SNE averaged over 20 experiments. Tests were performed on datasets generated on the swiss roll manifold \citep{Spiwokv2007} with sizes ranging from $10^3$ to $10^8$. Data was embedded into $\mathbb{R}^2$ with different parameter combinations and $c=100$.}
     \label{fig:t-SNE-benchmark}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{figures/t-SNE-swiss-roll-huge.png}
     \caption{Bidimensional embedding of a $10^6$ points swiss roll dataset \citep{Spiwokv2007} computed by divide-and-conquer t-SNE with $l=1,000, \, c=100, \, Perp=30$ and $n\_iter=250$. Color represents the angle of rotation along the swiss roll spiral.}
@@ -54,8 +54,9 @@ One reasonable question to formulate about the divide-and-conquer approach is wh
 
 Table \ref{tab:dc-overhead} shows the results of an experiment where each part of the divide-and-conquer DR algorithm was independently timed. We uniformly sampled 5,000 points from the MNIST dataset and embedded them into the Euclidean plane with divide-and-conquer SMACOF. The arguments used were $l=1000,\, c=100,\, n\_iter = 300,\, \varepsilon = 0.001$. As it was expected, neither partitioning the dataset nor aligning the partial embeddings entail a noteworthy overhead in divide-and-conquer DR. Indeed, the prior and the latter were about 5,506 times and 50,710 times swifter than embedding all partitions with SMACOF, respectively.
 
-\begin{table}[ht]
+\begin{table}
     \centering
+    \caption{Runtime (s) of each step of divide-and-conquer SMACOF on a 5000-point random subset of MNIST. The arguments used were $l=1000,\, c=100,\, n\_iter = 300,\, \varepsilon = 0.001$.}
     \begin{tabular}{lccc}
         \toprule
         Operation    & Divide & Embed & Merge \\
@@ -63,7 +64,6 @@ Table \ref{tab:dc-overhead} shows the results of an experiment where each part o
         Duration (s) & $6.88 \times 10^{-3}$ & 37.89 & $7.47 \times 10^{-4}$ \\
         \bottomrule
     \end{tabular}
-    \caption{Runtime (s) of each step of divide-and-conquer SMACOF on a 5000-point random subset of MNIST. The arguments used were $l=1000,\, c=100,\, n\_iter = 300,\, \varepsilon = 0.001$.}
     \label{tab:dc-overhead}
 \end{table}
 
@@ -78,7 +78,7 @@ The spiraled shape of both embeddings suggest that SMACOF cannot identify the in
 
 To conclude, even though the SMACOF algorithm is not capable of properly embedding the swiss roll, we can see a clear advantage in using it with the divide-and-conquer framework on other datasets. Indeed, divide-and-conquer SMACOF is about 22 times faster than the bare method while returning a similar low-dimensional configuration.
 
-\begin{figure}[ht]
+\begin{figure}
     \centering
     \includegraphics[width=0.95\textwidth]{figures/SMACOF-swiss-roll-7500.png}
     \caption{Comparison of the bidimensional embeddings of a 7,500 points swiss roll dataset \citep{Spiwokv2007} by bare (left) and divide-and-conquer (right) SMACOF. The arguments used were $n\_iter = 300,\, \varepsilon = 0.001$ and in divide-and-conquer there also were $l=1000$ and $c=100$. Color represents the angle of rotation along the swiss roll spiral.}
@@ -89,32 +89,32 @@ To conclude, even though the SMACOF algorithm is not capable of properly embeddi
 \subsubsection{MNIST}
 \label{sec:dc-SMACOF-MNIST}
 
-The goal of embedding the MNIST dataset into an Euclidean plane usually is to classify and identify all digits represented in the high-dimensional data. In that sense, this is a common usecase of dimensionality reduction: extracting the underlying structure of the data. With the SMACOF algorithm, we sampled 5,000 images from MNIST and tuned the $n\_iter$ and $\varepsilon$ parameters as well as $l$ and $c$ to separate as well as possible the low-dimensional configurations of all digits. In other words, we calibrated all parameters to achieve the best possible visual classification of numbers. Figure \ref{fig:SMACOF-MNIST-kde} shows the result of bare and divide-and-conquer SMACOF. Except for a small cluster of eights, they are very similar and both commit the same problems and achievements. Most digits are clearly separated, except for 4, 7 and 9, which have similar shapes and therefore this behaviour could be expected. Additionally, 5 falls between 2 and 8, since some hand-drawn fives resemble upside-down twos and others might look like eights. The former misclassification might denote a difficulty in comprehending the vertical orientation of pictures in SMACOF.
+The goal of embedding the MNIST dataset into an Euclidean plane usually is to classify and identify all digits represented in the high-dimensional data. In that sense, this is a common use case of dimensionality reduction: extracting the underlying structure of the data. With the SMACOF algorithm, we sampled 5,000 images from MNIST and tuned the $n\_iter$ and $\varepsilon$ parameters as well as $l$ and $c$ to separate as well as possible the low-dimensional configurations of all digits. In other words, we calibrated all parameters to achieve the best possible visual classification of numbers. Figure \ref{fig:SMACOF-MNIST-kde} shows the result of bare and divide-and-conquer SMACOF. Except for a small cluster of eights, they are very similar and both commit the same problems and achievements. Most digits are clearly separated, except for 4, 7 and 9, which have similar shapes and therefore this behavior could be expected. Additionally, 5 falls between 2 and 8, since some hand-drawn fives resemble upside-down twos and others might look like eights. The former misclassification might denote a difficulty in comprehending the vertical orientation of pictures in SMACOF.
 
 In order to better understand the differences between embeddings, we compared in Figure \ref{fig:SMACOF-MNIST-coords} each coordinate of both configurations against each other. The plots resemble a straight line with $x=y$ equation. There is a cloud of points around the plot and the line of the vertical coordinate is thicker than that of the horizontal one, but overall, and coinciding with Figure \ref{fig:SMACOF-MNIST-kde}, the embeddings of bare and divide-and-conquer SMACOF are very similar.
 
 Finally, we computed the Pearson correlation between standard and divide-and-conquer SMACOF in the projected dimensions. In the first dimension it was -0.900 and in the second one it was 0.879. Values close to -1 and 1 corroborate a significant resemblance between both embeddings. This evidence indicates that the fastest method should be applied in similar datasets. Meanwhile, our measurements conclude that the divide-and-conquer variation performed about 6 times faster (see Figure \ref{fig:SMACOF-MNIST-kde}) than the traditional one, so it would be more preferable in related applications.
 
-An added value we have observed so far and expect of divide-and-conquer DR is being able to reduce the dimensionality of big datasets without keeping their full distance-matrices in main memory. To prove it, we performed one more experiment on divide-and-conquer SMACOF in the MNIST dataset. Specifcally, we embedded it all with the parameter values tuned in the previous experiment and obtained the bidimensional configuration depicted in Figure \ref{fig:SMACOF-MNIST-huge}. On the other hand, the execution of bare SMACOF crashed due to an absence of main memory. We can observe in Figure \ref{fig:SMACOF-MNIST-huge} that the embedding of the whole dataset took 49 minutes to compute and is alike to that of the 5,000 points sampled subset. Even though the clusters of seven's and nine's images are a bit distinct, which could be due to a misreprsentation in the sampled data, we may notice that divide-and-conquer SMACOF is consistent among related high-dimensional data configurations.
+An added value we have observed so far and expect of divide-and-conquer DR is being able to reduce the dimensionality of big datasets without keeping their full distance-matrices in main memory. To prove it, we performed one more experiment on divide-and-conquer SMACOF in the MNIST dataset. Specifically, we embedded it all with the parameter values tuned in the previous experiment and obtained the bidimensional configuration depicted in Figure \ref{fig:SMACOF-MNIST-huge}. On the other hand, the execution of bare SMACOF crashed due to an absence of main memory. We can observe in Figure \ref{fig:SMACOF-MNIST-huge} that the embedding of the whole dataset took 49 minutes to compute and is alike to that of the 5,000 points sampled subset. Even though the clusters of seven's and nine's images are a bit distinct, which could be due to a misrepresentation in the sampled data, we may notice that divide-and-conquer SMACOF is consistent among related high-dimensional data configurations.
 
-\begin{figure}[ht]
+\begin{figure}
     \centering
     \includegraphics[width=0.95\textwidth]{figures/SMACOF-MNIST-kde.png}
-    \caption{Kernel density estimation of the bidimensional embeddings of a 5,000 points subset of MNIST \citep{Cohen2017} by bare (left) and divide-and-conquer (right) SMACOF. The arguments we used were $n\_iter = 300,\, \varepsilon = 0.001$ and in divide-and-conquer there also were $l=1000$ and $c=100$. We applied a Procrustes transformation to align both configurations. Countour lines are at 70\% of the maximum estimated density for each digit and embedding.}
+    \caption{Kernel density estimation of the bidimensional embeddings of a 5,000 points subset of MNIST \citep{Cohen2017} by bare (left) and divide-and-conquer (right) SMACOF. The arguments we used were $n\_iter = 300,\, \varepsilon = 0.001$ and in divide-and-conquer there also were $l=1000$ and $c=100$. We applied a Procrustes transformation to align both configurations. Contour lines are at 70\% of the maximum estimated density for each digit and embedding.}
     \label{fig:SMACOF-MNIST-kde}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}
     \centering
     \includegraphics[width=0.95\textwidth]{figures/SMACOF-MNIST-coords.png}
     \caption{Scatter plots of first (left) and second (right) coordinates in the embeddings represented in Figure \ref{fig:SMACOF-MNIST-kde}. SMACOF is compared against divide-and-conquer SMACOF.}
     \label{fig:SMACOF-MNIST-coords}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{figures/SMACOF-MNIST-huge.png}
-    \caption{Kernel density estimation of the bidimensional embeddings of the MNIST dataset \citep{Cohen2017} by divide-and-conquer SMACOF. The arguments used were $n\_iter = 300,\, \varepsilon = 0.001, \, l=1000$ and $c=100$. Countour lines are at 70\% of the maximum estimated density for each digit and embedding.}
+    \caption{Kernel density estimation of the bidimensional embeddings of the MNIST dataset \citep{Cohen2017} by divide-and-conquer SMACOF. The arguments used were $n\_iter = 300,\, \varepsilon = 0.001, \, l=1000$ and $c=100$. Contour lines are at 70\% of the maximum estimated density for each digit and embedding.}
     \label{fig:SMACOF-MNIST-huge}
 \end{figure}
 
@@ -122,11 +122,11 @@ An added value we have observed so far and expect of divide-and-conquer DR is be
 
 \subsubsection{Swiss roll}
 
-When we applied LMDS to the swiss roll dataset, we did not expect the embedding we obtained. Figure \ref{fig:LMDS-swiss-roll} shows the best configuration in $\mathbb{R}^2$ in the tuning process we run. As it can be seen, points tend to cluster in filaments and let gaps between them. Moreover, the top and bottom sides of the configuration are bended inwards, effectively bringing together points with the same angle of rotation in the manifold's spiral not present on the left or right edges. Given that LMDS is a modification of the SMACOF algorithm that address nonlinearities in the data \citep{Chen2009}, we hoped it would properly unfold the spiral of the swiss roll. However, while it does understand the intrinsic dimensionality of the manifold better than SMACOF (see section \ref{sec:dc-SMACOF-swiss-roll}), it does not preserve the uniformity of the data nor its global shape.
+When we applied LMDS to the swiss roll dataset, we did not expect the embedding we obtained. Figure \ref{fig:LMDS-swiss-roll} shows the best configuration in $\mathbb{R}^2$ in the tuning process we run. As it can be seen, points tend to cluster in filaments and leave gaps between them. Moreover, the top and bottom sides of the configuration are bent inwards, effectively bringing together points with the same angle of rotation in the manifold's spiral not present on the left or right edges. Given that LMDS is a modification of the SMACOF algorithm that address nonlinearities in the data \citep{Chen2009}, we hoped it would properly unfold the spiral of the swiss roll. However, while it does understand the intrinsic dimensionality of the manifold better than SMACOF (see section \ref{sec:dc-SMACOF-swiss-roll}), it does not preserve the uniformity of the data nor its global shape.
 
 \textit{POSSIBLE ANNEX EXPLICANT EL QUE HEM PROVAT PER MILLORAR LMDS (LMDS\_examples.ipynb)}
 
-\begin{figure}[ht]
+\begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{figures/LMDS-swiss-roll.png}
     \caption{Bidimensional embedding of a 1,000 points swiss roll dataset \citep{Spiwokv2007} computed by LMDS with $k=10$ and $\tau = 0.1$. Color represents the angle of rotation along the swiss roll spiral.}
@@ -135,23 +135,23 @@ When we applied LMDS to the swiss roll dataset, we did not expect the embedding 
 
 \subsubsection{MNIST}
 
-In order to experiment with LMDS and the MNIST dataset, we considered the same 5,000 points subset of the data used in section \ref{sec:dc-SMACOF-MNIST} and tuned the parameters of the standard and divide-and-conquer techinques. In Figure \ref{fig:LMDS-MNIST}, both planar optimal configurations are represented. Bare LMDS widely separates most digits, except for the commonly confused 4, 7 and 9. On the other hand, divide-and-conquer LMDS condenses the data into a narrower region of the plane, so the clusters of digits inevitably overlap. Apart from this problematic behaviour, relative positions of digits' clusters are similar in both embeddings.
+In order to experiment with LMDS and the MNIST dataset, we considered the same 5,000 points subset of the data used in section \ref{sec:dc-SMACOF-MNIST} and tuned the parameters of the standard and divide-and-conquer techniques. In Figure \ref{fig:LMDS-MNIST}, both planar optimal configurations are represented. Bare LMDS widely separates most digits, except for the commonly confused 4, 7 and 9. On the other hand, divide-and-conquer LMDS condenses the data into a narrower region of the plane, so the clusters of digits inevitably overlap. Apart from this problematic behavior, relative positions of digits' clusters are similar in both embeddings.
 
 When we observe the dimensional correlation between bare's and divide-and-conquer's outcomes, we may notice they are very significant: 0.949 in the first dimension and -0.821 in the second one. These values could be explained by the fact that the digits' clusters in both embeddings have similar relative positions.
 
-Given the poorer embedding quality of divide-and-conquer LMDS, it might not be worth to apply it to small datasets for classification. That being said, our framework achieves a non-contemptible 160\% acceleration to the computing time of LMDS. Furthermore, Figure \ref{fig:LMDS-MNIST-huge} shows that, contrary to standard LMDS, it can also tackle the whole MNIST dataset in a conventional computer and a reasonable time.
+Given the poorer embedding quality of divide-and-conquer LMDS, it might not be worth applying it to small datasets for classification. That being said, our framework achieves a non-contemptible 160\% acceleration to the computing time of LMDS. Furthermore, Figure \ref{fig:LMDS-MNIST-huge} shows that, contrary to standard LMDS, it can also tackle the whole MNIST dataset in a conventional computer and a reasonable time.
 
-\begin{figure}[ht]
+\begin{figure}
     \centering
     \includegraphics[width=0.95\textwidth]{figures/LMDS-MNIST.png}
-    \caption{Kernel density estimation of the bidimensional embeddings of a 5,000 points subset of MNIST \citep{Cohen2017} by bare (left) and divide-and-conquer (right) LMDS. The arguments used were $k=10,\, \tau = 1$ and in divide-and-conquer there also were $l=1000$ and $c=100$. We applied a Procrustes transformation to align both configurations. Countour lines are at 70\% of the maximum estimated density for each digit and embedding.}
+    \caption{Kernel density estimation of the bidimensional embeddings of a 5,000 points subset of MNIST \citep{Cohen2017} by bare (left) and divide-and-conquer (right) LMDS. The arguments used were $k=10,\, \tau = 1$ and in divide-and-conquer there also were $l=1000$ and $c=100$. We applied a Procrustes transformation to align both configurations. Contour lines are at 70\% of the maximum estimated density for each digit and embedding.}
     \label{fig:LMDS-MNIST}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{figures/LMDS-MNIST-huge.png}
-    \caption{Kernel density estimation of the bidimensional embeddings of the MNIST dataset \citep{Cohen2017} by divide-and-conquer LMDS. The arguments used were $k=10,\, \tau = 1, \, l=1000$ and $c=100$. Countour lines are at 70\% of the maximum estimated density for each digit and embedding.}
+    \caption{Kernel density estimation of the bidimensional embeddings of the MNIST dataset \citep{Cohen2017} by divide-and-conquer LMDS. The arguments used were $k=10,\, \tau = 1, \, l=1000$ and $c=100$. Contour lines are at 70\% of the maximum estimated density for each digit and embedding.}
     \label{fig:LMDS-MNIST-huge}
 \end{figure}
 
@@ -161,60 +161,55 @@ We discussed the embedding of divide-and-conquer Isomap for swiss rolls of diffe
 
 \subsubsection{MNIST}
 
+Figure \ref{fig:Isomap-MNIST} shows that the big success of Isomap on the swiss roll is not repeated on the MNIST dataset. When it comes to c, bare and divide-and-conquer Isomap, overlap many clusters, thus showing a poor understanding of the intrinsic structure of the data. As usual, digits 4, 7 and 9 are very often confused. On standard Isomap, we also observe intersections between: 0' and 6'; 1' and 2'; 5' and 6'; and 2' and 8' clusters. Divide-and-conquer Isomap enlarges most intersections and also confuses the clusters of twos and sevens, although it separates zeroes and sixes.
 
+When we look at the Pearson correlation between each method across all dimensions, we observe they do not convey the previously observed qualitative differences. In particular, the correlation between the first dimension is 0.920 and between the second one is -0.862. Finally, note that, even though we are using a very fast implementation of Isomap that surpasses SMACOF and LMDS in performance, the divide-and-conquer approach makes it 4 times faster.
 
-Figure \ref{fig:Isomap-MNIST}
+As we did with SMACOF and LMDS, we considered previously tuned parameters of divide-and-conquer Isomap and embedded the whole MNIST dataset. Figure \ref{fig:Isomap-MNIST-huge} plots the kernel density estimation of the outcome. Overall, even if clusters are shaped differently than in the 5,000 points configuration (see Figure \ref{fig:Isomap-MNIST}), it essentially confuses  digits the same way. Runtime is remarkably fast, anyway, since divide-and-conquer Isomap embedded 345,035 pictures into $\mathbb{R}^2$ in only two minutes.
 
-Total correlation of dim1: 0.9195527127381181
-Total correlation of dim2: -0.8623571714329816
-
-\begin{figure}[ht]
+\begin{figure}
     \centering
     \includegraphics[width=0.95\textwidth]{figures/Isomap-MNIST.png}
-    \caption{Kernel density estimation of the bidimensional embeddings of a 5,000 points subset of MNIST \citep{Cohen2017} by bare (left) and divide-and-conquer (right) Isomap. The arguments used were $k=5$ and in divide-and-conquer there also were $l=1000$ and $c=100$. We applied a Procrustes transformation to align both configurations. Countour lines are at 70\% of the maximum estimated density for each digit and embedding.}
+    \caption{Kernel density estimation of the bidimensional embeddings of a 5,000 points subset of MNIST \citep{Cohen2017} by bare (left) and divide-and-conquer (right) Isomap. The arguments used were $k=5$ and in divide-and-conquer there also were $l=1000$ and $c=100$. We applied a Procrustes transformation to align both configurations. Contour lines are at 70\% of the maximum estimated density for each digit and embedding.}
     \label{fig:Isomap-MNIST}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{figures/Isomap-MNIST-huge.png}
-    \caption{Kernel density estimation of the bidimensional embeddings of the MNIST dataset \citep{Cohen2017} by divide-and-conquer Isomap. The arguments used were $k=5, \, l=1000$ and $c=100$. Countour lines are at 70\% of the maximum estimated density for each digit and embedding.}
+    \caption{Kernel density estimation of the bidimensional embeddings of the MNIST dataset \citep{Cohen2017} by divide-and-conquer Isomap. The arguments used were $k=5, \, l=1000$ and $c=100$. Contour lines are at 70\% of the maximum estimated density for each digit and embedding.}
     \label{fig:Isomap-MNIST-huge}
 \end{figure}
 
 \subsection{Divide-and-conquer t-SNE}
 
-t-SNE is specially useful for visualization, so we will focus on MNIST. Note that we already discussed the swiss roll embedding (see Figure \ref{fig:t-SNE-huge}) in section \ref{sec:initial-runtime-benchmarks} and concluded that partial configurations were inconsistent and Procrustes transformations were not able to merge then into a consistent global strucutre.
+Since t-SNE is especially well suited for visualization tasks, this method is known to greatly group digits in MNIST \citep{Vandermaaten2008}. On the other hand, in section \ref{sec:initial-runtime-benchmarks} we presented its embedding of the swiss roll dataset. From Figure \ref{fig:t-SNE-huge}, we concluded that partial configurations were inconsistent and Procrustes transformations were not able to merge then into a consistent global strucutre.
 
 \subsubsection{MNIST}
 
-EXPLICAR EXEMPLE DUES PARTICIONS: LA QUALITAT POT SER DOLENTA PERQUÈ ELS CLUSTERS TENEN UNA TOPOLOGIA DIFERENT
+Even though t-SNE is very used nowadays \citep{Wattenberg2016}, it is known to be sometimes inconsistent with regard to embedding similar data. This is crucial for divide-and-conquer DR because partial embeddings are only aligned with rigid motions, so topological or differences in size cannot be vanished in the merging step. Hence, before comparing bare and divide-and-conquer t-SNE, we considered two non-intersecting partitions of the MNIST dataset with 172517 points each and embedded them into the Euclidean plane. Figure \ref{fig:t-SNE-MNIST-partitions} shows the kernel density estimation of every digit's pictures in both partitions. Even though most clusters are similar between partitions, twos and fours are swapped in partition 2. Therefore, these digits perfectly classified by standard t-SNE, would be confused by the divide-and-conquer variation were these the partitions taken. What this means is that, as seen with Isomap (see Figure \ref{fig:t-SNE-huge}), divide-and-conquer t-SNE will probably diminish the local and global quality of MNIST's embedding.
 
-Total correlation of dim1: 0.8170763484715383
-Total correlation of dim2: 0.32817864544487557
+Figure \ref{fig:t-SNE-MNIST} and Figure \ref{fig:t-SNE-MNIST-huge} show the embeddings of bare and divide-and-conquer t-SNE on the previously sampled 5,000 points of MNIST and the whole dataset, respectively. As expected, standard t-SNE completely separates different digits, while divide-and-conquer t-SNE overlaps many of their clusters, especially in the smaller dataset. The dimension correlation between both methods on the 5,000 points dataset measures this disagreement with a 0.328 correlation in the second dimension, although the first dimensions have a correlation of 0.817.
 
-\begin{figure}[ht]
+Moreover, as explained in section \ref{sec:openTSNE}, we are using a very performant implementation of t-SNE provided by \verb|openTSNE| \citep{Policar2024}, which can tackle big datasets on its own. This results in the bare method being faster than our divide-and-conquer approach, which had not happened with SMACOF, LMDS nor Isomap. Even though in the 5,000 points subset divide-and-conquer t-SNE was 1.3 times faster than t-SNE, in the full dataset, \verb|openTSNE|'s implementation was 144 times faster than ours. Concluding, t-SNE has received many specific optimizations that make it very hard to improve. Our divide-and-conquer approach, however, allows any DR method to be applied in big datasets in standard computer systems.
+
+\begin{figure}
     \centering
     \includegraphics[width=0.95\textwidth]{figures/t-SNE-MNIST-partitions.png}
-    \caption{Kernel density estimation of the bidimensional embeddings of two halves of the MNIST dataset \citep{Cohen2017}. Data was randomly ordered before being splitted. The DR method used was divide-and-conquer t-SNE with $Perp=30$. Countour lines are at 70\% of the maximum estimated density for each digit and embedding.}
+    \caption{Kernel density estimation of the bidimensional embeddings of two halves of the MNIST dataset \citep{Cohen2017}. Data was randomly ordered before being splitted. The DR method used was divide-and-conquer t-SNE with $Perp=30$. Contour lines are at 70\% of the maximum estimated density for each digit and embedding.}
     \label{fig:t-SNE-MNIST-partitions}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}
     \centering
     \includegraphics[width=0.95\textwidth]{figures/t-SNE-MNIST-5000.png}
-    \caption{Kernel density estimation of the bidimensional embeddings of a 5,000 points subset of MNIST \citep{Cohen2017} by bare (left) and divide-and-conquer (right) t-SNE. The arguments used were $Perp=30$ and in divide-and-conquer there also were $l=1000$ and $c=100$. We applied a Procrustes transformation to align both configurations. Countour lines are at 70\% of the maximum estimated density for each digit and embedding.}
+    \caption{Kernel density estimation of the bidimensional embeddings of a 5,000 points subset of MNIST \citep{Cohen2017} by bare (left) and divide-and-conquer (right) t-SNE. The arguments used were $Perp=30$ and in divide-and-conquer there also were $l=1000$ and $c=100$. We applied a Procrustes transformation to align both configurations. Contour lines are at 70\% of the maximum estimated density for each digit and embedding.}
     \label{fig:t-SNE-MNIST}
 \end{figure}
 
-AAAAAAAAra bé, l'original no només és millor; també és més ràpid! Va, mira què passa quan busquem una combinació de paràmetres pel t-SNE que funcioni bé amb 1000 dibuixets de números. Figure \ref{fig:t-SNE-MNIST-huge}.
-
-\begin{figure}[ht]
+\begin{figure}
     \centering
     \includegraphics[width=0.95\textwidth]{figures/t-SNE-MNIST-huge.png}
-    \caption{Kernel density estimation of the bidimensional embeddings of the MNIST dataset \citep{Cohen2017} by bare (left) and divide-and-conquer (right) t-SNE. The arguments used were $Perp=20, \, n\_iter=100$ and in divide-and-conquer there also were $l=1000$ and $c=100$. Countour lines are at 70\% of the maximum estimated density for each digit and embedding.}
+    \caption{Kernel density estimation of the bidimensional embeddings of the MNIST dataset \citep{Cohen2017} by bare (left) and divide-and-conquer (right) t-SNE. The arguments used were $Perp=20, \, n\_iter=100$ and in divide-and-conquer there also were $l=1000$ and $c=100$. Contour lines are at 70\% of the maximum estimated density for each digit and embedding.}
     \label{fig:t-SNE-MNIST-huge}
 \end{figure}
-
-
-Conclusió: no hem guanyat aquesta batalla perquè la competència és un F1 i el nostre és un turisme. Però oi que no t'emportaries un F1 a la muntanya? Aaaaah-mic!
