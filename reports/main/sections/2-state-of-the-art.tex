@@ -42,7 +42,7 @@ SMACOF (see Algorithm \ref{alg:SMACOF}) is faster for this problem than general 
 
 \subsubsection{LMDS}
 
-Local multidimensional scaling (LMDS) is a variant of non-classical multidimensional scaling that differs in how large distances are treated \citep{Chen2009}. Specifically, a repulsive term between distant points is added to the stress function to further separate points in the low-dimensional configuration (see Algorithm \ref{alg:LMDS}). Parameters $\tau$ (which must be in the unit interval) and $k$ may be tuned with $k'$-cross validation thanks to the LC (Local Continuity) meta-criteria \citep{Chen2009}. (\textit{POSSIBLE ANNEX})
+Local multidimensional scaling (LMDS) is a variant of non-classical multidimensional scaling that differs in how large distances are treated \citep{Chen2009}. Specifically, a repulsive term between distant points is added to the stress function to further separate points in the low-dimensional configuration (see Algorithm \ref{alg:LMDS}). Parameters $\tau$ (which must be in the unit interval) and $k$ may be tuned with $k'$-cross validation thanks to the LC (Local Continuity) meta-criteria \citep{Chen2009}.
 
 \begin{algorithm}
     \caption{LMDS}
@@ -183,11 +183,9 @@ Later, \citet{Reichmann2024} proposed the out-of-core dimensionality reduction f
 
 Maybe because of its popularity, t-SNE has been optimized for large data environments in Python through iterative implementations. \citet{Policar2024} considered many of them and published \verb|openTSNE|, a package that includes several t-SNE extensions \enquote{\textit{to address scalability issues and the quality of the resulting visualizations}}. Furthermore, they compared their proposal with those of other popular packages in serial and parallel configurations. In Figure \ref{fig:python_tsne_benchmarks} it can be seen that, thanks to these advances, the challenges of big data have already been solved in the specific case of t-SNE.
 
-(\textit{POSSIBLE ANNEX})
-
 \begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{figures/python_tsne_benchmarks.png}
-    \caption{Benchmark of the best open-source t-SNE Python implementations by \cite{Poličar2023} (Source: original webpage).}
+    \caption{Benchmark of the best open-source t-SNE Python implementations by \citet{Poličar2023} (Source: original webpage).}
     \label{fig:python_tsne_benchmarks}
 \end{figure}

@@ -28,3 +28,16 @@ The primary goal of this thesis is to propose a divide-and-conquer framework for
 \end{enumerate}
 
 The successful completion of these objectives will contribute to making  dimensionality reduction techniques accessible for very large datasets, democratizing their use across scientific and industrial applications where data scale is a present challenge.
+
+\subsection{Structure of this master thesis}
+
+The chapters of this master's thesis are organized as follows:
+
+\begin{itemize}
+    \item \textbf{Chapter 2: State of the art} reviews four dimensionality reduction techniques (non-classical MDS, LMDS, Isomap, and t-SNE) key to this work. It also examines the work of \citet{Delicado2024} on classical MDS for big data to provide context for the chosen divide-and-conquer approach. Finally, it discusses alternative solutions for reducing the dimensionality of big datasets, such as landmark Isomap and the \verb|openTSNE| Python package.
+    \item \textbf{Chapter 3: Specification and design of the solution} details the proposed divide-and-conquer framework. It explains how data is partitioned and how the resulting embeddings are merged with an efficient alignment procedure known as orthogonal Procrustes transformation.
+    \item \textbf{Chapter 4: Development of the proposal} describes the implementation of the framework and utilized DR methods in Python, leveraging existing libraries like \verb|concurrent.futures| and \verb|sklearn.manifold|. Moreover, it outlines the methodology for the conducted experiments, including the datasets used (Swiss roll and MNIST) and the tuning of parameters.
+    \item \textbf{Chapter 5: Experimentation and evaluation of the proposal} presents the results of the tests performed on divide-and-conquer DR. Specifically, it contains runtime benchmarks for Isomap and t-SNE, an analysis of computational overheads and a qualitative analysis of the embeddings produced by the divide-and-conquer versions of SMACOF, LMDS, Isomap, and t-SNE on the benchmark datasets.
+    \item \textbf{Chapter 6: Analysis of sustainability and ethical implications} discusses the environmental benefits of the proposed algorithm in terms of reduced computational storage costs and energy consumption. Aditionally, it addresses how the method can improve the visibility of small communities within datasets by embedding more inidividuals.
+    \item \textbf{Chapter 7: Conclusions} summarizes the key findings and outlines potential directions for future research. 
+\end{itemize}

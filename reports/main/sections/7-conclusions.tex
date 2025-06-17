@@ -1,14 +1,13 @@
 \section{Conclusions}
 
-LMDS swiss roll donar una volta.
+The primary objective of this thesis was to develop and evaluate a generalized divide-and-conquer framework for distance-based dimensionality reduction methods to make them applicable to large datasets. We successfully met the objectives of this research by first reviewing the literature on prominent DR techniques and then developing a generalized framework that uses a divide-and-conquer strategy with orthogonal Procrustes transformations to reduce time and memory complexities. We implemented the framework in Python for non-classical MDS (SMACOF), LMDS, Isomap, and t-SNE, although it is easily extendable to any distance-based DR technique.
 
+Later, we experimented with the framework by measuring its runtime and size limitations and assessing the embedding quality it provided on benchmark datasets. Results were mostly favorable, the most impressive one being the flawless embedding of a 100 million points Swiss roll on a standard computer in about 3 hours. In comparison, bare DR methods would crash when trying to process datasets with more than 10,000 observations because of lacking memory. We also contrasted the embeddings of the bare and divide-and-conquer versions of SMACOF, LMDS, Isomap and t-SNE on smaller datasets. Results showed that divide-and-conquer DR was remarkably faster than bare methods while presenting small differences in the resulting embeddings. The only exception of this behaviour was found on t-SNE, since its \verb|openTSNE| implementation is very optimized and clearly outruns our framework both in runtime and embedding quality.
+
+Ultimately, this work contributes to making advanced DR techniques more accessible and sustainable for the large-scale data challenges in science and industry by mitigating the prohibitive quadratic time and memory complexities of distance-based dimensionality reduction methods.
 
 \subsection{Future work}
 
-Crear un paquet de Python.
+Based on the research and findings of this thesis, we have identified several avenues for future work. To start with, the implemented code could be formalized into a distributable Python package to make it more accessible. Moreover, a comparison could be conducted between our divide-and-conquer framework and the out-of-core approach by \citet{Reichmann2024}, since both reduce the space and time complexities of already established DR methods. In terms of less abstract tasks, we realized during the testing of LMDS that it performed worse than expected on the Swiss roll dataset. Therefore, further investigation on LMDS could lead to a better version of this algorithm that would handle the nonlinearities present in the Swiss roll dataset.
 
-Comparar amb \citet{Reichmann2024}.
-
-Investigar perquè LMDS falla a l'Isomap.
-
-Fer més experiments per veure com afecta $c$ al rendiment i la qualitat. Aplicar a més datasets.
+Regarding experimentation, future tests could explore how the number of connecting points, $c$, affects performance and embedding quality. Additionally, testing divide-and-conquer DR on more datasets and use cases would further validate its robustness and generalizability.

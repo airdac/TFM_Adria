@@ -1,25 +1,17 @@
 \section{Analysis of sustainability and ethical implications}
 
-\textbf{DESCRIPTION OF THIS SECTION FROM THE REGULATION:}
-
-It must include an analysis of the impact of the following gender-related technical aspects:
-
-\begin{itemize}
-    \item issues related to data management and analysis
-    \item issues related to equity, where possible biases are identified and assessed both in the data and in the processes carried out in relation to data management and analysis
-    \item actions carried out to eliminate or mitigate such biases
-\end{itemize}
-
-\textbf{ACTUAL CONTENT:}
-
 \subsection{GHG emissions}
 
-AI and ML polute a lot because of the raising data collection, transfer and computation in developed countries. There are three ways of reducing the impact: innovating algorithms, reducing data transfer and storing costs, making hardware more efficient. Our algorithm follows this trend and reduces from quadratic to linear the emissions of DR. CO2e is linear with respect to runtime, so we reduce the computation emission quadratically. Moreover, we make DR less dependant on data centers (which polute in its construction, maintanance on operation), since the reduction in space complexity allows standard computers to apply any distance-based DR technique.
+The rise of data collection, transfer and computation brought by big data has caused the construction and operation of a big amount of data centers around the world. This infrastructure consumes a lot of electricity and therefore is responsible for abundant greenhouse gases (GHG) emissions that cannot be neglected \citep{IEA2025, Brierley2023}. In order to cope with the current demand of AI and ML tools without creating too large of an impact on the environment, their energetic cost should be reduced as much as possible, mainly through algorithm innovation, decrease of data transfer and storage costs, and improvement of CPUs', GPUs' and TPUs' efficiency.
 
-Even though it is difficult to estimate the environmental cost of algortihms, we used the Green Algorithms calculator to provide some numbers based on compute hours and our Windows system. Table ??? shows them.
+Our divide-and-conquer framework falls into the first category of energy reduction modes by reducing the runtime and required system capabilities to reduce the dimensionality of a dataset. Indeed, the global warming potential of the GHG emitted when running a procedure on any given computer linearly depends on the time it takes to complete \citep{Lannelongue2021}. Therefore, our divide-and-conquer framework not only reduces the time complexity of DR but also its pollution complexity. Additionally, our framework makes DR less dependent on supercomputers (which contaminate throughout its construction, maintanance and operation) thanks to its low space complexity.
 
-Even though there is still a cost to consider, given it will not be as used as chatbots and other neural networks, we are confident that our algorithm is sustainable and does not suppose a threat to the environment. Hence, using our algorithm would be benefficial to reduce carbon emissions as opposed to traditional DR methods.
+Concluding, even though there is still an environmental cost to consider in DR, given that it is not such a common task as prompting LLMs or other neural networks, we are confident that our algorithm is currently sustainable and it does not pose a threat to the environment. Actually, using our algorithm instead of traditional DR methods would reduce the left carbon footprint.
 
-\subsection{Invisibilization of small communities}
+\subsection{Visibility of small communities}
 
-Maybe (it needs testing) DR methods could emphasize biases in the data. This happens because when projecting only a few coordinates, small clusters could be left behind in the remaining not projected coordinates and do not show in the final embedding. Hence, in theory, small communities could become invisible.
+DR methods can emphasize biases present in the data. This happens because when projecting only a few coordinates of a dataset, small clusters can be left behind in the remaining, not projected, coordinates and do not show in the final embedding. Hence, small communities can become invisible.
+
+However, our divide-and-conquer framework allows users to diminish the bias added by DR techniques by increasing the number of individuals embedded. Indeed, adding more individuals also means increasing the chance to represent small communities in the low-dimensional configuration of the data. So, by utilizing divide-and-conquer DR and providing more data, the resulting embedding can become more truthful to diverse realities than if bare DR techniques were used instead.
+
+We refer to Figures \ref{fig:SMACOF-MNIST-kde} and \ref{fig:SMACOF-MNIST-huge} for an example of the above-mentioned pehonomenon. While bare SMACOF is only capable of embedding small subsets of the MNIST dataset, divide-and-conquer SMACOF effectively embeds the whole dataset. This results in bare SMACOF homogenizing the class of pictures of sevens and divide-and-conquer SMACOF detecting two distinct ways of handwriting sevens which were misrepresented in the sampled subset. As a matter of fact, the kernel density estimation of the configuration embedded by divide-and-conquer SMACOF shows two separate modes in the class of sevens. Had we considered a social dataset instead of MNIST, divide-and-conquer DR would have allowed us to reduce the dimensionality of the data without discriminating underrepresented communities. Thus, proving our framework useful in these scenarios.
