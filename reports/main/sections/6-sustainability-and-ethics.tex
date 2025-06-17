@@ -3,6 +3,7 @@
 \textbf{DESCRIPTION OF THIS SECTION FROM THE REGULATION:}
 
 It must include an analysis of the impact of the following gender-related technical aspects:
+
 \begin{itemize}
     \item issues related to data management and analysis
     \item issues related to equity, where possible biases are identified and assessed both in the data and in the processes carried out in relation to data management and analysis
@@ -11,7 +12,14 @@ It must include an analysis of the impact of the following gender-related techni
 
 \textbf{ACTUAL CONTENT:}
 
-\begin{itemize}
-    \item D\&C can be used in normal computers, while traditional DR methods require supercomputers to work on big datasets. Hence, we will reduce computing emissions.
-    \item Maybe (it needs testing) DR methods could emphasize biases in the data. This happens because when projecting only a few coordinates, small clusters could be left behind in the remaining not projected coordinates and do not show in the final embedding. Hence, in theory, small communities could become invisible.
-\end{itemize}
+\subsection{GHG emissions}
+
+AI and ML polute a lot because of the raising data collection, transfer and computation in developed countries. There are three ways of reducing the impact: innovating algorithms, reducing data transfer and storing costs, making hardware more efficient. Our algorithm follows this trend and reduces from quadratic to linear the emissions of DR. CO2e is linear with respect to runtime, so we reduce the computation emission quadratically. Moreover, we make DR less dependant on data centers (which polute in its construction, maintanance on operation), since the reduction in space complexity allows standard computers to apply any distance-based DR technique.
+
+Even though it is difficult to estimate the environmental cost of algortihms, we used the Green Algorithms calculator to provide some numbers based on compute hours and our Windows system. Table ??? shows them.
+
+Even though there is still a cost to consider, given it will not be as used as chatbots and other neural networks, we are confident that our algorithm is sustainable and does not suppose a threat to the environment. Hence, using our algorithm would be benefficial to reduce carbon emissions as opposed to traditional DR methods.
+
+\subsection{Invisibilization of small communities}
+
+Maybe (it needs testing) DR methods could emphasize biases in the data. This happens because when projecting only a few coordinates, small clusters could be left behind in the remaining not projected coordinates and do not show in the final embedding. Hence, in theory, small communities could become invisible.
