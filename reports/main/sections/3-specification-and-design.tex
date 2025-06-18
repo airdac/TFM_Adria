@@ -12,25 +12,25 @@ For a more detailed specification of our solution, see Algorithm \ref{alg:Divide
     \label{alg:DivideConquer}
     
     \begin{algorithmic}[1]
-    \REQUIRE $\mathbf{D_X} = (\delta_{ij})$, the $n \times n$ matrix of observed distances; $\mathcal{M}$, the DR method; $l$, the partition size; $c$, the amount of connecting points; $q$, the embedding's dimensionality; and $arg$, $\mathcal{M}$'s specific parameters.
+    \REQUIRE $\mathbf{D} = (\delta_{ij})$, the $n \times n$ matrix of observed distances; $\mathcal{M}$, the DR method; $l$, the partition size; $c$, the amount of connecting points; $q$, the embedding's dimensionality; and $arg$, $\mathcal{M}$'s specific parameters.
     \ENSURE $\mathbf{\tilde{Y}}$, a configuration in a $q$-dimensional space.
     
     \IF{$n \leq l$}
-        \RETURN $\mathcal{M}(\mathbf{D_X}, q, arg)$
+        \RETURN $\mathcal{M}(\mathbf{D}, q, arg)$
     \ENDIF
     
     \STATE Partition data into $k$ subsets: $\mathcal{P} = \{\mathcal{P}_1, \mathcal{P}_2, \ldots, \mathcal{P}_k\}$ where $|\mathcal{P}_i| \leq l$ for all $i$
     
     \STATE Sample $c$ connecting points from $\mathcal{P}_1$: $\mathcal{C} \subset \mathcal{P}_1$ with $|\mathcal{C}| = c$
     
-    \STATE Apply DR method to first partition: $\mathbf{\tilde{Y}}_1 = \mathcal{M}(\mathbf{D_{X_{\mathcal{P}_1}}}, q, arg)$
+    \STATE Apply DR method to first partition: $\mathbf{\tilde{Y}}_1 = \mathcal{M}(\mathbf{D_{\mathcal{P}_1}}, q, arg)$
 
     \STATE Extract embedding of $\mathcal{C}$: $\mathbf{\tilde{Y}}_\mathcal{C} = \mathbf{\tilde{Y}}_1[{\mathcal{C}},:]$
     
     \FOR{$i = 2$ to $k$}
-        \STATE Stack connecting points to current partition: $\mathbf{X}_{\text{stack}} = [\mathbf{X}_{\mathcal{C}}; \mathbf{X}_{\mathcal{P}_i}]$
-        \STATE Project stacked data: $\mathbf{\tilde{Y}}_{\text{stack}} = \mathcal{M}(\mathbf{D_{X_{\text{stack}}}}, q, arg)$
-        \STATE Separate embedding of $\mathbf{X}_{\mathcal{C}}$: $\mathbf{\tilde{Y}}_{\mathcal{C}}^{(i)} = \mathbf{\tilde{Y}}_{\text{stack}}[1:c,:]$ and $\mathbf{\tilde{Y}}_i = \mathbf{\tilde{Y}}_{\text{stack}}[(c+1):,:]$
+        \STATE Stack connecting points to current partition: $\mathbf{D}_{\text{stack}} = [\mathbf{D}_{\mathcal{C}}; \mathbf{D}_{\mathcal{P}_i}]$
+        \STATE Project stacked data: $\mathbf{\tilde{Y}}_{\text{stack}} = \mathcal{M}(\mathbf{D_{\text{stack}}}, q, arg)$
+        \STATE Separate embedding of $\mathcal{C}$: $\mathbf{\tilde{Y}}_{\mathcal{C}}^{(i)} = \mathbf{\tilde{Y}}_{\text{stack}}[1:c,:]$ and $\mathbf{\tilde{Y}}_i = \mathbf{\tilde{Y}}_{\text{stack}}[(c+1):,:]$
         \STATE Align projection using Procrustes: $\mathbf{\tilde{Y}}_i = \text{Procrustes}(\mathbf{\tilde{Y}}_\mathcal{C}, \mathbf{\tilde{Y}}_{\mathcal{C}}^{(i)}, \mathbf{\tilde{Y}}_i)$
     \ENDFOR
     

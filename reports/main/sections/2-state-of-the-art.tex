@@ -7,9 +7,9 @@ Many nonlinear DR techniques and big data solutions discovered in recent years h
 
 \subsubsection{Non-classical MDS: the SMACOF algorithm}
 
-SMACOF (Scaling by MAjorizing a COmplicated Function) is a multidimensional scaling procedure that minimizes metric stress using a majorization technique (\cite{Kruskal1964a,Kruskal1964b}). Given the distance matrix $\mathbf{D}_{\mathbf{X}} = (\delta_{ij})$ of the original high-dimensional data and its corresponding low-dimensional distance matrix $\mathbf{D}_{\mathbf{\tilde{Y}}} = (d_{ij})$, metric stress determines how much different $\mathbf{D}_{\mathbf{X}}$ and $\mathbf{D}_{\mathbf{\tilde{Y}}}$ are by the expression
+SMACOF (Scaling by MAjorizing a COmplicated Function) is a multidimensional scaling procedure that minimizes metric stress using a majorization technique (\cite{Kruskal1964a,Kruskal1964b}). Given the distance matrix $\mathbf{D} = (\delta_{ij})$ of the original high-dimensional data and its corresponding low-dimensional distance matrix $\mathbf{D}_{\mathbf{\tilde{Y}}} = (d_{ij})$, metric stress determines how much different $\mathbf{D}$ and $\mathbf{D}_{\mathbf{\tilde{Y}}}$ are by the expression
 $$
-STRESS_M(\mathbf{D}_{\mathbf{X}}, \mathbf{D}_{\mathbf{\tilde{Y}}}) = \sqrt{\frac{\sum_{i<j}\left(\delta_{i j}-d_{i j}\right)^2}{\sum_{i<j} \delta_{i j}^2}}.
+STRESS_M(\mathbf{D}, \mathbf{D}_{\mathbf{\tilde{Y}}}) = \sqrt{\frac{\sum_{i<j}\left(\delta_{i j}-d_{i j}\right)^2}{\sum_{i<j} \delta_{i j}^2}}.
 $$
 SMACOF (see Algorithm \ref{alg:SMACOF}) is faster for this problem than general optimization methods, such as gradient descent, and it consists on iterative Guttman transformations \citep{Guttman1968} applied to the embedded data.
 
@@ -24,7 +24,7 @@ SMACOF (see Algorithm \ref{alg:SMACOF}) is faster for this problem than general 
     \STATE $k \leftarrow 0$
     \REPEAT
         \STATE Compute the distance matrix of $\boldsymbol{\mathbf{\tilde{Y}}}^{(k)}$, $\mathbf{D}_{\boldsymbol{\mathbf{\tilde{Y}}^{(k)}}}$, with entries $d_{ij}^k = \|\tilde{y}_i^{(k)} - \tilde{y}_j^{(k)}\|$
-        \STATE Compute the metric stress: $STRESS_M( \mathbf{D}_{\mathbf{X}}, \mathbf{D}_{\boldsymbol{\mathbf{\tilde{Y}}^{(k)}}} )$
+        \STATE Compute the metric stress: $STRESS_M( \mathbf{D}, \mathbf{D}_{\boldsymbol{\mathbf{\tilde{Y}}^{(k)}}} )$
         \STATE Compute the Guttman transform: $\boldsymbol{\mathbf{\tilde{Y}}}^{(k+1)} = n^{-1}\mathbf{B}(\boldsymbol{\mathbf{\tilde{Y}}}^{(k)})\boldsymbol{\mathbf{\tilde{Y}}}^{(k)}$ where $\mathbf{B}(\boldsymbol{\mathbf{\tilde{Y}}}^{(k)}) = (b_{ij}^k)$:
         $$
         b_{ij}^k =
@@ -35,7 +35,7 @@ SMACOF (see Algorithm \ref{alg:SMACOF}) is faster for this problem than general 
         \end{cases}
         $$
         \STATE $k \leftarrow k + 1$
-    \UNTIL{$k \geq n\_iter$ or $|STRESS_M(D_{\mathbf{X}}, \boldsymbol{\mathbf{\tilde{Y}}}^{(k-1)}) - STRESS_M(D_{\mathbf{X}}, \boldsymbol{\mathbf{\tilde{Y}}}^{(k)}| < \varepsilon$}
+    \UNTIL{$k \geq n\_iter$ or $|STRESS_M(\mathbf{D}, \mathbf{D}_{\mathbf{\tilde{Y}}^{(k-1)}}) - STRESS_M(\mathbf{D}, \mathbf{D}_{\mathbf{\tilde{Y}}^{(k)}})| < \varepsilon$}
     \RETURN $\boldsymbol{\mathbf{\tilde{Y}}}^{(k)}$
     \end{algorithmic}
 \end{algorithm}
@@ -49,9 +49,9 @@ Local multidimensional scaling (LMDS) is a variant of non-classical multidimensi
     \label{alg:LMDS}
     
     \begin{algorithmic}[1]
-    \REQUIRE $\mathbf{D_X} = (\delta_{ij})$, the $n \times n$ matrix of observed distances; $q$, the embedding's dimensionality; $k$, the size of neighborhoods; and $\tau$, the weight of the repulsive term.
+    \REQUIRE $\mathbf{D} = (\delta_{ij})$, the $n \times n$ matrix of observed distances; $q$, the embedding's dimensionality; $k$, the size of neighborhoods; and $\tau$, the weight of the repulsive term.
     \ENSURE $\mathbf{\tilde{Y}}$, a configuration in a $q$-dimensional space.
-    \STATE Compute the symmetrized $k$-NN graph of $\mathbf{D_X}$, $\mathcal{N}_k$
+    \STATE Compute the symmetrized $k$-NN graph of $\mathbf{D}$, $\mathcal{N}_k$
     \STATE Calculate $t=\frac{|\mathcal{N}_k|}{\left|\mathcal{N}_k^C\right|} \cdot \operatorname{median}_{\mathcal{N}_k}\left(\delta_{ij}\right) \cdot \tau$
     \STATE Minimize the modified stress function:
     $$
@@ -72,7 +72,7 @@ The only tuning parameter of Isomap is the bandwidth, which can be interpreted a
     \label{alg:Isomap}
 
     \begin{algorithmic}[1]
-    \REQUIRE $\mathbf{D_X}$, the $n \times n$ matrix of observed distances; $q$, the embedding's dimensionality; and $\varepsilon$, the limiting distance of nearest neighbors, or $k$, the amount of nearest neighbors per point.
+    \REQUIRE $\mathbf{D}$, the $n \times n$ matrix of observed distances; $q$, the embedding's dimensionality; and $\varepsilon$, the limiting distance of nearest neighbors, or $k$, the amount of nearest neighbors per point.
     \ENSURE $\mathbf{\tilde{Y}}$, a configuration in a $q$-dimensional space.
     \STATE Find the graph $\mathcal{N}$ given by the radius $\varepsilon>0$ or the $k$-NN
     \STATE Compute the distance matrix of $\mathcal{N}$, $\mathbf{D}_{\mathcal{N}}$
@@ -93,7 +93,7 @@ t-SNE focuses on retaining the local structure of the data while ensuring that e
     \label{alg:tSNE}
     
     \begin{algorithmic}[1]
-    \REQUIRE $\mathbf{D_X} = (\delta_{ij})$, the $n \times n$ matrix of observed distances; $q$, the embedding's dimensionality; $Perp$, the perplexity.
+    \REQUIRE $\mathbf{D} = (\delta_{ij})$, the $n \times n$ matrix of observed distances; $q$, the embedding's dimensionality; $Perp$, the perplexity.
     \ENSURE $\mathbf{\tilde{Y}}$, a configuration in a $q$-dimensional space.
     \STATE For every point $\mathbf{x}_i$, find $\sigma_i > 0$ so that the conditional probability ditribution
         $$
