@@ -18,7 +18,7 @@ SMACOF (see Algorithm \ref{alg:SMACOF}) is faster for this problem than general 
     \label{alg:SMACOF}
     
     \begin{algorithmic}[1]
-    \REQUIRE $\mathbf{D}_{\boldsymbol{\mathbf{X}}} = (\delta_{ij})$, the $n\times n$ matrix of observed distances; $q$, the embedding's dimensionality; $n\_iter$, the maximum number of iterations; and $\varepsilon$, the convergence threshold.
+    \REQUIRE $\mathbf{D} = (\delta_{ij})$, the $n\times n$ matrix of observed distances; $q$, the embedding's dimensionality; $n\_iter$, the maximum number of iterations; and $\varepsilon$, the convergence threshold.
     \ENSURE $\boldsymbol{\mathbf{\tilde{Y}}}$, a configuration in a $q$-dimensional space.
     \STATE Initialize at random $\boldsymbol{\mathbf{\tilde{Y}}}^{(0)} \in \mathbb{R}^{n \times q}$
     \STATE $k \leftarrow 0$
