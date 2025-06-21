@@ -1,9 +1,9 @@
 \section{Specification and design of the solution}
 \label{sec:specification-and-design-of-the-solution}
 
-Our solution to the problem of applying dimensionality reduction techniques to large datasets consists in dividing the data into partitions small enough for the computer to process and then merge their embeddings. As stated earlier, we follow the same approach as \citet{Delicado2024}. By means of an efficient alignment procedure named \textit{Procustes transformation}, we manage to orient every embedding to a specific alignment, with the goal that the final embedding will be coherent. Therefore, even though partitioning the data might modify the embedding's structure, our approach allows any system to tackle arbitrarily large datasets and leverage parallelization.
+Our solution to the problem of applying dimensionality reduction techniques to large datasets consists in dividing the data into partitions small enough for the computer to process and then merge their embeddings. As stated earlier, we follow the same approach as \citet{Delicado2024}. By means of an efficient alignment procedure named \textit{Procrustes transformation}, we manage to orient every embedding to a specific alignment, with the goal that the final embedding will be coherent. Therefore, even though partitioning the data might modify the embedding's structure, our approach allows any system to tackle arbitrarily large datasets and leverage parallelization.
 
-In order to preserve the geometry of the partition's embedding, we narrow Procustes transformations to rigid motions; that is, rotations and reflections. Moreover, we diminish the overhead computation of merging the embeddings by computing the transformation matrix with only a few datapoints. Specifically, if partitions have $l$ (or $l-1$) points, we sample $c < l$ from the first partition and stack them temporarily to every other partition. Later, we embed the first partition and extract the result of the $c$ sampled points, $\mathbf{\tilde{Y}}_{\mathcal{C}}$. Afterward, for every remaining partition, we project the stacked data with the chosen DR method and separate the $c$ points corresponding to the first partition, $\mathbf{\tilde{Y}}_{\mathcal{C}}^{(i)}$, from those of the current partition, $\mathbf{\tilde{Y}}_{i}$. This way, we can compute the optimal Procustes transformation between $\mathbf{\tilde{Y}}_{\mathcal{C}}$ and $\mathbf{\tilde{Y}}_{\mathcal{C}}^{(i)}$ and apply it to the larger matrix $\mathbf{\tilde{Y}}_i$, all without needing to process two full partitions.
+In order to preserve the geometry of the partition's embedding, we narrow Procrustes transformations down to rigid motions; that is, rotations and reflections. Moreover, we diminish the overhead computation of merging the embeddings by computing the transformation matrix with only a few datapoints. Specifically, if the DR method is to be applied to subsets of $l$ points, we let $c<l$ and randomly divide the data into $1 + \lceil \frac{n - l}{l - c} \rceil$ partitions. The first one must have $l$ points, while the remaining ones, $l-c$ or $l-c-1$. We then sample $c$ observations from the first partition and stack them temporarily to every other partition. Later, we embed the first partition and extract the result of the $c$ sampled points, $\mathbf{\tilde{Y}}_{\mathcal{C}}$. Afterward, for every remaining partition, we project the stacked data with the chosen DR method and separate the $c$ points corresponding to the first partition, $\mathbf{\tilde{Y}}_{\mathcal{C}}^{(i)}$, from those of the current partition, $\mathbf{\tilde{Y}}_{i}$. This way, we can compute the optimal Procrustes transformation between $\mathbf{\tilde{Y}}_{\mathcal{C}}$ and $\mathbf{\tilde{Y}}_{\mathcal{C}}^{(i)}$ and apply it to the larger matrix $\mathbf{\tilde{Y}}_i$, all without needing to process two full partitions.
 
 For a more detailed specification of our solution, see Algorithm \ref{alg:DivideConquer}, which depicts the divide-and-conquer dimensionality reduction algorithm, and Section \ref{sec:Procrustes}, which shows how the Procrustes transformation can be obtained.
 
@@ -18,25 +18,40 @@ For a more detailed specification of our solution, see Algorithm \ref{alg:Divide
     \IF{$n \leq l$}
         \RETURN $\mathcal{M}(\mathbf{D}, q, arg)$
     \ENDIF
-    
-    \STATE Partition data into $k$ subsets: $\mathcal{P} = \{\mathcal{P}_1, \mathcal{P}_2, \ldots, \mathcal{P}_k\}$ where $|\mathcal{P}_i| \leq l$ for all $i$
-    
-    \STATE Sample $c$ connecting points from $\mathcal{P}_1$: $\mathcal{C} \subset \mathcal{P}_1$ with $|\mathcal{C}| = c$
-    
-    \STATE Apply DR method to first partition: $\mathbf{\tilde{Y}}_1 = \mathcal{M}(\mathbf{D_{\mathcal{P}_1}}, q, arg)$
 
-    \STATE Extract embedding of $\mathcal{C}$: $\mathbf{\tilde{Y}}_\mathcal{C} = \mathbf{\tilde{Y}}_1[{\mathcal{C}},:]$
+    \STATE Let $k = \lceil \frac{n - l}{l - c} \rceil$
     
-    \FOR{$i = 2$ to $k$}
-        \STATE Stack connecting points to current partition: $\mathbf{D}_{\text{stack}} = [\mathbf{D}_{\mathcal{C}}; \mathbf{D}_{\mathcal{P}_i}]$
-        \STATE Project stacked data: $\mathbf{\tilde{Y}}_{\text{stack}} = \mathcal{M}(\mathbf{D_{\text{stack}}}, q, arg)$
-        \STATE Separate embedding of $\mathcal{C}$: $\mathbf{\tilde{Y}}_{\mathcal{C}}^{(i)} = \mathbf{\tilde{Y}}_{\text{stack}}[1:c,:]$ and $\mathbf{\tilde{Y}}_i = \mathbf{\tilde{Y}}_{\text{stack}}[(c+1):,:]$
-        \STATE Align projection using Procrustes: $\mathbf{\tilde{Y}}_i = \text{Procrustes}(\mathbf{\tilde{Y}}_\mathcal{C}, \mathbf{\tilde{Y}}_{\mathcal{C}}^{(i)}, \mathbf{\tilde{Y}}_i)$
+    \STATE Randomly partition the data into $k+1$ subsets: $\mathcal{P} = \{\mathcal{P}_0, \mathcal{P}_1, \ldots, \mathcal{P}_k\}$ where
+    \begin{align*}
+        |\mathcal{P}_i| = \begin{cases}
+        l & \text{if } i = 0 \\
+        l-c & \text{if } 0 < i \leq (n-l) \bmod k \\
+        l-c-1 & \text{if } (n-l) \bmod k < i \leq k
+        \end{cases}
+    \end{align*}
+    
+    \STATE Sample $c$ connecting points from the first partition: $\mathcal{C} \subset \mathcal{P}_0$ with $|\mathcal{C}| = c$
+
+    \STATE Extract distance matrix of the first partition: $\mathbf{D}_{\mathcal{P}_0} = \mathbf{D}[\mathcal{P}_0,\mathcal{P}_0]$
+    
+    \STATE Apply DR method to the first partition: $\mathbf{\tilde{Y}}_0 = \mathcal{M}(\mathbf{D_{\mathcal{P}_0}}, q, arg)$
+
+    \STATE Extract embedding of $\mathcal{C}$: $\mathbf{\tilde{Y}}_\mathcal{C} = \mathbf{\tilde{Y}}_0[{\mathcal{C}},:]$
+
+    \STATE Extract distance matrix of $\mathcal{C}$: $\mathbf{D}_{\mathcal{C}} = \mathbf{D}[\mathcal{C},\mathcal{C}]$
+    
+    \FOR{$i = 1$ to $k$}
+        \STATE Extract distance matrix of the current partition: $\mathbf{D}_{\mathcal{P}_i} = \mathbf{D}[\mathcal{P}_i,\mathcal{P}_i]$
+        \STATE Stack connecting points to the current partition: $\mathbf{D}_{\text{stack}} = [\mathbf{D}_{\mathcal{C}}; \mathbf{D}_{\mathcal{P}_i}]$
+        \STATE Project the stacked data: $\mathbf{\tilde{Y}}_{\text{stack}} = \mathcal{M}(\mathbf{D_{\text{stack}}}, q, arg)$
+        \STATE Separate the embedding of $\mathcal{C}$: $\mathbf{\tilde{Y}}_{\mathcal{C}}^{(i)} = \mathbf{\tilde{Y}}_{\text{stack}}[:c,:]$ and $\mathbf{\tilde{Y}}_i = \mathbf{\tilde{Y}}_{\text{stack}}[(c+1):,:]$
+        \STATE Align first and current embeddings with Procrustes: $\mathbf{\tilde{Y}}_i = \text{Procrustes}(\mathbf{\tilde{Y}}_\mathcal{C}, \mathbf{\tilde{Y}}_{\mathcal{C}}^{(i)}, \mathbf{\tilde{Y}}_i)$
     \ENDFOR
     
-    \STATE Combine all projections: $\mathbf{\tilde{Y}}' = [\mathbf{\tilde{Y}}_1; \mathbf{\tilde{Y}}_2; \ldots; \mathbf{\tilde{Y}}_k]$
-    \STATE Reorder rows to match original ordering: $\mathbf{\tilde{Y}}' = \mathbf{\tilde{Y}}'[\text{order},:]$
-    \STATE Apply PCA to center and rotate for maximum variance: $\mathbf{\tilde{Y}}$ = PCA($\mathbf{\tilde{Y}}', q$)
+    \STATE Combine all embeddings: $\mathbf{\tilde{Y}}' = [\mathbf{\tilde{Y}}_0; \mathbf{\tilde{Y}}_1; \ldots; \mathbf{\tilde{Y}}_k]$
+    \STATE Retrieve original row ordering: order = argsort$([\mathcal{P}_0; \mathcal{P}_1; \ldots; \mathcal{P}_k])$
+    \STATE Set original ordering: $\mathbf{\tilde{Y}}' = \mathbf{\tilde{Y}}'[\text{order},:]$
+    \STATE Apply PCA to center and rotate data for maximum variance: $\mathbf{\tilde{Y}}$ = PCA($\mathbf{\tilde{Y}}', q$)
     
     \RETURN $\mathbf{\tilde{Y}}$
     \end{algorithmic}
@@ -45,7 +60,7 @@ For a more detailed specification of our solution, see Algorithm \ref{alg:Divide
 \subsection{Orthogonal Procrustes transformation}
 \label{sec:Procrustes}
 
-Our problem of aligning the partitions' embeddings is known in the literature as the \textit{Procustes problem} (see, for instance, \citet{Borg2005}). Depending on the kind of fitting desired, different solutions can be found. For example, orthogonal transformations consist of rotations and reflections, but one may also desire dilations and shifts. In fact, the transformation could be any linear distortion.
+Our problem of aligning the partitions' embeddings is known in the literature as the \textit{Procrustes problem} (see, for instance, Borg and Groenen, 2005). Depending on the kind of fitting desired, different solutions can be found. For example, orthogonal transformations consist of rotations and reflections, but one may also desire dilations and shifts. In fact, the transformation could be any linear distortion.
 
 That being said, in order to preserve the structure of every partitions' embedding and inter-individual distances, we considered best to limit the problem to rigid motions or, in other words, rotations and reflections. Now, let $\mathbf{A} \in \mathbb{R}^{c \times q}$ be the target configuration ($\mathbf{\tilde{Y}}_{\mathcal{C}}$ in Algorithm \ref{alg:DivideConquer}) and $\mathbf{B} \in \mathbb{R}^{c \times q}$ the corresponding testee ($\mathbf{\tilde{Y}}_{\mathcal{C}}^{(i)}$ in Algorithm \ref{alg:DivideConquer}). We wish to fit \textbf{B} to \textbf{A} by rigid motions. That is, we want to find the best orthogonal matrix \textbf{T} such that $\mathbf{A} \simeq \mathbf{BT}$.
 
@@ -55,7 +70,7 @@ $$
 $$
 where O($q$) is the orthogonal group in dimension $q$.
 
-By expanding the expression of $L(\mathbf{T})$ and applying a lower bound inequality on traces derived by \citet{Kristof1970}, a global solution to the minimization problem can be found. Let $\mathbf{U}\boldsymbol{\Sigma}\mathbf{V}'$ be the singular value decomposition of $\mathbf{A}' \mathbf{B}$, where $\mathbf{U}' \mathbf{U}=\mathbf{I}, \mathbf{V}' \mathbf{V}=\mathbf{I}$, and $\boldsymbol{\Sigma}$ is the diagonal matrix with the singular values. Then, $L(\mathbf{T})$ is minimal if $\mathbf{T} = \mathbf{V} \mathbf{U}'$. Therefore, the Procrustes procedure we used would be as follows:
+By expanding the expression of $L(\mathbf{T})$ and applying a lower bound inequality on traces derived by \citet{Kristof1970}, \citet{tenBerge1993} found a global solution to the minimization problem\footnote{The original solution to the orthogonal Procrustes problem was provided by \citet{Green1952}. However, his approach was more complicated and difficult to understand.}. Let $\mathbf{U}\boldsymbol{\Sigma}\mathbf{V}'$ be the singular value decomposition of $\mathbf{A}' \mathbf{B}$, where $\mathbf{U}' \mathbf{U}=\mathbf{I}, \mathbf{V}' \mathbf{V}=\mathbf{I}$, and $\boldsymbol{\Sigma}$ is the diagonal matrix with the singular values. Then, $L(\mathbf{T})$ is minimal if $\mathbf{T} = \mathbf{V} \mathbf{U}'$. Therefore, the Procrustes procedure we used would be as follows:
 
 \begin{algorithm}
     \caption{Procrustes procedure}

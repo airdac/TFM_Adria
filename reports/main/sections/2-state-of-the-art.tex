@@ -23,8 +23,8 @@ SMACOF (see Algorithm \ref{alg:SMACOF}) is faster for this problem than general 
     \STATE Initialize at random $\boldsymbol{\mathbf{\tilde{Y}}}^{(0)} \in \mathbb{R}^{n \times q}$
     \STATE $k \leftarrow 0$
     \REPEAT
-        \STATE Compute the distance matrix of $\boldsymbol{\mathbf{\tilde{Y}}}^{(k)}$, $\mathbf{D}_{\boldsymbol{\mathbf{\tilde{Y}}^{(k)}}}$, with entries $d_{ij}^k = \|\tilde{y}_i^{(k)} - \tilde{y}_j^{(k)}\|$
-        \STATE Compute the metric stress: $STRESS_M( \mathbf{D}, \mathbf{D}_{\boldsymbol{\mathbf{\tilde{Y}}^{(k)}}} )$
+        \STATE Compute the distance matrix of $\boldsymbol{\mathbf{\tilde{Y}}}^{(k)}$, $\mathbf{D}_{\boldsymbol{\mathbf{\tilde{Y}}^{(k)}}}$, with entries $d_{ij}^k = \|\mathbf{y}_i^{(k)}-\mathbf{y}_j^{(k)}\|$
+        \STATE Compute the metric stress: $STRESS_M( \mathbf{D}, \mathbf{D}_{\mathbf{\tilde{Y}}^{(k)}} )$
         \STATE Compute the Guttman transform: $\boldsymbol{\mathbf{\tilde{Y}}}^{(k+1)} = n^{-1}\mathbf{B}(\boldsymbol{\mathbf{\tilde{Y}}}^{(k)})\boldsymbol{\mathbf{\tilde{Y}}}^{(k)}$ where $\mathbf{B}(\boldsymbol{\mathbf{\tilde{Y}}}^{(k)}) = (b_{ij}^k)$:
         $$
         b_{ij}^k =
@@ -42,7 +42,7 @@ SMACOF (see Algorithm \ref{alg:SMACOF}) is faster for this problem than general 
 
 \subsubsection{LMDS}
 
-Local multidimensional scaling (LMDS) is a variant of non-classical multidimensional scaling that differs in how large distances are treated \citep{Chen2009}. Specifically, a repulsive term between distant points is added to the stress function to further separate points in the low-dimensional configuration (see Algorithm \ref{alg:LMDS}). Parameters $\tau$ (which must be in the unit interval) and $k$ may be tuned with $k'$-cross validation thanks to the LC (Local Continuity) meta-criteria \citep{Chen2009}.
+Local multidimensional scaling (LMDS) is a variant of non-classical multidimensional scaling that differs in how large distances are treated \citep{Chen2009}. Specifically, a repulsive term between distant points is added to the stress function to further separate points in the low-dimensional configuration (see Algorithm \ref{alg:LMDS}). Parameters $\tau$ (which must be in the unit interval) and $k$ may be tuned with $k'$-cross validation following the local continuity (LC) meta-criteria \citep{Chen2009}.
 
 \begin{algorithm}
     \caption{LMDS}
@@ -97,10 +97,10 @@ t-SNE focuses on retaining the local structure of the data while ensuring that e
     \ENSURE $\mathbf{\tilde{Y}}$, a configuration in a $q$-dimensional space.
     \STATE For every point $\mathbf{x}_i$, find $\sigma_i > 0$ so that the conditional probability ditribution
         $$
-        p_{j|i} = \frac{\exp(-\delta_{ij}^2/2\sigma_i^2)}{\sum_{k \neq i}\exp(-\delta_{ik}^2/2\sigma_i^2)}\text{ if } i \neq j, \, p_{i|i} = 0
+        p_{j|i} = \frac{\exp(-\delta_{ij}^2/2\sigma_i^2)}{\sum_{k \neq i}\exp(-\delta_{ik}^2/2\sigma_i^2)}\text{ if } i \neq j, \, p_{i|i} = 0 \text{ otherwise}
         $$ has perplexity $ Perp = 2^{-\sum_{j} p_{j|i} \log_2 p_{j|i}} $
     \STATE Symmetrize conditional distributions: $p_{ij} = \frac{p_{j|i} + p_{i|j}}{2n}$
-    \STATE Consider Cauchy-distributed joint probabilities for the low-dimensional data $\mathbf{y}_i$: $$q_{ij} = \frac{(1 + \|y_i-y_j\|^2)^{-1}}{\sum_{h \neq k}(1 + \|y_h-y_k\|^2)^{-1}}$$
+    \STATE Consider Cauchy-distributed joint probabilities for the low-dimensional data $\mathbf{y}_i$: $$q_{ij} = \frac{(1 + \left\|\mathbf{y}_i-\mathbf{y}_j\right\|^2)^{-1}}{\sum_{h \neq k}(1 + \left\|\mathbf{y}_h-\mathbf{y}_k\right\|^2)^{-1}}$$
     \STATE Minimize the sum of Kullback-Leibler divergences between the joint distributions over all datapoints: $$
     \mathbf{\tilde{Y}} = \min_{\mathbf{Y} \in \mathbb{R}^{n\times q}} \sum_i \sum_j p_{j \mid i} \log \frac{p_{j \mid i}}{q_{j \mid i}}
     $$
@@ -112,12 +112,12 @@ t-SNE focuses on retaining the local structure of the data while ensuring that e
 \subsection{Multidimensional scaling for big data}
 \label{sec:MDS-big-data}
 
-\citet{Delicado2024} compared four existing versions of MDS with two newly proposed (divide-and-conquer MDS and interpolation MDS) to handle large datasets. As can be seen in Figure \ref{fig:bigmds}, these can be grouped into four categories:
+\citet{Delicado2024} compared four existing versions of MDS with two newly proposed (divide-and-conquer MDS and interpolation MDS) to handle large datasets. As shown in Figure \ref{fig:bigmds}, these can be grouped into four categories:
 
 \begin{itemize}
     \item \textbf{Interpolation-based}: landmark MDS, interpolation MDS and reduced MDS apply classical multidimensional scaling to a subset of $l \ll n$ points and then interpolate the projection of the remaining data. They differ in how the interpolation is computed: landmark MDS uses distance-based triangulation; interpolation MDS, the $l$-points Gower interpolation formula; and reduced MDS, the 1-point Gower interpolation formula.
     \item \textbf{Approximation-based}: pivot MDS approximates the SVD of the full inner product matrix with the SVD of the inner product matrix between a subset of $l \ll n$ points and all the points in the dataset.
-    \item \textbf{Divide-and-conquer}: In divide-and-conquer MDS, the dataset is randomly partitioned into subsets of up to $l \ll n$ points into which MDS is independently applied. Then, the resulting embeddings are aligned with Procrustes transformations.
+    \item \textbf{Divide-and-conquer}: in divide-and-conquer MDS, the dataset is randomly partitioned into subsets of up to $l \ll n$ points into which MDS is independently applied. Then, the resulting embeddings are aligned with orthogonal Procrustes transformations.
     \item \textbf{Recursive}: fast MDS is similar in spirit to divide-and-conquer MDS, but it partitions the data recursively. 
 \end{itemize}
 
@@ -174,9 +174,9 @@ t-SNE focuses on retaining the local structure of the data while ensuring that e
 \subsection{Landmark Isomap and the out-of-core dimensionality reduction framework}
 \label{sec:landmark-Isomap-OOC-DR-framework}
 
-\citet{Silva2002} first introduced landmark MDS as a step in landmark Isomap, a variation of Isomap that reduced the time complexity from $\mathcal{O}(n^3)$ to $\mathcal{O}(n^2l)$, where $l \ll n$ is the amount of landmark points. Other big data versions of MDS can be used with Isomap similarly. Nonetheless, interpolation-based and approximation-based algorithms cannot be trivially generalized to other nonlinear dimensionality reduction methods because they depend on the eigendecomposition computed in classical MDS.
+Landmark MDS, by \citet{Silva2002}, was first introduced as a step in landmark Isomap, a variation of Isomap that reduced the time complexity from $\mathcal{O}(n^3)$ to $\mathcal{O}(ln\log n)$, where $l \ll n$ is the amount of landmark points. Other big data versions of MDS can be used with Isomap similarly. Nonetheless, interpolation-based and approximation-based algorithms cannot be trivially generalized to other nonlinear dimensionality reduction methods because they depend on the eigendecomposition computed in classical MDS.
 
-Later, \citet{Reichmann2024} proposed the out-of-core dimensionality reduction framework. Similar to interpolation MDS, this algorithm applies a DR method that produces a mapping between high- and low-dimensional spaces (i.e. PCA, MDS, t-SNE, UMAP, autoencoders) to a small subset of the data and then projects the remaining datapoints in blocks. In order to obtain the aforementioned mappings, \citet{Reichmann2024} gathered a different projection mechanism for every method. PCA and autoencoders learn a parametric mapping between the original data and the embedding, so projecting new points is straightforward. For non-classical MDS, stress is minimized for a single point while keeping others fixed, a process known as \textit{single scaling} in the literature (\cite{Basalaj1999}). A similar strategy is used for t-SNE (\cite{Zhang2021}) and UMAP (\cite{McInnes2018a}), which leverage the k-NN of the projecting point to initialize the optimizer.
+Later, \citet{Reichmann2024} proposed the out-of-core dimensionality reduction framework. Similar to interpolation MDS, this algorithm applies a DR method that produces a mapping between high- and low-dimensional spaces (such as PCA, MDS, t-SNE, UMAP or autoencoders) to a small subset of the data and then projects the remaining datapoints in blocks. In order to obtain the aforementioned mappings, \citet{Reichmann2024} gathered a different projection mechanism for every method. PCA and autoencoders learn a parametric mapping between the original data and the embedding, so projecting new points is straightforward. For non-classical MDS, stress is minimized for a single point while keeping others fixed, a process known as \textit{single scaling} in the literature (\cite{Basalaj1999}). A similar strategy is used for t-SNE (\cite{Zhang2021}) and UMAP (\cite{McInnes2018a}), which leverage the k-NN of the projecting point to initialize the optimizer.
 
 \subsection{openTSNE, an outstanding implementation of t-SNE}
 \label{sec:openTSNE}

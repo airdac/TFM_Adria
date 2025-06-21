@@ -38,4 +38,4 @@ The structure of this directory is as follows:
 ```
 
 ## Usage
-To execute divide-and-conquer DR, run d_and_c.divide_conquer() with the appropiate arguments. Specifically, method has to be an object of the methods.DRMethod class.
+To execute divide-and-conquer DR, run d_and_c.divide_conquer() with the appropiate arguments. Specifically, method has to be an object of the methods.DRMethod class. Currently implemented DR methods are SMACOF, LMDS, Isomap and t-SNE, although new ones can easily be added to the methods.DRMethod class by the user.
