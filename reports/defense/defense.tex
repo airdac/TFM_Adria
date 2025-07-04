@@ -1,0 +1,569 @@
+\documentclass[10pt]{beamer}
+
+\usetheme[progressbar=frametitle]{metropolis}
+\definecolor{white}{RGB}{255,255,255}
+\setbeamercolor{background canvas}{bg=white}
+\setbeamercolor{normal text}{bg=white}
+\usepackage{appendixnumberbeamer}
+
+\usepackage{booktabs}
+\usepackage[scale=2]{ccicons}
+\usepackage{tikz}
+\usepackage{xspace}
+\usepackage{pdfpages}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{ragged2e}
+\usepackage[
+	style=authoryear,
+	maxbibnames=100,
+  natbib
+]{biblatex}
+\addbibresource{bibliography.bib}
+\DeclareBibliographyAlias{letter}{misc}
+
+\setcounter{biburllcpenalty}{1}
+\DeclareSortingTemplate{nymdt}{
+  \sort{
+    \field{presort}
+  }
+  \sort[final]{
+    \field{sortkey}
+  }
+  \sort{
+    \field{sortname}
+    \field{author}
+    \field{editor}
+    \field{translator}
+    \field{sorttitle}
+    \field{title}
+  }
+  \sort{
+    \field{sortyear}
+    \field{year}
+  }
+  \sort{
+    \field[padside=left,padwidth=2,padchar=0]{month}
+    \literal{00}
+  }
+  \sort{
+    \field[padside=left,padwidth=2,padchar=0]{day}
+    \literal{00}
+  }
+  \sort{
+    \field{sorttitle}
+  }
+  \sort{
+    \field[padside=left,padwidth=4,padchar=0]{volume}
+    \literal{0000}
+  }
+}
+
+% \usepackage{minted}
+% \setminted{frame=lines, fontsize=\small}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=black,
+    urlcolor=black,
+    citecolor=black
+}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{csquotes}
+% Allow more flexible breaking of long URLs:
+\setlength\emergencystretch{3em}
+\setcounter{biburllcpenalty}{7000}
+\setcounter{biburlucpenalty}{7000}
+\Urlmuskip=0mu plus 1mu
+\newcommand{\themename}{\textbf{\textsc{metropolis}}\xspace}
+
+\makeatletter
+\renewcommand{\itemize}[1][]{%
+  \beamer@ifempty{#1}{}{\def\beamer@defaultospec{#1}}%
+  \ifnum \@itemdepth >2\relax\@toodeep\else
+    \advance\@itemdepth\@ne
+    \beamer@computepref\@itemdepth% sets \beameritemnestingprefix
+    \usebeamerfont{itemize/enumerate \beameritemnestingprefix body}%
+    \usebeamercolor[fg]{itemize/enumerate \beameritemnestingprefix body}%
+    \usebeamertemplate{itemize/enumerate \beameritemnestingprefix body begin}%
+    \list
+      {\usebeamertemplate{itemize \beameritemnestingprefix item}}
+      {\def\makelabel##1{%
+          {%
+            \hss\llap{{%
+                \usebeamerfont*{itemize \beameritemnestingprefix item}%
+                \usebeamercolor[fg]{itemize \beameritemnestingprefix item}##1}}%
+          }%
+        }%
+      }
+  \fi%
+  \beamer@cramped%
+  \justifying% NEW
+  %\raggedright% ORIGINAL
+  \beamer@firstlineitemizeunskip%
+}
+\makeatother
+
+\AtBeginBibliography{\renewcommand*{\bibname}{}}
+
+\title{Distance-based dimensionality reduction for big data}
+\subtitle{Master's thesis defense}
+\date{July 3rd, 2025}
+\author{Adrià Casanova Lloveras\\
+\textbf{Thesis supervisor}\\
+Pedro F. Delicado Useros\\
+\textbf{Thesis co-supervisor}\\
+Cristian Pachón García}
+\titlegraphic{
+    \begin{tikzpicture}[remember picture,overlay]
+     \node[anchor=south east,xshift=-0.8cm,yshift=0.5cm] at (current page.south east) {%
+       \includegraphics[height=1cm]{figures/logos-molt-junts-blanc.jpg}%
+    };
+   \end{tikzpicture}%
+}
+
+\begin{document}
+\maketitle
+
+\begin{frame}{Table of contents}
+  \setbeamertemplate{section in toc}[sections]
+  \tableofcontents%[hideallsubsections]
+\end{frame}
+
+\section{1. Introduction, motivation and objectives}
+
+\begin{frame}{Introduction, motivation and objectives}
+    \begin{itemize}
+        \item \alert{Dimensionality reduction (DR)} aims to project a dataset into a low-dimensional space.
+        \item Most DR techniques are based on the inter-individual distance matrix $\Rightarrow$ they have \alert{quadratic memory complexity}.
+        \item There are algorithms that extend classical MDS to the \alert{big data} settings.
+        \item In this master's thesis, we adapt one of these algorithms to any generic distance-based DR method.
+    \end{itemize}
+
+    
+\end{frame}
+
+\section{2. State of the art}
+
+\begin{frame}{A few dimensionality reduction techniques}
+    \metroset{block=fill}
+    
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \begin{alertblock}{Non-classical MDS}
+                The SMACOF algorithm minimizes metric stress using a majorization technique \citep{Kruskal1964a,Kruskal1964b}.
+                \vfill
+            \end{alertblock}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \begin{alertblock}{LMDS}
+                A repulsive term between distant points is added to the stress function \citep{Chen2009}.
+                \vfill
+            \end{alertblock}
+        \end{column}
+    \end{columns}
+    
+    \vspace{0.5cm}
+    
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \begin{alertblock}{Isomap}
+                Preserves geodesic distances between points in a manifold \citep{Tenenbaum2000}.
+                \vfill
+            \end{alertblock}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \begin{alertblock}{t-SNE}
+                Models similarities between points as conditional probabilities \citep{Vandermaaten2008}.
+                \vfill
+            \end{alertblock}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Multidimensional scaling for big data}
+    \begin{figure}
+    \centering
+    \captionsetup[subfigure]{labelformat=empty}
+
+    \begin{subfigure}[t]{0.3\textwidth}
+        \centering
+        \includegraphics[width=.7\textwidth]{figures/landmark_MDS.png}
+        \caption{landmark MDS}
+        \label{fig:landmark_MDS}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.3\textwidth}
+        \centering
+        \includegraphics[width=.7\textwidth]{figures/interpolation_adac.png}
+        \caption{interpolation MDS}
+        \label{fig:interpolation_MDS}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.3\textwidth}
+        \centering
+        \includegraphics[width=.7\textwidth]{figures/reduced_MDS.png}
+        \caption{reduced MDS}
+        \label{fig:reduced_MDS}
+    \end{subfigure}
+
+    \begin{subfigure}[t]{0.3\textwidth}
+        \centering
+        \includegraphics[width=.7\textwidth]{figures/pivot_MDS.png}
+        \caption{pivot MDS}
+        \label{fig:pivot_MDS}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.3\textwidth}
+        \centering
+        \includegraphics[width=.7\textwidth]{figures/divide_conquer_adac.png}
+        \caption{\alert{divide-and-conquer MDS}}
+        \label{fig:divide_conquer_MDS}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.3\textwidth}
+        \centering
+        \includegraphics[width=.9\textwidth]{figures/fast_adac.png}
+        \caption{fast MDS}
+        \label{fig:fast_MDS}
+    \end{subfigure}
+    
+    \caption{Schematic representation of the six MDS algorithms for big data described in \cite{Delicado2024} (Source: original publication).}
+    \label{fig:bigmds}
+\end{figure}
+\end{frame}
+
+\section{3. Specification and design of the solution}
+
+\begin{frame}{Divide-and-conquer dimensionality reduction (1/3)}
+    \begin{algorithm}[H]
+        \caption{Divide-and-conquer dimensionality reduction}
+        \label{alg:DivideConquer}
+        
+        \begin{algorithmic}[1]
+            \Require $\mathbf{D} = (\delta_{ij})$, the $n \times n$ matrix of observed distances; $\mathcal{M}$, the DR method; $l$, the partition size; $c$, the amount of connecting points; $q$, the embedding's dimensionality; and $arg$, $\mathcal{M}$'s specific parameters.
+            \Ensure $\mathbf{\widetilde{Y}}$, a configuration in a $q$-dimensional space.
+            
+            \If{$n \leq l$}
+                \Return $\mathcal{M}(\mathbf{D}, q, arg)$
+            \EndIf
+        
+            \State Let $k = \lceil \frac{n - l}{l - c} \rceil$
+            
+            \State Randomly partition the data: $\mathcal{P} = \{\mathcal{P}_0, \mathcal{P}_1, \ldots, \mathcal{P}_k\}$ where
+            \begin{align*}
+                |\mathcal{P}_i| = \begin{cases}
+                l & \text{if } i = 0 \\
+                l-c & \text{if } 0 < i \leq (n-l) \bmod k \\
+                l-c-1 & \text{if } (n-l) \bmod k < i \leq k
+                \end{cases}
+            \end{align*}
+        \end{algorithmic}
+    \end{algorithm}
+\end{frame}
+
+\begin{frame}{Divide-and-conquer dimensionality reduction (2/3)}
+    \begin{algorithm}[H]
+        \begin{algorithmic}[1]
+        \setcounter{ALG@line}{4}
+            \State Sample $c$ connecting points from $\mathcal{P}_0$: $\mathcal{C} \subset \mathcal{P}_0$
+        
+            \State Extract distance matrix of $\mathcal{P}_0$: $\mathbf{D}_{\mathcal{P}_0} = \mathbf{D}[\mathcal{P}_0,\mathcal{P}_0]$
+            
+            \State Apply DR method to $\mathcal{P}_0$: $\mathbf{\widetilde{Y}}_0 = \mathcal{M}(\mathbf{D_{\mathcal{P}_0}}, q, arg)$
+        
+            \State Extract embedding of $\mathcal{C}$: $\mathbf{\widetilde{Y}}_\mathcal{C} = \mathbf{\widetilde{Y}}_0[{\mathcal{C}},:]$
+        
+            \State Extract distance matrix of $\mathcal{C}$: $\mathbf{D}_{\mathcal{C}} = \mathbf{D}[\mathcal{C},\mathcal{C}]$
+        \end{algorithmic}
+    \end{algorithm}
+\end{frame}
+
+\begin{frame}{Divide-and-conquer dimensionality reduction (3/3)}
+    \begin{algorithm}[H]
+        \begin{algorithmic}[1]
+        \setcounter{ALG@line}{9}
+            \For{$i = 1$ to $k$}
+                \State Extract distance matrix of $\mathcal{P}_i$: $\mathbf{D}_{\mathcal{P}_i} = \mathbf{D}[\mathcal{P}_i,\mathcal{P}_i]$
+                \State Stack connecting points to $\mathcal{P}_i$: $\mathbf{D}_{\text{stack}} = [\mathbf{D}_{\mathcal{C}}; \mathbf{D}_{\mathcal{P}_i}]$
+                \State Project the stacked data: $\mathbf{\widetilde{Y}}_{\text{stack}} = \mathcal{M}(\mathbf{D_{\text{stack}}}, q, arg)$
+                \State Split embeddings: $\mathbf{\widetilde{Y}}_{\mathcal{C}}^{(i)} = \mathbf{\widetilde{Y}}_{\text{stack}}[:c,:]$ and $\mathbf{\widetilde{Y}}_i = \mathbf{\widetilde{Y}}_{\text{stack}}[(c+1):,:]$
+                \State Align first and current embeddings: $\mathbf{\widetilde{Y}}_i = \text{Procrustes}(\mathbf{\widetilde{Y}}_\mathcal{C}, \mathbf{\widetilde{Y}}_{\mathcal{C}}^{(i)}, \mathbf{\widetilde{Y}}_i)$
+            \EndFor
+            
+            \State Combine all embeddings: $\mathbf{\widetilde{Y}}' = [\mathbf{\widetilde{Y}}_0; \mathbf{\widetilde{Y}}_1; \ldots; \mathbf{\widetilde{Y}}_k]$
+            \State Retrieve original row ordering: order = argsort$([\mathcal{P}_0; \mathcal{P}_1; \ldots; \mathcal{P}_k])$
+            \State Set original ordering: $\mathbf{\widetilde{Y}}' = \mathbf{\widetilde{Y}}'[\text{order},:]$
+            \State Apply PCA to center and rotate data: $\mathbf{\widetilde{Y}}$ = PCA($\mathbf{\widetilde{Y}}', q$)
+            
+            \Return $\mathbf{\widetilde{Y}}$
+        \end{algorithmic}
+    \end{algorithm}
+\end{frame}
+
+\begin{frame}{Orthogonal Procrustes transformation's derivation}
+    \justifying
+    Let $\mathbf{A} \in \mathbb{R}^{c \times q}$ be the target configuration and $\mathbf{B} \in \mathbb{R}^{c \times q}$ the corresponding testee. We wish to fit \textbf{B} to \textbf{A} by \alert{rigid motions}. That is, we want to find the best \alert{orthogonal matrix} \textbf{T} such that $\mathbf{A} \simeq \mathbf{BT}$. We will measure the $\simeq$ relation with the sum-of-squares criterion $L$ and try to minimize it:
+    $$
+    \min_{\mathbf{T} \in \text{O}(q)} L(\mathbf{T}) = \min_{\mathbf{T} \in \text{O}(q)} \text{tr}(\mathbf{A}-\mathbf{BT})(\mathbf{A}-\mathbf{BT})',
+    $$
+    
+    \citet{tenBerge1993} found the following solution. Let $\mathbf{U}\boldsymbol{\Sigma}\mathbf{V}'$ be the singular value decomposition of $\mathbf{A}' \mathbf{B}$, where $\mathbf{U}' \mathbf{U}=\mathbf{I}, \mathbf{V}' \mathbf{V}=\mathbf{I}$, and $\boldsymbol{\Sigma}$ is the diagonal matrix with the singular values. Then, $L(\mathbf{T})$ is minimal if $\mathbf{T} = \mathbf{V} \mathbf{U}'$.
+\end{frame}
+
+\section{4. Development of the proposal}
+
+\begin{frame}[fragile]{Python implementation}
+    \begin{itemize}
+        \item \verb|divide_conquer| implements Algorithm \ref{alg:DivideConquer} \alert{in parallel} through the \verb|concurrent.futures| module.
+        \item Implementations of DR algorithms used:
+            \begin{itemize}
+                \item \verb|sklearn.manifold| module \citep{Pedregosa2011} for Isomap and SMACOF.
+                \item \verb|openTSNE| \citep{Poličar2023} for t-SNE.
+                \item A translation of the R library \verb|smacofx| \citep{Leeuw2009} for LMDS.
+            \end{itemize} 
+        \item \alert{Time} complexity is reduced from quadratic (or cubic for Isomap) to \alert{linear}.
+        \item \alert{Space} complexity is lowered from $\mathcal{O}(n^2)$ to \alert{$\mathcal{O}(l^2)$}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Test datasets}
+    \begin{figure}
+        \centering
+        \begin{tikzpicture}
+            % Left figure and annotation
+            \node (img1) at (0, 0) {
+                \begin{minipage}{0.4\textwidth}
+                    \centering
+                    \includegraphics[width=\textwidth]{figures/swiss-roll.png}
+                    \caption{\alert{Swiss roll}}
+                    \label{fig:swiss-roll}
+                \end{minipage}
+            };
+
+            \node (text1) at (0, -3.5) {\textbf{Unfolded rectangle}};
+            \draw[->, thick] (img1.south) -- (text1.north);
+
+            % Right figure and annotation
+            \node (img2) at (6, 0) {
+                \begin{minipage}{0.38\textwidth}
+                    \centering
+                    \includegraphics[width=\textwidth]{figures/MNIST.png}
+                    \caption{\alert{MNIST}}
+                    \label{fig:MNIST}
+                \end{minipage}
+            };
+
+            \node (text2) at (6, -3.5) {\textbf{10 separate clusters}};
+            \draw[->, thick] (img2.south) -- (text2.north);
+        \end{tikzpicture}
+    \end{figure}
+\end{frame}
+
+
+\begin{frame}{Experimental setup}
+    \begin{enumerate}
+        \item \alert{Tune} the bare DR method on a $l$ points subset.
+        \item Apply the bare DR method on a larger subset.
+        \item Apply divide-and-conquer DR on a larger subset.
+        \item Apply the bare DR method on the whole dataset (when possible).
+        \item Apply divide-and-conquer DR on the whole dataset.
+    \end{enumerate}
+
+    The \alert{testing system} was an Asus ROG G513QM-HF026 laptop with
+    \begin{itemize}
+        \item Windows
+        \item AMD Ryzen 7 5800H CPU
+        \item NVIDIA RTX 3060 GPU
+        \item 16 GB of DDR4-3200MHz RAM
+        \item 1 TB M.2 NVMe PCIe 3.0
+    \end{itemize}
+\end{frame}
+
+\section{5. Experimentation and evalutation of the proposal}
+
+\begin{frame}{Runtime benchmarks of divide-and-conquer Isomap and divide-and-conquer t-SNE}
+    \begin{figure}
+    \centering
+    \includegraphics[width=0.6\textwidth]{figures/tSNE-benchmark.png}
+    \caption{Runtime (s) of divide-and-conquer Isomap and divide-and-conquer t-SNE averaged over 20 experiments. Tests were performed on datasets generated on the Swiss roll manifold with sizes ranging from $10^3$ to $10^8$. Data was embedded into $\mathbb{R}^2$ with different parameter combinations and $c=100$.}
+    \label{fig:t-SNE-benchmark}
+\end{figure}
+\end{frame}
+
+\begin{frame}{SMACOF's embedding of Swiss roll}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/SMACOF-swiss-roll-7500.png}
+    \caption{Comparison of the bidimensional embeddings of a 7,500 points Swiss roll dataset by bare (left) and divide-and-conquer (right) SMACOF. The arguments used were $n\_iter = 300,\, \varepsilon = 0.001$ and in divide-and-conquer there also were $l=1000$ and $c=100$. Color represents the angle of rotation along the Swiss roll spiral.}
+    \label{fig:SMACOF-swiss-roll-7500}
+\end{figure}
+\end{frame}
+\begin{frame}{LMDS's embedding of Swiss roll}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/LMDS-swiss-roll.png}
+    \caption{Bidimensional embedding of a 1,000 points Swiss roll dataset computed by LMDS with $k=10$ and $\tau = 0.1$. Color represents the angle of rotation along the Swiss roll spiral.}
+    \label{fig:LMDS-swiss-roll}
+\end{figure}
+\end{frame}
+\begin{frame}{Divide-and-conquer Isomap's embedding of Swiss roll}
+    \begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/Isomap-huge.png}
+    \caption{Bidimensional embedding of a \alert{$10^8$ points} Swiss roll dataset computed by divide-and-conquer Isomap with $k=10, \, l=3,162$ and $c=100$. Color represents the angle of rotation along the Swiss roll spiral.}
+    \label{fig:Isomap-huge}
+\end{figure}
+\end{frame}
+\begin{frame}{Divide-and-conquer t-SNE's embedding of Swiss roll}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/t-SNE-swiss-roll-huge.png}
+    \caption{Bidimensional embedding of a \alert{$10^6$} points Swiss roll dataset computed by divide-and-conquer t-SNE with $l=1,000, \, c=100, \, Perp=30$ and $n\_iter=250$. Color represents the angle of rotation along the Swiss roll spiral.}
+    \label{fig:t-SNE-huge}
+\end{figure}
+\end{frame}
+
+\begin{frame}{SMACOF's embedding of a 5,000 points subset of MNIST (1/2)}
+    \begin{figure}
+        \centering
+        \includegraphics[width=\textwidth]{figures/SMACOF-MNIST-cloud.png}
+    \caption{Bidimensional embeddings of a 5,000 points subset of MNIST by bare (left) and divide-and-conquer (right) SMACOF. The arguments we used were $n\_iter = 300,\, \varepsilon = 0.001$ and in divide-and-conquer there also were $l=1000$ and $c=100$.}
+        \label{fig:SMACOF-MNIST-cloud}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{SMACOF's embedding of a 5,000 points subset of MNIST (2/2)}
+    \begin{figure}
+        \centering
+        \includegraphics[width=\textwidth]{figures/SMACOF-MNIST-kde.png}
+    \caption{Kernel density estimation of the bidimensional embeddings of a 5,000 points subset of MNIST by bare (left) and divide-and-conquer (right) SMACOF. The arguments we used were $n\_iter = 300,\, \varepsilon = 0.001$ and in divide-and-conquer there also were $l=1000$ and $c=100$. Contour lines are at 70\% of the maximum estimated density for each digit and embedding.}
+        \label{fig:SMACOF-MNIST-kde}
+    \end{figure}
+\end{frame}
+\begin{frame}{Divide-and-conquer SMACOF's embedding of the whole MNIST}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.7\textwidth]{figures/SMACOF-MNIST-huge.png}
+    \caption{Kernel density estimation of the bidimensional embeddings of the whole MNIST dataset by divide-and-conquer SMACOF. The arguments used were $n\_iter = 300,\, \varepsilon = 0.001, \, l=1000$ and $c=100$. Contour lines are at 70\% of the maximum estimated density for each digit and embedding.}
+        \label{fig:SMACOF-MNIST-huge}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{LMDS's embedding of a 5,000 points subset of MNIST}
+    \begin{figure}
+        \centering
+        \includegraphics[width=\textwidth]{figures/LMDS-MNIST.png}
+    \caption{Kernel density estimation of the bidimensional embeddings of a 5,000 points subset of MNIST by bare (left) and divide-and-conquer (right) LMDS. The arguments used were $k=10,\, \tau = 1$ and in divide-and-conquer there also were $l=1000$ and $c=100$. Contour lines are at 70\% of the maximum estimated density for each digit and embedding.}
+        \label{fig:LMDS-MNIST-kde}
+    \end{figure}
+\end{frame}
+\begin{frame}{Divide-and-conquer LMDS's embedding of the whole MNIST}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.7\textwidth]{figures/LMDS-MNIST-huge.png}
+    \caption{Kernel density estimation of the bidimensional embeddings of the whole MNIST dataset by divide-and-conquer LMDS. The arguments used were $k=10,\, \tau = 1, \, l=1000$ and $c=100$. Contour lines are at 70\% of the maximum estimated density for each digit and embedding.}
+        \label{fig:LMDS-MNIST-huge}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Isomap's embedding of a 5,000 points subset of MNIST}
+    \begin{figure}
+        \centering
+        \includegraphics[width=\textwidth]{figures/Isomap-MNIST.png}
+    \caption{Kernel density estimation of the bidimensional embeddings of a 5,000 points subset of MNIST by bare (left) and divide-and-conquer (right) Isomap. The arguments used were $k=5$ and in divide-and-conquer there also were $l=1000$ and $c=100$. Contour lines are at 70\% of the maximum estimated density for each digit and embedding.}
+        \label{fig:Isomap-MNIST-kde}
+    \end{figure}
+\end{frame}
+\begin{frame}{Divide-and-conquer Isomap's embedding of the whole MNIST}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.7\textwidth]{figures/Isomap-MNIST-huge.png}
+    \caption{Kernel density estimation of the bidimensional embeddings of the whole MNIST dataset by divide-and-conquer Isomap. The arguments used were $k=5, \, l=1000$ and $c=100$. Contour lines are at 70\% of the maximum estimated density for each digit and embedding.}
+        \label{fig:Isomap-MNIST-huge}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{t-SNE's embedding of the whole MNIST}
+    \begin{figure}
+        \centering
+        \includegraphics[width=\textwidth]{figures/t-SNE-MNIST-huge.png}
+    \caption{Kernel density estimation of the bidimensional embeddings of the whole MNIST dataset by bare (left) and divide-and-conquer (right) t-SNE. The arguments used were $Perp=20, \, n\_iter=100$ and in divide-and-conquer there also were $l=1000$ and $c=100$. Contour lines are at 70\% of the maximum estimated density for each digit and embedding.}
+        \label{fig:t-SNE-MNIST-huge}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{t-SNE's insconsistency}
+    \begin{figure}
+        \centering
+        \includegraphics[width=\textwidth]{figures/t-SNE-MNIST-partitions.png}
+    \caption{Kernel density estimation of the bidimensional embeddings of two halves of the MNIST dataset. Data was randomly ordered before being splitted. The DR method used was divide-and-conquer t-SNE with $Perp=30$. Contour lines are at 70\% of the maximum estimated density for each digit and embedding.}
+        \label{fig:t-SNE-MNIST-partitions}
+    \end{figure}
+\end{frame}
+
+\section{6. Analysis of sustainability and ethical implications}
+
+\begin{frame}{GHG emissions}
+    \begin{itemize}
+        \item \alert{Data centers} generate significant GHG emissions due to \alert{high electricity usage}.
+        \item Our \alert{divide-and-conquer DR} framework reduces runtime and hardware demands, lowering emissions.
+        \item It enables \alert{sustainable DR} by decreasing dependence on supercomputers and improving efficiency.
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Visibility of small communities}
+    \begin{itemize}
+        \item DR methods can \alert{emphasize biases}.
+        \item However, more data $\Rightarrow$ more likely to represent small communities.
+    \end{itemize}
+    \begin{figure}
+        \centering
+        \begin{minipage}{0.61\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{figures/SMACOF-MNIST-kde.png}
+            \caption*{\small (a) 5,000-point subset of MNIST}
+        \end{minipage}
+        \hfill
+        \begin{minipage}{0.37\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{figures/SMACOF-MNIST-huge.png}
+            \caption*{\small (b) whole MNIST}
+        \end{minipage}
+    \end{figure}
+\end{frame}
+
+\section{7. Conclusions}
+
+\begin{frame}{Conclusions}
+\justifying
+    \begin{itemize}
+        \item Developed a general \alert{divide-and-conquer framework} for distance-based DR methods, reducing time and memory complexities.
+        \item Achieved \alert{strong embedding quality} on large datasets, notably projecting a $10^8$ points Swiss roll in 3 h on a standard computer.
+        \item Contributed to making advanced DR techniques more \alert{accessible and sustainable} for big datasets.
+    \end{itemize}
+
+\textbf{Future work:}
+    \begin{itemize}
+        \item Formalize the framework into a \alert{Python package}.
+        \item Analyze the effect of \alert{$c$} on performance and embedding quality.
+        \item Investigate why \alert{LMDS cannot unroll the Swiss roll} manifold.
+    \end{itemize}
+
+\vfill
+\pause
+\centering\emph{Thank you!}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{References}
+\printbibliography[heading=none]
+\end{frame}
+
+\end{document}
